@@ -8,7 +8,8 @@ data class Image(
     val url: String,
     @SerializedName("embed_url")
     val embedUrl: String,
-    val title: String
+    val title: String,
+    val images: SubImage
 )
 
 data class ImageResponse(
@@ -23,4 +24,13 @@ data class Pagination(
     val offset: Int
 )
 
+
+data class SubImage(
+    @SerializedName("fixed_height_small")
+    val fixedHeightSmall: ImageSmall
+)
+
+data class ImageSmall(
+    val url: String
+)
 
