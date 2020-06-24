@@ -13,7 +13,7 @@ data class Image(
 )
 
 data class ImageResponse(
-    val data : List<Image>,
+    val data: List<Image>,
     val pagination: Pagination
 )
 
@@ -33,4 +33,11 @@ data class SubImage(
 data class ImageSmall(
     val url: String
 )
+
+enum class Rating(val rating: String) {
+    G("G"),
+    P("P"),
+    PG_13("PG-13"),
+    R("R")
+}
 

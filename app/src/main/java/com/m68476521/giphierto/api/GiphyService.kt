@@ -2,13 +2,13 @@ package com.m68476521.giphierto.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface GiphyService {
 
@@ -38,5 +38,14 @@ interface GiphyService {
     }
 
     @GET("/v1/gifs/trending")
-    fun getTrending(): Single<ImageResponse>
+    fun getTrending(
+        @Query("rating") type: String = Rating.PG_13.rating
+    ): Single<ImageResponse>
+
+    @GET("/v1/gifs/search")
+    fun search(
+        @Query("q") q: String,
+        @Query("limit") limit: Int = 30,
+        @Query("rating") type: String = Rating.G.name
+    ): Single<ImageResponse>
 }
