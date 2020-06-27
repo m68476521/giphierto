@@ -5,7 +5,7 @@ object GiphyManager {
 
     lateinit var giphyApi: GiphyApi
 
-    fun setToken(apiKey : String) {
-        giphyApi = GiphyApi(GiphyService.create(URL,  apiKey))
+    fun setToken(apiKey: String) {
+        giphyApi = GiphyApi(GiphyService.create(URL, apiKey))
     }
 }

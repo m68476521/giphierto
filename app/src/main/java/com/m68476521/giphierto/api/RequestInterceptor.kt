@@ -3,7 +3,7 @@ package com.m68476521.giphierto.api
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class RequestInterceptor (
+class RequestInterceptor(
     private val apiKey: String = ""
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

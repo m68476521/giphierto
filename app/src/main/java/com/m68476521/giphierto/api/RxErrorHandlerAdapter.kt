@@ -5,11 +5,11 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.Function
+import java.lang.reflect.Type
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.HttpException
 import retrofit2.Retrofit
-import java.lang.reflect.Type
 
 class RxErrorHandlerAdapter : CallAdapter.Factory() {
 
@@ -43,7 +43,7 @@ class RxErrorHandlerAdapter : CallAdapter.Factory() {
                 else -> result
             }
         }
-        
+
         private fun asApiException(throwable: Throwable): Throwable {
             return if (throwable is HttpException) ApiException(throwable) else throwable
         }

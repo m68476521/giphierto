@@ -1,7 +1,7 @@
 package com.m68476521.giphierto.api
 
-import retrofit2.HttpException
 import java.lang.RuntimeException
+import retrofit2.HttpException
 
 class ApiException(httpException: HttpException) : RuntimeException(httpException) {
     val statusCode: Int = httpException.code()

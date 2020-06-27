@@ -24,7 +24,6 @@ data class Pagination(
     val offset: Int
 )
 
-
 data class SubImage(
     @SerializedName("fixed_height_small")
     val fixedHeightSmall: ImageSmall
@@ -40,4 +39,3 @@ enum class Rating(val rating: String) {
     PG_13("PG-13"),
     R("R")
 }
-
