@@ -35,8 +35,7 @@ class Home : Fragment() {
     }
 
     private fun search() {
-        println("MIKE")
-        val disposable = GiphyManager.giphyApi.search("dog")
+        val disposable = GiphyManager.giphyApi.trending()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
