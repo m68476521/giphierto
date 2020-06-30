@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpBottomNavigation() {
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+            .findFragmentById(R.id.navHostFragment) as NavHostFragment?
         if (navHostFragment != null)
             NavigationUI.setupWithNavController(bottom_navigation, navHostFragment.navController)
     }
