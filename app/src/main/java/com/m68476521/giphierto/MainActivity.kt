@@ -2,8 +2,11 @@ package com.m68476521.giphierto
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.m68476521.giphierto.api.GiphyManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,5 +26,13 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment?
         if (navHostFragment != null)
             NavigationUI.setupWithNavController(bottom_navigation, navHostFragment.navController)
+
+        setActionBarNav()
+    }
+
+    private fun setActionBarNav() {
+        val navController = findNavController(R.id.navHostFragment)
+        bottom_navigation.setupWithNavController(navController)
+        setupActionBarWithNavController(navController)
     }
 }
