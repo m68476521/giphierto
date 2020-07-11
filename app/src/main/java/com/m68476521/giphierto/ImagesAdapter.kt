@@ -26,7 +26,6 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         holder.bind(
             imagesList[position].images.fixedHeightSmall.url,
-            imagesList[position].title,
             context
         )
     }
@@ -41,9 +40,7 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
 }
 
 class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(image: String, name: String, context: Context) {
-        itemView.title.text = name
-
+    fun bind(image: String, context: Context) {
         Glide
             .with(context)
             .load(image)
