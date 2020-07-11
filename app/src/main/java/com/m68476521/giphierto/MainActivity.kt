@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.container, homeFragment, getString(R.string.app_name)).hide(homeFragment)
             add(R.id.container, searchFragment, getString(R.string.home)).hide(searchFragment)
-
         }.commit()
 
         supportFragmentManager.beginTransaction().hide(activeFragment)

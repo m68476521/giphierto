@@ -10,8 +10,7 @@ import com.m68476521.giphierto.api.Image
 import kotlinx.android.synthetic.main.image_item.view.*
 
 class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
-
-    private var imagesList: List<Image> = emptyList()
+    var imagesList: List<Image> = emptyList()
     lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
