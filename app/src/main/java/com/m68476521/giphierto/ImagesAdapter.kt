@@ -9,9 +9,14 @@ import com.bumptech.glide.Glide
 import com.m68476521.giphierto.api.Image
 import kotlinx.android.synthetic.main.image_item.view.*
 
+private const val ITEM = 0
+private const val LOADING = 1
+
 class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
-    var imagesList: List<Image> = emptyList()
-    lateinit var context: Context
+    private var imagesList = mutableListOf<Image>()
+    private var isLoadingAdded = false
+
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         context = parent.context
@@ -29,12 +34,24 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
         )
     }
 
-    fun swapImages(images: List<Image>) {
-        if (this.imagesList === images)
-            return
+    override fun getItemViewType(position: Int): Int {
+        return if (position == imagesList.size - 1 && isLoadingAdded) LOADING else ITEM
+    }
 
-        this.imagesList = images
-        this.notifyDataSetChanged()
+    fun addAll(newImageList: List<Image>) {
+        imagesList.addAll(newImageList)
+        notifyItemInserted(imagesList.size - 1)
+    }
+
+    fun addLoadingFooter() {
+        isLoadingAdded = true
+    }
+
+    fun removeLoadingFooter() {
+        isLoadingAdded = false
+        val position: Int = imagesList.size - 1
+        imagesList.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
 

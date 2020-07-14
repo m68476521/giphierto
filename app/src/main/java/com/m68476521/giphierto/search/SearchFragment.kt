@@ -57,11 +57,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun search(word: String) {
-        val disposable = GiphyManager.giphyApi.search(word)
+        val disposable = GiphyManager.giphyApi.search(word, 1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                imagesAdapter.swapImages(it.data)
+                imagesAdapter.addAll(it.data)
             }, { it.printStackTrace() })
         compositeDisposable.add(disposable)
     }

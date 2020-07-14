@@ -14,9 +14,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_trending.*
 
+private const val PAGE_START = 0
+
 class TrendingFragment : Fragment() {
     private var imagesAdapter = ImagesAdapter()
     private val compositeDisposable = CompositeDisposable()
+
+    private var loading = false
+    private var lastPage = false
+    private var totalPages = 0
+    private var currentPage = PAGE_START
+    private var count = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,17 +36,50 @@ class TrendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        images.layoutManager = GridLayoutManager(requireContext(), 3)
+        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        images.layoutManager = gridLayoutManager
         images.adapter = imagesAdapter
-        getTrending()
+
+        images.addOnScrollListener(object : PaginationScrollListener(gridLayoutManager) {
+            override fun loadMoreItems() {
+                if (!loading) loadMoreGiphs()
+            }
+
+            override val totalPageCount: Int = totalPages
+            override val isLastPage: Boolean = lastPage
+            override val isLoading: Boolean = loading
+        })
+        initialLoad()
     }
 
-    private fun getTrending() {
+    private fun initialLoad() {
         val disposable = GiphyManager.giphyApi.trending()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                imagesAdapter.swapImages(it.data)
+                imagesAdapter.addAll(it.data)
+                count += it.pagination.count
+                loading = false
+                if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+            }, {
+                it.printStackTrace()
+            })
+        compositeDisposable.add(disposable)
+    }
+
+    private fun loadMoreGiphs() {
+        loading = true
+        currentPage += 1
+
+        val disposable = GiphyManager.giphyApi.trending(pagination = count)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                imagesAdapter.removeLoadingFooter()
+                loading = false
+                count += it.pagination.count
+                imagesAdapter.addAll(it.data)
+                if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
             }, { it.printStackTrace() })
         compositeDisposable.add(disposable)
     }
