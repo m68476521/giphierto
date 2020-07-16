@@ -29,7 +29,7 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         holder.bind(
-            imagesList[position].images.fixedHeightSmall.url,
+            imagesList[position].images.original.url,
             context
         )
     }
@@ -60,8 +60,9 @@ class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         Glide
             .with(context)
             .load(image)
-            .centerCrop()
+            .fitCenter()
             .placeholder(R.drawable.ic_launcher_background)
+            .dontTransform()
             .into(itemView.imageUrl)
     }
 }

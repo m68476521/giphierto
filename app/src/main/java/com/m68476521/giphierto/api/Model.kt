@@ -26,7 +26,12 @@ data class Pagination(
 
 data class SubImage(
     @SerializedName("fixed_height_small")
-    val fixedHeightSmall: ImageSmall
+    val fixedHeightSmall: ImageSmall,
+    val original: ImageOriginal
+)
+
+data class ImageOriginal(
+    val url: String
 )
 
 data class ImageSmall(

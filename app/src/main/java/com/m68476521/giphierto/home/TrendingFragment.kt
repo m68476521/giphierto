@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.GiphyManager
@@ -36,11 +36,16 @@ class TrendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
-        images.layoutManager = gridLayoutManager
+
+        val staggeredGridLayoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+
+        images.setHasFixedSize(true)
+        images.layoutManager = staggeredGridLayoutManager
+
         images.adapter = imagesAdapter
 
-        images.addOnScrollListener(object : PaginationScrollListener(gridLayoutManager) {
+        images.addOnScrollListener(object : PaginationScrollListener(images, staggeredGridLayoutManager) {
             override fun loadMoreItems() {
                 if (!loading) loadMoreGiphs()
             }
