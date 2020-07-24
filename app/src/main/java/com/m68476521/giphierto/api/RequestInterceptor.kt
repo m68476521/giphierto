@@ -7,11 +7,13 @@ class RequestInterceptor(
     private val apiKey: String = ""
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        val newRequest = request.newBuilder()
+        val url = chain.request().url()
+            .newBuilder()
+            .addQueryParameter("api_key", apiKey)
+            .build()
+        val newRequest = chain.request().newBuilder().url(url)
             .header("Accept", "application/json")
             .header("Content-type", "application/json")
-            .header("api_key", apiKey)
             .build()
         return chain.proceed(newRequest)
     }
