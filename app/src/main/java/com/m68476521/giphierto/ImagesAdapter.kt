@@ -28,8 +28,9 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
     override fun getItemCount(): Int = imagesList.size
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
+        val image = imagesList[position].images.fixedHeightDownsampled.url ?: return
         holder.bind(
-            imagesList[position].images.original.url,
+            image,
             context
         )
     }
@@ -59,6 +60,7 @@ class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(image: String, context: Context) {
         Glide
             .with(context)
+            .asGif()
             .load(image)
             .fitCenter()
             .placeholder(R.drawable.ic_launcher_background)

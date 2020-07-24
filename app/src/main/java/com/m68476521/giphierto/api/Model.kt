@@ -27,7 +27,25 @@ data class Pagination(
 data class SubImage(
     @SerializedName("fixed_height_small")
     val fixedHeightSmall: ImageSmall,
-    val original: ImageOriginal
+    val original: ImageOriginal,
+    @SerializedName("fixed_height_small_still")
+    val fixedHeightSmallStill: ImageSmall,
+    @SerializedName("fixed_height_downsampled")
+    val fixedHeightDownsampled: ImageSmall,
+    @SerializedName("downsized_still")
+    val downsizedStill: ImageSmall,
+    @SerializedName("fixed_height_still")
+    val fixedHeightStill: ImageSmall,
+    @SerializedName("downsized_medium")
+    val downsizedMedium: ImageSmall,
+    @SerializedName("preview_webp")
+    val previewWebp: ImageSmall,
+    @SerializedName("fixed_width_downsampled")
+    val fixedWidthDownsampled: ImageSmall,
+    @SerializedName("fixed_width_small")
+    val fixedWidthSmall: ImageSmall,
+    @SerializedName("preview_gif")
+    val previewGif: ImageSmall
 )
 
 data class ImageOriginal(
@@ -35,7 +53,7 @@ data class ImageOriginal(
 )
 
 data class ImageSmall(
-    val url: String
+    val url: String?
 )
 
 enum class Rating(val rating: String) {
