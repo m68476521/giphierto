@@ -5,4 +5,6 @@ class GiphyApi(private val giphyApi: GiphyService) {
         giphyApi.getTrending(type = type, pagination = pagination, limit = limit)
 
     fun search(word: String, pagination: Int) = giphyApi.search(word, pagination = pagination)
+
+    fun categories() = giphyApi.categories()
 }

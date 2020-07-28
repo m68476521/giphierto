@@ -51,4 +51,7 @@ interface GiphyService {
         @Query("rating") type: String = Rating.G.name,
         @Query("offset") pagination: Int
     ): Single<ImageResponse>
+
+    @GET("/v1/gifs/categories")
+    fun categories(): Single<CategoryData>
 }
