@@ -10,13 +10,5 @@
         android:name="com.m68476521.giphierto.home.TrendingFragment"
         android:label="fragment_trending"
         tools:layout="@layout/fragment_trending">
-        <action
-            android:id="@+id/action_trendingFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.m68476521.giphierto.detail.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
 </navigation>
