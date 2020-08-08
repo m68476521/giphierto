@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.m68476521.giphierto.R
@@ -11,10 +12,15 @@ import com.m68476521.giphierto.api.Data
 import kotlinx.android.synthetic.main.category_item.view.*
 
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryHolder>() {
+class CategoryAdapter() : RecyclerView.Adapter<CategoryHolder>() {
     private var categoryList: List<Data> = emptyList()
 
     private lateinit var context: Context
+    private var isFromCategory = true
+
+    constructor(isFromCategory: Boolean) : this() {
+        this.isFromCategory = isFromCategory
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
         context = parent.context
@@ -32,6 +38,13 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryHolder>() {
             categoryList[position].name,
             context
         )
+
+        holder.itemView.setOnClickListener {
+            if (isFromCategory) {
+                val next = CategoriesFragmentDirections.actionSearchFragment2ToSubCategoryFragment()
+                it.findNavController().navigate(next)
+            }
+        }
     }
 
     fun swapCategories(categories: List<Data>) {

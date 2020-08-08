@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.m68476521.giphierto.R
-import com.m68476521.giphierto.api.GiphyManager
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchFragment : Fragment() {
-    private var imagesAdapter = CategoryAdapter()
+class SubCategoryFragment : Fragment() {
+    private var imagesAdapter = CategoryAdapter(false)
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
@@ -29,17 +26,6 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         images.layoutManager = GridLayoutManager(requireContext(), 3)
         images.adapter = imagesAdapter
-        categories()
-    }
-
-    private fun categories() {
-        val disposable = GiphyManager.giphyApi.categories()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.swapCategories(it.data)
-            }, { it.printStackTrace() })
-        compositeDisposable.add(disposable)
     }
 
     override fun onDestroy() {

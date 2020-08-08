@@ -2,34 +2,20 @@ package com.m68476521.giphierto
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.m68476521.giphierto.api.GiphyManager
-import com.m68476521.giphierto.home.Home
-import com.m68476521.giphierto.search.SearchFragment
+import com.m68476521.giphierto.home.TrendingFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val API_KEY = ""
 
 class MainActivity : AppCompatActivity() {
 
-    private val homeFragment = Home()
-    private val searchFragment = SearchFragment()
-    private var activeFragment: Fragment = homeFragment
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         GiphyManager.setToken(API_KEY)
-
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.container, homeFragment, getString(R.string.app_name)).hide(homeFragment)
-            add(R.id.container, searchFragment, getString(R.string.home)).hide(searchFragment)
-        }.commit()
-
-        supportFragmentManager.beginTransaction().hide(activeFragment)
-            .show(homeFragment).commit()
-        activeFragment = homeFragment
         setUpBottomNavigation()
     }
 
@@ -39,17 +25,17 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            val navHostFragment = supportFragmentManager
+                .findFragmentById(R.id.navHostFragment) as NavHostFragment?
+            val navCo = navHostFragment!!.navController
             when (item.itemId) {
                 R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment)
-                        .show(homeFragment).commit()
-                    activeFragment = homeFragment
+                    navCo.popBackStack()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.searchFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment)
-                        .show(searchFragment).commit()
-                    activeFragment = searchFragment
+                    val next = TrendingFragmentDirections.actionTrendingFragmentToSearchFragment2()
+                    navCo.navigate(next)
                     return@OnNavigationItemSelectedListener true
                 }
             }

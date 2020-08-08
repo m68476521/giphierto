@@ -10,5 +10,24 @@
         android:name="com.m68476521.giphierto.home.TrendingFragment"
         android:label="fragment_trending"
         tools:layout="@layout/fragment_trending">
+        <action
+            android:id="@+id/action_trendingFragment_to_searchFragment2"
+            app:destination="@id/searchFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment2"
+        android:name="com.m68476521.giphierto.search.CategoriesFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment2_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment" />
+        <action
+            android:id="@+id/action_searchFragment2_to_trendingFragment"
+            app:destination="@id/trendingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.m68476521.giphierto.search.SubCategoryFragment"
+        android:label="SubCategoryFragment" />
 </navigation>
