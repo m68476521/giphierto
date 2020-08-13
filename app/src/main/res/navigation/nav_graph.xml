@@ -29,5 +29,11 @@
     <fragment
         android:id="@+id/subCategoryFragment"
         android:name="com.m68476521.giphierto.search.SubCategoryFragment"
-        android:label="SubCategoryFragment" />
+        android:label="SubCategoryFragment">
+
+        <argument
+            android:name="subcategory"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
 </navigation>
