@@ -7,4 +7,6 @@ class GiphyApi(private val giphyApi: GiphyService) {
     fun search(word: String, pagination: Int) = giphyApi.search(word, pagination = pagination)
 
     fun categories() = giphyApi.categories()
+
+    fun subCategories(category: String) = giphyApi.subCategories(category)
 }

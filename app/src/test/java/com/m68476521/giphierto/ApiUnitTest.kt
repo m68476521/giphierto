@@ -21,4 +21,15 @@ class ApiUnitTest {
                 it.data.isNotEmpty()
             }
     }
+
+    @Test
+    fun getSubCategories() {
+        val category = "actions"
+        GiphyManager.giphyApi.subCategories(category)
+            .test()
+            .assertNoErrors()
+            .assertValue {
+                it.data.isNotEmpty()
+            }
+    }
 }

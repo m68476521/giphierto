@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GiphyService {
@@ -54,4 +55,7 @@ interface GiphyService {
 
     @GET("/v1/gifs/categories")
     fun categories(): Single<CategoryData>
+
+    @GET("/v1/gifs/categories/{category}")
+    fun subCategories(@Path("category") category: String): Single<CategoryData>
 }
