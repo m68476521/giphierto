@@ -25,54 +25,6 @@ class SearchTest {
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Test
-    fun searchTest() {
-        val bottomNavigationItemView = onView(
-            allOf(
-                withId(R.id.searchFragment), withContentDescription("Search"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.bottom_navigation),
-                        0
-                    ),
-                    1
-                ),
-                isDisplayed()
-            )
-        )
-        bottomNavigationItemView.perform(click())
-
-        val appCompatEditText = onView(
-            allOf(
-                withId(R.id.searchEdit),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.container),
-                        1
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        appCompatEditText.perform(replaceText("car"), closeSoftKeyboard())
-
-        val appCompatEditText2 = onView(
-            allOf(
-                withId(R.id.searchEdit), withText("car"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.container),
-                        1
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        appCompatEditText2.perform(pressImeActionButton())
-    }
-
     private fun childAtPosition(
         parentMatcher: Matcher<View>, position: Int
     ): Matcher<View> {
