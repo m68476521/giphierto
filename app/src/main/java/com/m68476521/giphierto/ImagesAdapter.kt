@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.m68476521.giphierto.api.Image
+import com.m68476521.giphierto.home.TrendingFragmentDirections
 import kotlinx.android.synthetic.main.image_item.view.*
 
 private const val ITEM = 0
@@ -33,6 +35,13 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
             image,
             context
         )
+
+        holder.itemView.setOnClickListener {
+            val image = imagesList[position].images.fixedWidthDownsampled.url ?: return@setOnClickListener
+            val next = TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
+            next.image = image
+            it.findNavController().navigate(next)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

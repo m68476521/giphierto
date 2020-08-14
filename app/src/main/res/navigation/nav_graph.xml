@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_trendingFragment_to_searchFragment2"
             app:destination="@id/searchFragment2" />
+        <action
+            android:id="@+id/action_trendingFragment_to_giphDialog"
+            app:destination="@id/giphDialog" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment2"
@@ -36,4 +39,13 @@
             android:defaultValue='""'
             app:argType="string" />
     </fragment>
+    <dialog
+        android:id="@+id/giphDialog"
+        android:name="com.m68476521.giphierto.GiphDialog"
+        android:label="GiphDialog">
+        <argument
+            android:name="image"
+            android:defaultValue='""'
+            app:argType="string" />
+    </dialog>
 </navigation>
