@@ -11,7 +11,6 @@ import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.Data
 import kotlinx.android.synthetic.main.category_item.view.*
 
-
 class CategoryAdapter() : RecyclerView.Adapter<CategoryHolder>() {
     private var categoryList: List<Data> = emptyList()
 
