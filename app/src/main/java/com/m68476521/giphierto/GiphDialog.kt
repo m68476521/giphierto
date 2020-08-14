@@ -41,5 +41,8 @@ class GiphDialog : DialogFragment() {
             .placeholder(R.drawable.ic_launcher_background)
             .dontTransform()
             .into(image)
+
+        constraint.setOnClickListener { dialog?.dismiss() }
+        close.setOnClickListener { dialog?.dismiss() }
     }
 }

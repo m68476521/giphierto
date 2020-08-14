@@ -37,7 +37,7 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
         )
 
         holder.itemView.setOnClickListener {
-            val image = imagesList[position].images.fixedWidthDownsampled.url ?: return@setOnClickListener
+            val image = imagesList[position].images.original.url
             val next = TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
             next.image = image
             it.findNavController().navigate(next)
