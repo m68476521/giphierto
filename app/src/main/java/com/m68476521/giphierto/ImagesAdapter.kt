@@ -9,16 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.m68476521.giphierto.api.Image
 import com.m68476521.giphierto.home.TrendingFragmentDirections
+import com.m68476521.giphierto.search.SubCategorySelectedFragmentDirections
 import kotlinx.android.synthetic.main.image_item.view.*
 
 private const val ITEM = 0
 private const val LOADING = 1
 
-class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
+class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
     private var imagesList = mutableListOf<Image>()
     private var isLoadingAdded = false
 
     private lateinit var context: Context
+
+    private var isFromTrending = true
+
+    constructor(isFromTrending: Boolean = true) : this() {
+        this.isFromTrending = isFromTrending
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         context = parent.context
@@ -38,8 +45,17 @@ class ImagesAdapter : RecyclerView.Adapter<ImageHolder>() {
 
         holder.itemView.setOnClickListener {
             val image = imagesList[position].images.original.url
-            val next = TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
-            next.image = image
+            val next = if (isFromTrending)
+                TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
+                    .apply {
+                        this.image = image
+                    }
+            else
+                SubCategorySelectedFragmentDirections.actionSubCategorySelectedFragmentToGiphDialog()
+                    .apply {
+                        this.image = image
+                    }
+
             it.findNavController().navigate(next)
         }
     }
