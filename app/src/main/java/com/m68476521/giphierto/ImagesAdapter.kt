@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.m68476521.giphierto.api.Image
@@ -45,6 +46,11 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
 
         holder.itemView.setOnClickListener {
             val image = imagesList[position].images.original.url
+
+            val extras = FragmentNavigatorExtras(
+                it.imageUrl to image
+            )
+
             val next = if (isFromTrending)
                 TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
                     .apply {
@@ -56,7 +62,7 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
                         this.image = image
                     }
 
-            it.findNavController().navigate(next)
+            it.findNavController().navigate(next, extras)
         }
     }
 
@@ -83,13 +89,17 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
 
 class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(image: String, context: Context) {
-        Glide
-            .with(context)
-            .asGif()
-            .load(image)
-            .fitCenter()
-            .placeholder(R.drawable.ic_launcher_background)
-            .dontTransform()
-            .into(itemView.imageUrl)
+
+        itemView.imageUrl.apply {
+            transitionName = image
+            Glide
+                .with(context)
+                .asGif()
+                .load(image)
+                .fitCenter()
+                .placeholder(R.drawable.ic_launcher_background)
+                .dontTransform()
+                .into(itemView.imageUrl)
+        }
     }
 }

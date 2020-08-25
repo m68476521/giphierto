@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
@@ -36,7 +37,6 @@ class TrendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
 
@@ -45,7 +45,8 @@ class TrendingFragment : Fragment() {
 
         images.adapter = imagesAdapter
 
-        images.addOnScrollListener(object : PaginationScrollListener(images, staggeredGridLayoutManager) {
+        images.addOnScrollListener(object :
+            PaginationScrollListener(images, staggeredGridLayoutManager) {
             override fun loadMoreItems() {
                 if (!loading) loadMoreGiphs()
             }
@@ -54,7 +55,15 @@ class TrendingFragment : Fragment() {
             override val isLastPage: Boolean = lastPage
             override val isLoading: Boolean = loading
         })
+
+        postponeEnterTransition()
         initialLoad()
+    }
+
+    private fun startPostponedEnterTransitions() {
+        (requireView().parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     private fun initialLoad() {
@@ -66,6 +75,7 @@ class TrendingFragment : Fragment() {
                 count += it.pagination.count
                 loading = false
                 if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                this.startPostponedEnterTransitions()
             }, {
                 it.printStackTrace()
             })

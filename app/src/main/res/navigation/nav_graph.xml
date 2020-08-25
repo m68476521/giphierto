@@ -42,7 +42,7 @@
             android:id="@+id/action_subCategoryFragment_to_subCategorySelectedFragment"
             app:destination="@id/subCategorySelectedFragment" />
     </fragment>
-    <dialog
+    <fragment
         android:id="@+id/giphDialog"
         android:name="com.m68476521.giphierto.GiphDialog"
         android:label="GiphDialog">
@@ -50,7 +50,7 @@
             android:name="image"
             android:defaultValue='""'
             app:argType="string" />
-    </dialog>
+    </fragment>
     <fragment
         android:id="@+id/subCategorySelectedFragment"
         android:name="com.m68476521.giphierto.search.SubCategorySelectedFragment"
