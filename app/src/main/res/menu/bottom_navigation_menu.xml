@@ -10,4 +10,9 @@
         android:enabled="true"
         android:icon="@drawable/baseline_search_24"
         android:title="@string/search" />
+    <item
+        android:id="@+id/favorites"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_border_white_18dp"
+        android:title="@string/favorite" />
 </menu>
