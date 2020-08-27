@@ -57,6 +57,11 @@
             android:name="image"
             android:defaultValue='""'
             app:argType="string" />
+
+        <argument
+            android:name="id"
+            android:defaultValue='""'
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/subCategorySelectedFragment"

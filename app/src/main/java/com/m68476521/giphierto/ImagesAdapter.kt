@@ -55,11 +55,13 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
                 TrendingFragmentDirections.actionMainHomeFragmentToGiphDialog()
                     .apply {
                         this.image = image
+                        id = imagesList[position].id
                     }
             else
                 SubCategorySelectedFragmentDirections.actionSubCategorySelectedFragmentToGiphDialog()
                     .apply {
                         this.image = image
+                        id = imagesList[position].id
                     }
 
             it.findNavController().navigate(next, extras)
