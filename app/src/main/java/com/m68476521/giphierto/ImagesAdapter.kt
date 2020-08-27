@@ -52,7 +52,7 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
             )
 
             val next = if (isFromTrending)
-                TrendingFragmentDirections.actionTrendingFragmentToGiphDialog()
+                TrendingFragmentDirections.actionMainHomeFragmentToGiphDialog()
                     .apply {
                         this.image = image
                     }

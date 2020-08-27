@@ -40,7 +40,7 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryHolder>() {
 
         holder.itemView.setOnClickListener {
             val next = if (isFromCategory)
-                CategoriesFragmentDirections.actionSearchFragment2ToSubCategoryFragment()
+                CategoriesFragmentDirections.actionSearchToSubCategoryFragment()
                     .apply {
                         this.subcategory = categoryList[position].nameEncoded
                     }

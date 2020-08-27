@@ -3,31 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/trendingFragment">
+    app:startDestination="@id/mainHome">
 
     <fragment
-        android:id="@+id/trendingFragment"
+        android:id="@+id/mainHome"
         android:name="com.m68476521.giphierto.home.TrendingFragment"
-        android:label="fragment_trending"
+        android:label="fragment_mainHome"
         tools:layout="@layout/fragment_trending">
         <action
-            android:id="@+id/action_trendingFragment_to_searchFragment2"
-            app:destination="@id/searchFragment2" />
+            android:id="@+id/action_mainHomeFragment_to_search"
+            app:destination="@id/search" />
         <action
-            android:id="@+id/action_trendingFragment_to_giphDialog"
+            android:id="@+id/action_mainHomeFragment_to_giphDialog"
             app:destination="@id/giphDialog" />
     </fragment>
+
+    <action
+        android:id="@+id/action_global_to_favorites"
+        app:destination="@id/favorites"
+        app:popUpTo="@id/mainHome"
+        app:popUpToInclusive="true" />
+
     <fragment
-        android:id="@+id/searchFragment2"
+        android:id="@+id/search"
         android:name="com.m68476521.giphierto.search.CategoriesFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment2_to_subCategoryFragment"
+            android:id="@+id/action_search_to_subCategoryFragment"
             app:destination="@id/subCategoryFragment" />
         <action
-            android:id="@+id/action_searchFragment2_to_trendingFragment"
-            app:destination="@id/trendingFragment" />
+            android:id="@+id/action_search_to_mainHomeFragment"
+            app:destination="@id/mainHome" />
     </fragment>
     <fragment
         android:id="@+id/subCategoryFragment"
@@ -65,4 +72,9 @@
             android:id="@+id/action_subCategorySelectedFragment_to_giphDialog"
             app:destination="@id/giphDialog" />
     </fragment>
+    <fragment
+        android:id="@+id/favorites"
+        android:name="com.m68476521.giphierto.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>
