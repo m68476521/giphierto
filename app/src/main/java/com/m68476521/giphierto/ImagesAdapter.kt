@@ -46,6 +46,9 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
 
         holder.itemView.setOnClickListener {
             val image = imagesList[position].images.original.url
+            val imageFixed = imagesList[position].images.fixedHeightDownsampled.url
+                ?: return@setOnClickListener
+            val title = imagesList[position].title
 
             val extras = FragmentNavigatorExtras(
                 it.imageUrl to image
@@ -54,14 +57,19 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
             val next = if (isFromTrending)
                 TrendingFragmentDirections.actionMainHomeFragmentToGiphDialog()
                     .apply {
-                        this.image = image
+                        this.image = imageFixed
                         id = imagesList[position].id
+                        imageOriginal = image
+                        this.title = title
+
                     }
             else
                 SubCategorySelectedFragmentDirections.actionSubCategorySelectedFragmentToGiphDialog()
                     .apply {
-                        this.image = image
+                        this.image = imageFixed
                         id = imagesList[position].id
+                        imageOriginal = image
+                        this.title = title
                     }
 
             it.findNavController().navigate(next, extras)

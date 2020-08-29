@@ -30,4 +30,8 @@ class LocalImagesViewModel(application: Application) : AndroidViewModel(applicat
     suspend fun imageById(id: String): Image? {
         return imagesDao.imageById(id)
     }
+
+    suspend fun getFavorites(): List<Image> {
+        return imagesDao.getAll()
+    }
 }

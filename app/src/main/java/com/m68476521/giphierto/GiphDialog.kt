@@ -57,7 +57,7 @@ class GiphDialog : DialogFragment() {
         favoritesModel = ViewModelProvider(this).get(LocalImagesViewModel::class.java)
 
         postponeEnterTransition()
-        image.load(args.image) {
+        image.load(args.imageOriginal) {
             startPostponedEnterTransition()
         }
 
@@ -66,7 +66,7 @@ class GiphDialog : DialogFragment() {
         image.setOnClickListener { }
         toggleFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
-                addToFavorite(args.id, args.image)
+                addToFavorite(args.id, args.imageOriginal, args.image, args.title)
             else
                 removeFromFavoritesById(args.id)
         }
@@ -123,8 +123,16 @@ class GiphDialog : DialogFragment() {
         }
     }
 
-    private fun addToFavorite(id: String, image: String) {
-        val newImage = Image(id, image)
+    private fun addToFavorite(
+        id: String,
+        imageOriginal: String,
+        imageFixed: String,
+        title: String
+    ) {
+        val newImage = Image(
+            uid = id, fixedHeightDownsampled = imageFixed,
+            originalUrl = imageOriginal, title = title
+        )
         GlobalScope.launch {
             favoritesModel.insert(newImage)
         }

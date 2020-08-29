@@ -7,5 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "images")
 data class Image(
     @PrimaryKey val uid: String,
-    @ColumnInfo(name = "image") val image: String
+    @ColumnInfo(name = "originalUrl")
+    val originalUrl: String,
+    @ColumnInfo(name = "fixedHeightDownsampled")
+    val fixedHeightDownsampled: String,
+    @ColumnInfo(name = "title")
+    val title: String
 )
