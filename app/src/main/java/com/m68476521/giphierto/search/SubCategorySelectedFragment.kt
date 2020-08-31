@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
@@ -37,8 +38,8 @@ class SubCategorySelectedFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sub_category_selected, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
 
@@ -57,7 +58,14 @@ class SubCategorySelectedFragment : Fragment() {
             override val isLastPage: Boolean = lastPage
             override val isLoading: Boolean = loading
         })
+        postponeEnterTransition()
         initialLoad()
+    }
+
+    private fun startPostponedEnterTransitions() {
+        (requireView().parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     private fun initialLoad() {
@@ -69,6 +77,7 @@ class SubCategorySelectedFragment : Fragment() {
                 count += it.pagination.count
                 loading = false
                 if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                this.startPostponedEnterTransitions()
             }, {
                 it.printStackTrace()
             })
