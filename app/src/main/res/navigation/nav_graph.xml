@@ -91,5 +91,9 @@
         android:id="@+id/favorites"
         android:name="com.m68476521.giphierto.favorites.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favorites_to_giphDialog"
+            app:destination="@id/giphDialog" />
+    </fragment>
 </navigation>

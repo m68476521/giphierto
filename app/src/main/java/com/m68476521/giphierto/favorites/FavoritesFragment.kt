@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
@@ -25,8 +26,8 @@ class FavoritesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
@@ -36,15 +37,25 @@ class FavoritesFragment : Fragment() {
 
         favoritesImages.adapter = imagesAdapter
 
-        favoritesModel = ViewModelProvider(this).get(LocalImagesViewModel::class.java)
-        initialLoad()
+        postponeEnterTransition()
+
+        if (!this::favoritesModel.isInitialized) initialLoad()
+        else startPostponedEnterTransitions()
+    }
+
+    private fun startPostponedEnterTransitions() {
+        (requireView().parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     private fun initialLoad() {
+        favoritesModel = ViewModelProvider(this).get(LocalImagesViewModel::class.java)
         GlobalScope.launch {
             imagesAdapter.addAll(
                 favoritesModel.getFavorites()
             )
+            startPostponedEnterTransitions()
         }
     }
 }
