@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
@@ -62,9 +63,8 @@ class GiphDialog : DialogFragment() {
             startPostponedEnterTransition()
         }
 
-        constraint.setOnClickListener { dialog?.dismiss() }
-        close.setOnClickListener { dialog?.dismiss() }
-        image.setOnClickListener { }
+        close.setOnClickListener { it.findNavController().popBackStack() }
+
         toggleFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 addToFavorite(args.id, args.imageOriginal, args.image, args.title)
