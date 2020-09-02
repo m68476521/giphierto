@@ -107,7 +107,7 @@ class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .asGif()
                 .load(image)
                 .fitCenter()
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.giphy_icon)
                 .dontTransform()
                 .into(itemView.imageUrl)
         }
