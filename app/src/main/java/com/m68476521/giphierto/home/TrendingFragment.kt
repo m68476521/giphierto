@@ -2,6 +2,8 @@ package com.m68476521.giphierto.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -33,6 +35,11 @@ class TrendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_trending, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,5 +109,10 @@ class TrendingFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_trending, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
