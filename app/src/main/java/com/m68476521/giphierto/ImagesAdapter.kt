@@ -95,6 +95,11 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
         imagesList.removeAt(position)
         notifyItemRemoved(position)
     }
+
+    fun clear() {
+        imagesList.clear()
+        notifyDataSetChanged()
+    }
 }
 
 class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
