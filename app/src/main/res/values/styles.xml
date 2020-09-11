@@ -6,6 +6,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:editTextColor">@color/white</item>
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
     </style>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="closeIcon">@drawable/ic_close_white_24dp</item>
+    </style>
 </resources>
