@@ -40,4 +40,15 @@
         app:layout_constraintHeight_percent="0.1"
         app:layout_constraintWidth_percent="0.1" />
 
+    <ImageView
+        android:id="@+id/shareIcon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_share_white_18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintWidth_percent="0.1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

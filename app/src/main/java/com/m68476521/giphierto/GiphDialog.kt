@@ -1,7 +1,9 @@
 package com.m68476521.giphierto
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,6 +75,7 @@ class GiphDialog : DialogFragment() {
         }
 
         imageById(args.id)
+        shareIcon.setOnClickListener { share() }
     }
 
     private fun ImageView.load(
@@ -151,5 +154,14 @@ class GiphDialog : DialogFragment() {
             if (result != null)
                 toggleFavorite.isChecked = true
         }
+    }
+
+    private fun share() {
+        val uri = Uri.parse(args.imageOriginal)
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        shareIntent.type = "image/gif"
+        startActivity(Intent.createChooser(shareIntent, "Share from"))
     }
 }
