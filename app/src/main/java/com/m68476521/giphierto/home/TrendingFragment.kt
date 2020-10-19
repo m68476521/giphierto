@@ -1,7 +1,12 @@
 package com.m68476521.giphierto.home
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -52,16 +57,16 @@ class TrendingFragment : Fragment() {
         images.adapter = imagesAdapter
 
         images.addOnScrollListener(object :
-            PaginationScrollListener(images, staggeredGridLayoutManager) {
-            override fun loadMoreItems() {
-                if (!loading && !searching) loadMoreGiphs()
-                else if (!isLoading) loadMoreGiphsByWord()
-            }
+                PaginationScrollListener(images, staggeredGridLayoutManager) {
+                override fun loadMoreItems() {
+                    if (!loading && !searching) loadMoreGiphs()
+                    else if (!isLoading) loadMoreGiphsByWord()
+                }
 
-            override val totalPageCount: Int = totalPages
-            override val isLastPage: Boolean = lastPage
-            override val isLoading: Boolean = loading
-        })
+                override val totalPageCount: Int = totalPages
+                override val isLastPage: Boolean = lastPage
+                override val isLoading: Boolean = loading
+            })
 
         postponeEnterTransition()
         initialLoad()
@@ -77,15 +82,18 @@ class TrendingFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.trending()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.addAll(it.data)
-                count += it.pagination.count
-                loading = false
-                if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-                this.startPostponedEnterTransitions()
-            }, {
-                it.printStackTrace()
-            })
+            .subscribe(
+                {
+                    imagesAdapter.addAll(it.data)
+                    count += it.pagination.count
+                    loading = false
+                    if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                    this.startPostponedEnterTransitions()
+                },
+                {
+                    it.printStackTrace()
+                }
+            )
         compositeDisposable.add(disposable)
     }
 
@@ -96,13 +104,16 @@ class TrendingFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.trending(pagination = count)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.removeLoadingFooter()
-                loading = false
-                count += it.pagination.count
-                imagesAdapter.addAll(it.data)
-                if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-            }, { it.printStackTrace() })
+            .subscribe(
+                {
+                    imagesAdapter.removeLoadingFooter()
+                    loading = false
+                    count += it.pagination.count
+                    imagesAdapter.addAll(it.data)
+                    if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                },
+                { it.printStackTrace() }
+            )
         compositeDisposable.add(disposable)
     }
 
@@ -148,13 +159,16 @@ class TrendingFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.search(word, count)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                loading = false
-                count += it.pagination.count
-                imagesAdapter.addAll(it.data)
-                if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-                this.startPostponedEnterTransitions()
-            }, { it.printStackTrace() })
+            .subscribe(
+                {
+                    loading = false
+                    count += it.pagination.count
+                    imagesAdapter.addAll(it.data)
+                    if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                    this.startPostponedEnterTransitions()
+                },
+                { it.printStackTrace() }
+            )
         compositeDisposable.add(disposable)
     }
 
@@ -165,13 +179,16 @@ class TrendingFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.search(word, count)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.removeLoadingFooter()
-                loading = false
-                count += it.pagination.count
-                imagesAdapter.addAll(it.data)
-                if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-            }, { it.printStackTrace() })
+            .subscribe(
+                {
+                    imagesAdapter.removeLoadingFooter()
+                    loading = false
+                    count += it.pagination.count
+                    imagesAdapter.addAll(it.data)
+                    if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                },
+                { it.printStackTrace() }
+            )
         compositeDisposable.add(disposable)
     }
 }
