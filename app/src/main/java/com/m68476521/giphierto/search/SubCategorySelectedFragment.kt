@@ -1,11 +1,11 @@
 package com.m68476521.giphierto.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
@@ -13,7 +13,6 @@ import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.GiphyManager
 import com.m68476521.giphierto.home.PaginationScrollListener
 import io.reactivex.android.schedulers.AndroidSchedulers
-
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_trending.*
@@ -32,7 +31,8 @@ class SubCategorySelectedFragment : Fragment() {
     private var count = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_sub_category_selected, container, false)
@@ -49,15 +49,15 @@ class SubCategorySelectedFragment : Fragment() {
         images.adapter = imagesAdapter
 
         images.addOnScrollListener(object :
-            PaginationScrollListener(images, staggeredGridLayoutManager) {
-            override fun loadMoreItems() {
-                if (!loading) loadMoreGiphs()
-            }
+                PaginationScrollListener(images, staggeredGridLayoutManager) {
+                override fun loadMoreItems() {
+                    if (!loading) loadMoreGiphs()
+                }
 
-            override val totalPageCount: Int = totalPages
-            override val isLastPage: Boolean = lastPage
-            override val isLoading: Boolean = loading
-        })
+                override val totalPageCount: Int = totalPages
+                override val isLastPage: Boolean = lastPage
+                override val isLoading: Boolean = loading
+            })
         postponeEnterTransition()
         initialLoad()
     }
@@ -72,15 +72,18 @@ class SubCategorySelectedFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.search(args.category, count)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.addAll(it.data)
-                count += it.pagination.count
-                loading = false
-                if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-                this.startPostponedEnterTransitions()
-            }, {
-                it.printStackTrace()
-            })
+            .subscribe(
+                {
+                    imagesAdapter.addAll(it.data)
+                    count += it.pagination.count
+                    loading = false
+                    if (currentPage <= totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                    this.startPostponedEnterTransitions()
+                },
+                {
+                    it.printStackTrace()
+                }
+            )
         compositeDisposable.add(disposable)
     }
 
@@ -91,13 +94,16 @@ class SubCategorySelectedFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.search(args.category, count)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imagesAdapter.removeLoadingFooter()
-                loading = false
-                count += it.pagination.count
-                imagesAdapter.addAll(it.data)
-                if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
-            }, { it.printStackTrace() })
+            .subscribe(
+                {
+                    imagesAdapter.removeLoadingFooter()
+                    loading = false
+                    count += it.pagination.count
+                    imagesAdapter.addAll(it.data)
+                    if (currentPage != totalPages) imagesAdapter.addLoadingFooter() else lastPage = true
+                },
+                { it.printStackTrace() }
+            )
         compositeDisposable.add(disposable)
     }
 
@@ -105,5 +111,4 @@ class SubCategorySelectedFragment : Fragment() {
         super.onDestroy()
         compositeDisposable.dispose()
     }
-
 }

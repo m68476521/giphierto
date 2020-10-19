@@ -1,14 +1,13 @@
 package com.m68476521.giphierto.favorites
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.models.LocalImagesViewModel
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -20,7 +19,8 @@ class FavoritesFragment : Fragment() {
     private lateinit var favoritesModel: LocalImagesViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_favorites, container, false)

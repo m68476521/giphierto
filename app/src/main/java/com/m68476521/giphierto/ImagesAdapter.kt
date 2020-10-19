@@ -61,7 +61,6 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
                         id = imagesList[position].id
                         imageOriginal = image
                         this.title = title
-
                     }
             else
                 SubCategorySelectedFragmentDirections.actionSubCategorySelectedFragmentToGiphDialog()

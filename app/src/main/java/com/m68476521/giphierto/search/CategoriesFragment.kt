@@ -42,10 +42,13 @@ class CategoriesFragment : Fragment() {
         val disposable = GiphyManager.giphyApi.categories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                categoryModel.categories = it.data
-                imagesAdapter.swapCategories(it.data)
-            }, { it.printStackTrace() })
+            .subscribe(
+                {
+                    categoryModel.categories = it.data
+                    imagesAdapter.swapCategories(it.data)
+                },
+                { it.printStackTrace() }
+            )
         compositeDisposable.add(disposable)
     }
 
