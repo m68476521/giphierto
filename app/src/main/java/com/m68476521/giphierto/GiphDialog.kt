@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -17,21 +18,27 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.ImageViewTarget
+import com.bumptech.glide.request.target.Target
 import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.models.LocalImagesViewModel
 import kotlinx.android.synthetic.main.giph_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
 
 class GiphDialog : DialogFragment() {
     private val args: GiphDialogArgs by navArgs()
     private lateinit var favoritesModel: LocalImagesViewModel
+    private lateinit var gifDrawable: GifDrawable
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +82,7 @@ class GiphDialog : DialogFragment() {
         }
 
         imageById(args.id)
-        shareIcon.setOnClickListener { share() }
+        shareIcon.setOnClickListener { saveImageAndShare(gifDrawable) }
     }
 
     private fun ImageView.load(
@@ -84,11 +91,10 @@ class GiphDialog : DialogFragment() {
         onLoadingFinished: () -> Unit = {}
     ) {
         val listener = object : RequestListener<GifDrawable> {
-
             override fun onLoadFailed(
                 e: GlideException?,
                 model: Any?,
-                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                target: Target<GifDrawable>?,
                 isFirstResource: Boolean
             ): Boolean {
                 onLoadingFinished()
@@ -98,10 +104,13 @@ class GiphDialog : DialogFragment() {
             override fun onResourceReady(
                 resource: GifDrawable?,
                 model: Any?,
-                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                target: Target<GifDrawable>?,
                 dataSource: DataSource?,
                 isFirstResource: Boolean
             ): Boolean {
+                if (resource != null)
+                    gifDrawable = resource
+
                 onLoadingFinished()
                 return false
             }
@@ -117,6 +126,7 @@ class GiphDialog : DialogFragment() {
                 .with(requireContext())
                 .asGif()
                 .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(requestOptions)
                 .listener(listener)
                 .into(object : ImageViewTarget<GifDrawable>(this) {
@@ -125,6 +135,41 @@ class GiphDialog : DialogFragment() {
                     }
                 })
         }
+    }
+
+
+    private fun saveImageAndShare(gifDrawable: GifDrawable?) {
+        gifDrawable?.let {
+            val baseDir = requireContext().getExternalFilesDir(null)
+            val fileName = "${args.title}.gif"
+
+            val sharingGifFile = File(baseDir, fileName)
+            gifDrawableToFile(gifDrawable, sharingGifFile)
+
+            val uri: Uri = FileProvider.getUriForFile(
+                requireContext(), BuildConfig.APPLICATION_ID + ".provider",
+                sharingGifFile
+            )
+
+            shareFile(uri)
+        }
+    }
+
+    private fun shareFile(uri: Uri) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "image/gif"
+
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        startActivity(Intent.createChooser(shareIntent, "Share Emoji"))
+    }
+
+    private fun gifDrawableToFile(gifDrawable: GifDrawable, gifFile: File) {
+        val byteBuffer = gifDrawable.buffer
+        val output = FileOutputStream(gifFile)
+        val bytes = ByteArray(byteBuffer.capacity())
+        (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
+        output.write(bytes, 0, bytes.size)
+        output.close()
     }
 
     private fun addToFavorite(
@@ -155,13 +200,6 @@ class GiphDialog : DialogFragment() {
                 toggleFavorite.isChecked = true
         }
     }
-
-    private fun share() {
-        val uri = Uri.parse(args.imageOriginal)
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.type = "image/gif"
-        startActivity(Intent.createChooser(shareIntent, "Share from"))
-    }
 }
+
+
