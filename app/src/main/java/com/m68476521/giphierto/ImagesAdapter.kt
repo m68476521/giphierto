@@ -80,8 +80,9 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
     }
 
     fun addAll(newImageList: List<Image>) {
+        val initialSize = imagesList.size
         imagesList.addAll(newImageList)
-        notifyItemInserted(imagesList.size - 1)
+        notifyItemRangeChanged(initialSize, imagesList.size - 1)
     }
 
     fun addLoadingFooter() {
