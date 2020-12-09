@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.m68476521.giphierto.api.Image
 import com.m68476521.giphierto.home.TrendingFragmentDirections
 import com.m68476521.giphierto.search.SubCategorySelectedFragmentDirections
+import com.m68476521.giphierto.util.setSafeOnClickListener
 import kotlinx.android.synthetic.main.image_item.view.*
 
 private const val ITEM = 0
@@ -44,10 +45,10 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
             context
         )
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setSafeOnClickListener {
             val image = imagesList[position].images.original.url
             val imageFixed = imagesList[position].images.fixedHeightDownsampled.url
-                ?: return@setOnClickListener
+                ?: return@setSafeOnClickListener
             val title = imagesList[position].title
 
             val extras = FragmentNavigatorExtras(
