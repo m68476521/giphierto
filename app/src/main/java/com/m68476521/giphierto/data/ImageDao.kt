@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ImageDao {
     @Query("SELECT * FROM images")
-    suspend fun getAll(): List<Image>
+    fun getAll(): Flow<List<Image>>
 
     @Query("DELETE FROM images")
     suspend fun deleteAll()

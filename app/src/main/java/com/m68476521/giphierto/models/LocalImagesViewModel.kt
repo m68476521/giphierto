@@ -5,19 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import com.m68476521.giphierto.data.AppDatabase
 import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.data.ImageDao
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LocalImagesViewModel(application: Application) : AndroidViewModel(application) {
-    private val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
-
-    var images: List<Image> = emptyList()
-
-    init {
-        GlobalScope.launch {
-            images = imagesDao.getAll()
-        }
-    }
+     val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
 
     suspend fun insert(image: Image) {
         imagesDao.insert(image)
@@ -29,9 +19,5 @@ class LocalImagesViewModel(application: Application) : AndroidViewModel(applicat
 
     suspend fun imageById(id: String): Image? {
         return imagesDao.imageById(id)
-    }
-
-    suspend fun getFavorites(): List<Image> {
-        return imagesDao.getAll()
     }
 }
