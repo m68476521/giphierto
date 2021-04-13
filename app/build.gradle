@@ -13,8 +13,8 @@ android {
         applicationId "com.m68476521.giphierto"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
