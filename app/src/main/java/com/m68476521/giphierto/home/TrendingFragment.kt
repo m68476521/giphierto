@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_trending.*
 private const val PAGE_START = 0
 
 class TrendingFragment : Fragment() {
-    private var imagesAdapter = ImagesAdapter()
+    private var imagesAdapter = ImagesAdapter(true)
     private val compositeDisposable = CompositeDisposable()
 
     private var loading = false
