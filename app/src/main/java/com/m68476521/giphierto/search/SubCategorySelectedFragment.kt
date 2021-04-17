@@ -15,7 +15,8 @@ import com.m68476521.giphierto.home.PaginationScrollListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_trending.*
+import kotlinx.android.synthetic.main.fragment_sub_category_selected.*
+
 
 private const val PAGE_START = 0
 
