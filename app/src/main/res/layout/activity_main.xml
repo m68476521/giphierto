@@ -13,23 +13,20 @@
         android:layout_marginTop="4dp"
         android:scaleType="center"
         android:src="@drawable/giphy_logo"
-        app:layout_constraintBottom_toTopOf="@id/navHostFragment"
+        app:layout_constraintBottom_toTopOf="@id/main_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:id="@+id/navHostFragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <com.m68476521.giphierto.util.components.NonSwipingViewPager
+        android:id="@+id/main_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="6dp"
-        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gighyLogo"
-        app:navGraph="@navigation/nav_graph" />
+        app:layout_constraintTop_toBottomOf="@id/gighyLogo" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -126,7 +126,7 @@ class TrendingFragment : Fragment() {
         inflater.inflate(R.menu.menu_trending, menu)
         super.onCreateOptionsMenu(menu, inflater)
         val searchView = SearchView(requireContext())
-        menu.findItem(R.id.search).apply {
+        menu.findItem(R.id.menuItemSearch).apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
             actionView = searchView
         }

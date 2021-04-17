@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/mainHome"
+        android:id="@+id/homePage"
         android:enabled="true"
         android:icon="@drawable/baseline_home_24"
         android:title="@string/home" />
     <item
-        android:id="@+id/search"
+        android:id="@+id/searchPage"
         android:enabled="true"
         android:icon="@drawable/baseline_search_24"
         android:title="@string/search" />
     <item
-        android:id="@+id/favorites"
+        android:id="@+id/favoritesPage"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_border_white_18dp"
         android:title="@string/favorite" />

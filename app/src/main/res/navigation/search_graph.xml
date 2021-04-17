@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_graph"
+    app:startDestination="@id/search">
+
+    <fragment
+        android:id="@+id/search"
+        android:name="com.m68476521.giphierto.search.CategoriesFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.m68476521.giphierto.search.SubCategoryFragment"
+        android:label="SubCategoryFragment">
+
+        <argument
+            android:name="subcategory"
+            android:defaultValue='""'
+            app:argType="string" />
+        <action
+            android:id="@+id/action_subCategoryFragment_to_subCategorySelectedFragment"
+            app:destination="@id/subCategorySelectedFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/subCategorySelectedFragment"
+        android:name="com.m68476521.giphierto.search.SubCategorySelectedFragment"
+        android:label="fragment_sub_category_selected"
+        tools:layout="@layout/fragment_sub_category_selected">
+
+        <argument
+            android:name="category"
+            android:defaultValue='""'
+            app:argType="string" />
+        <action
+            android:id="@+id/action_subCategorySelectedFragment_to_giphDialog"
+            app:destination="@id/giphDialog" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/giphDialog"
+        android:name="com.m68476521.giphierto.GiphDialog"
+        android:label="GiphDialog">
+        <argument
+            android:name="image"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="id"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="imageOriginal"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="title"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorites_graph"
+    app:startDestination="@id/favorites">
+
+    <fragment
+        android:id="@+id/favorites"
+        android:name="com.m68476521.giphierto.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favorites_to_giphDialog"
+            app:destination="@id/giphDialog" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/giphDialog"
+        android:name="com.m68476521.giphierto.GiphDialog"
+        android:label="GiphDialog">
+        <argument
+            android:name="image"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="id"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="imageOriginal"
+            android:defaultValue='""'
+            app:argType="string" />
+
+        <argument
+            android:name="title"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
+
+</navigation>
