@@ -137,7 +137,6 @@ class GiphDialog : DialogFragment() {
         }
     }
 
-
     private fun saveImageAndShare(gifDrawable: GifDrawable?) {
         gifDrawable?.let {
             val baseDir = requireContext().getExternalFilesDir(null)
@@ -201,5 +200,3 @@ class GiphDialog : DialogFragment() {
         }
     }
 }
-
-

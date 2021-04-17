@@ -34,21 +34,24 @@ class FavoriteAdapter : ListAdapter<Image, FavoriteAdapter.ViewHolder>(DiffCallb
                 createOnClickListener(
                     image.originalUrl, image.fixedHeightDownsampled,
                     image.title, image.uid
-                ), image, context
+                ),
+                image, context
             )
             itemView.tag = image
         }
     }
 
     private fun createOnClickListener(
-        originalUrl: String, fixedHeightDownsampled: String, title: String,
+        originalUrl: String,
+        fixedHeightDownsampled: String,
+        title: String,
         id: String
     ): View.OnClickListener {
         return View.OnClickListener {
             val extras = FragmentNavigatorExtras(
                 it.imageUrl to originalUrl
             )
-            val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog()//(id, name)
+            val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog() // (id, name)
                 .apply {
                     this.image = fixedHeightDownsampled
                     this.id = id

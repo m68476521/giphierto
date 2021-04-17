@@ -14,9 +14,9 @@ class NonSwipingViewPager : ViewPager {
     }
 
     constructor(context: Context, attrs: AttributeSet) :
-            super(context, attrs) {
-        setMyScroller()
-    }
+        super(context, attrs) {
+            setMyScroller()
+        }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         // Never allow swiping to switch between pages

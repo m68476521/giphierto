@@ -7,7 +7,7 @@ import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.data.ImageDao
 
 class LocalImagesViewModel(application: Application) : AndroidViewModel(application) {
-     val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
+    val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
 
     suspend fun insert(image: Image) {
         imagesDao.insert(image)

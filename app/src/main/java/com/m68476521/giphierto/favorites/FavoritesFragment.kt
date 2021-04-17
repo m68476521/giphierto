@@ -54,10 +54,13 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: FavoriteAdapter) {
-        favoritesModel.favorites.observe(viewLifecycleOwner, Observer { images ->
-            images?.let {
-                adapter.submitList(it)
+        favoritesModel.favorites.observe(
+            viewLifecycleOwner,
+            Observer { images ->
+                images?.let {
+                    adapter.submitList(it)
+                }
             }
-        })
+        )
     }
 }
