@@ -11,7 +11,7 @@
         android:label="fragment_mainHome"
         tools:layout="@layout/fragment_trending">
         <action
-            android:id="@+id/action_mainHomeFragment_to_giphDialog"
+            android:id="@+id/action_trending_to_giphDialog"
             app:destination="@id/giphDialog" />
     </fragment>
 

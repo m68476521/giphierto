@@ -56,7 +56,7 @@ class ImagesAdapter() : RecyclerView.Adapter<ImageHolder>() {
             )
 
             val next = if (isFromTrending)
-                TrendingFragmentDirections.actionMainHomeFragmentToGiphDialog()
+                TrendingFragmentDirections.actionTrendingToGiphDialog()
                     .apply {
                         this.image = imageFixed
                         id = imagesList[position].id
