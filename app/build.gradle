@@ -95,4 +95,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$rootProject.nav_version"
 
+    // Paging 3
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
+    // Jetpack Compose Integration
+    implementation "androidx.paging:paging-compose:1.0.0-alpha08"
 }

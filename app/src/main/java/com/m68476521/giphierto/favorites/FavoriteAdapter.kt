@@ -2,7 +2,6 @@ package com.m68476521.giphierto.favorites
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -30,33 +29,20 @@ class FavoriteAdapter : ListAdapter<Image, FavoriteAdapter.ViewHolder>(DiffCallb
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val image = getItem(position)
         holder.apply {
-            bind(
-                createOnClickListener(
-                    image.originalUrl, image.fixedHeightDownsampled,
-                    image.title, image.uid
-                ),
-                image, context
-            )
+            bind(image, context)
             itemView.tag = image
         }
-    }
 
-    private fun createOnClickListener(
-        originalUrl: String,
-        fixedHeightDownsampled: String,
-        title: String,
-        id: String
-    ): View.OnClickListener {
-        return View.OnClickListener {
+        holder.itemView.setOnClickListener {
             val extras = FragmentNavigatorExtras(
-                it.imageUrl to originalUrl
+                it.imageUrl to image.originalUrl
             )
             val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog() // (id, name)
                 .apply {
-                    this.image = fixedHeightDownsampled
-                    this.id = id
-                    this.imageOriginal = originalUrl
-                    this.title = title
+                    this.image = image.fixedHeightDownsampled
+                    this.id = image.uid
+                    this.imageOriginal = image.originalUrl
+                    this.title = image.title
                 }
             it.findNavController().navigate(direction, extras)
         }
@@ -64,13 +50,11 @@ class FavoriteAdapter : ListAdapter<Image, FavoriteAdapter.ViewHolder>(DiffCallb
 
     class ViewHolder(private val binding: ImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(listener: View.OnClickListener, item: Image, context: Context) {
+        fun bind(item: Image, context: Context) {
             binding.apply {
-                clickListener = listener
                 image = item
                 val imageData = item.fixedHeightDownsampled
                 imageUrl.apply {
-
                     transitionName = imageData
                     Glide
                         .with(context)

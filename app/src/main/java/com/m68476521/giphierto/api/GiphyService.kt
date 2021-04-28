@@ -39,19 +39,19 @@ interface GiphyService {
     }
 
     @GET("/v1/gifs/trending")
-    fun getTrending(
+    suspend fun getTrending(
         @Query("rating") type: String,
         @Query("offset") pagination: Int,
         @Query("limit") limit: Int
-    ): Single<ImageResponse>
+    ): ImageResponse
 
     @GET("/v1/gifs/search")
-    fun search(
+    suspend fun search(
         @Query("q") q: String,
         @Query("limit") limit: Int = 30,
         @Query("rating") type: String = Rating.G.name,
         @Query("offset") pagination: Int
-    ): Single<ImageResponse>
+    ): ImageResponse
 
     @GET("/v1/gifs/categories")
     fun categories(): Single<CategoryData>

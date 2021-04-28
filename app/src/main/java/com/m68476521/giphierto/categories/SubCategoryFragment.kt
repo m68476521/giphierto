@@ -1,4 +1,4 @@
-package com.m68476521.giphierto.search
+package com.m68476521.giphierto.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater

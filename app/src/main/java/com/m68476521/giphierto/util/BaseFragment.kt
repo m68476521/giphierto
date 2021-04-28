@@ -18,7 +18,7 @@ class BaseFragment : Fragment() {
     private val rootDestinations =
         setOf(
             R.id.trending,
-            R.id.search,
+            R.id.categories,
             R.id.favorites
         )
     private val appBarConfig = AppBarConfiguration(rootDestinations)

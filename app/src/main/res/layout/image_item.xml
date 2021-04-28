@@ -6,20 +6,17 @@
     <data>
 
         <variable
-            name="clickListener"
-            type="android.view.View.OnClickListener" />
-
-        <variable
             name="image"
             type="com.m68476521.giphierto.data.Image" />
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/colorAccent"
-        android:onClick="@{clickListener}"
+
         card_view:cardUseCompatPadding="true">
 
         <ImageView

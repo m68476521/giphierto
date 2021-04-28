@@ -1,19 +1,21 @@
-package com.m68476521.giphierto
+package com.m68476521.giphierto.categories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.m68476521.giphierto.ImageComparator
+import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.Image
 import com.m68476521.giphierto.databinding.ImageItemBinding
-import com.m68476521.giphierto.home.TrendingFragmentDirections
 import kotlinx.android.synthetic.main.image_item.view.*
 
-class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageComparator) {
+class SubcategoryAdapter :
+    PagingDataAdapter<Image, SubcategoryAdapter.ImageHolder>(ImageComparator) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ImageHolder(
             ImageItemBinding.inflate(
@@ -37,7 +39,7 @@ class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageC
             )
 
             val next =
-                TrendingFragmentDirections.actionTrendingToGiphDialog()
+                SubCategorySelectedFragmentDirections.actionSubCategorySelectedFragmentToGiphDialog()
                     .apply {
                         this.image = imageFixed
                         id = getItem(position)?.id.toString()
@@ -49,7 +51,8 @@ class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageC
         }
     }
 
-    inner class ImageHolder(private val binding: ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ImageHolder(private val binding: ImageItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(image: String) = with(binding) {
             binding.imageUrl.apply {
                 transitionName = image
@@ -63,16 +66,5 @@ class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageC
                     .into(binding.imageUrl)
             }
         }
-    }
-}
-
-object ImageComparator : DiffUtil.ItemCallback<Image>() {
-    override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-        // Id is unique.
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-        return oldItem == newItem
     }
 }
