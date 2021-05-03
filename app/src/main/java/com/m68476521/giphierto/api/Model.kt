@@ -45,7 +45,9 @@ data class SubImage(
     @SerializedName("fixed_width_small")
     val fixedWidthSmall: ImageSmall,
     @SerializedName("preview_gif")
-    val previewGif: ImageSmall
+    val previewGif: ImageSmall,
+    @SerializedName("fixed_height")
+    val fixedHeight: ImageOriginal
 )
 
 data class ImageOriginal(

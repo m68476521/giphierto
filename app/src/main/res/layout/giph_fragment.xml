@@ -9,46 +9,58 @@
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHeight_percent="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.75" />
 
     <ImageView
         android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:elevation="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@drawable/ic_close_white_24dp"
-        app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/image" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.1"
+        app:tint="@color/colorPrimaryDark" />
 
     <ToggleButton
         android:id="@+id/toggleFavorite"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
         android:background="@drawable/favo_toggle_bg"
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toBottomOf="@id/image"
-        app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.1" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.08"
+        app:tint="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/shareIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="4dp"
         android:src="@drawable/ic_share_white_18dp"
-        app:layout_constraintBottom_toBottomOf="@+id/image"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="@id/image"
-        app:layout_constraintWidth_percent="0.1" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.08"
+        app:tint="@color/colorPrimaryDark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
