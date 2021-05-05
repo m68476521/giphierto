@@ -22,7 +22,7 @@ class MainActivity :
 
     private val backStack = Stack<Int>()
 
-    private val indexToPage = mapOf(0 to R.id.homePage, 1 to R.id.searchPage, 2 to R.id.favoritesPage)
+    private val indexToPage = mapOf(0 to R.id.homePage, 1 to R.id.categoriesPage, 2 to R.id.favoritesPage)
 
     private val fragments = listOf(
         BaseFragment.newInstance(R.layout.content_home_base, R.id.nav_host_home),

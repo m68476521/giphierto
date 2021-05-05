@@ -2,5 +2,6 @@
     <string name="app_name">giphierto</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="category">Category</string>
     <string name="favorite">Favorite</string>
 </resources>
