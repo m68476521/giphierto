@@ -4,4 +4,5 @@
     <string name="search">Search</string>
     <string name="category">Category</string>
     <string name="favorite">Favorite</string>
+    <string name="errorMessage">An error occurred</string>
 </resources>

@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.models.TrendingViewModel
+import com.m68476521.giphierto.util.shortSnackBar
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_trending.*
 import kotlinx.coroutines.flow.collectLatest
@@ -57,6 +59,22 @@ class TrendingFragment : Fragment() {
                 imagesAdapter.submitData(pagingData)
             }
         }
+
+        lifecycleScope.launch {
+            imagesAdapter.loadStateFlow.collectLatest { loadStates ->
+                showProgressBar(loadStates.refresh is LoadState.Loading)
+                showErrorMessage(loadStates.refresh is LoadState.Error)
+            }
+        }
+    }
+
+    private fun showProgressBar(isVisible: Boolean) {
+        val visible = if (isVisible) View.VISIBLE else View.GONE
+        progressBar.visibility = visible
+    }
+
+    private fun showErrorMessage(isVisible: Boolean) {
+        if (isVisible) requireView().shortSnackBar(getString(R.string.errorMessage))
     }
 
     private fun startPostponedEnterTransitions() {
