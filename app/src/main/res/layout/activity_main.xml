@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.m68476521.giphierto.util.components.NonSwipingViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"

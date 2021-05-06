@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.m68476521.giphierto.api.GiphyManager
 import com.m68476521.giphierto.util.BaseFragment
@@ -16,7 +16,6 @@ const val API_KEY = ""
 
 class MainActivity :
     AppCompatActivity(),
-    ViewPager.OnPageChangeListener,
     BottomNavigationView.OnNavigationItemReselectedListener,
     BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -34,7 +33,14 @@ class MainActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         GiphyManager.setToken(API_KEY)
-        main_pager.addOnPageChangeListener(this)
+        main_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val itemId = indexToPage[position] ?: R.id.homePage
+                if (bottom_navigation.selectedItemId != itemId)
+                    bottom_navigation.selectedItemId = itemId
+            }
+        })
         main_pager.adapter = ViewPagerAdapter()
         main_pager.offscreenPageLimit = fragments.size
 
@@ -67,24 +73,15 @@ class MainActivity :
         fragment.popToRoot()
     }
 
-    override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
-
-    override fun onPageSelected(page: Int) {
-        val itemId = indexToPage[page] ?: R.id.homePage
-        if (bottom_navigation.selectedItemId != itemId)
-            bottom_navigation.selectedItemId = itemId
-    }
-
     private fun setItem(position: Int) {
         main_pager.currentItem = position
         backStack.push(position)
     }
 
-    inner class ViewPagerAdapter : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class ViewPagerAdapter : FragmentStateAdapter(supportFragmentManager, lifecycle) {
 
-        override fun getItem(position: Int): Fragment = fragments[position]
+        override fun getItemCount(): Int = fragments.size
 
-        override fun getCount(): Int = fragments.size
+        override fun createFragment(position: Int): Fragment = fragments[position]
     }
 }
