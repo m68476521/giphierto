@@ -22,26 +22,23 @@ class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageC
         )
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
-        val image = getItem(position)?.images?.fixedHeightDownsampled?.url ?: return
-        holder.bind(image)
+        val item = getItem(position)
+        val imagePreview = item?.images?.fixedHeightDownsampled?.url ?: return
+        holder.bind(imagePreview)
 
         holder.itemView.cardView.setOnClickListener {
-            val image = getItem(position)?.images?.original?.url ?: return@setOnClickListener
-
-            val imageFixed = getItem(position)?.images?.fixedHeightDownsampled?.url
-                ?: return@setOnClickListener
-            val title = getItem(position)?.title ?: return@setOnClickListener
-
+            val imageForDetails = item.images.fixedHeight.url
+            val title = item.title
             val extras = FragmentNavigatorExtras(
-                it.imageUrl to image
+                it.imageUrl to imageForDetails
             )
 
             val next =
                 TrendingFragmentDirections.actionTrendingToGiphDialog()
                     .apply {
-                        this.image = imageFixed
+                        this.image = imagePreview
                         id = getItem(position)?.id.toString()
-                        imageOriginal = image
+                        this.imageOriginal = imageForDetails
                         this.title = title
                     }
 
@@ -49,8 +46,9 @@ class ImagesAdapter : PagingDataAdapter<Image, ImagesAdapter.ImageHolder>(ImageC
         }
     }
 
-    inner class ImageHolder(private val binding: ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: String) = with(binding) {
+    inner class ImageHolder(private val binding: ImageItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(image: String) {
             binding.imageUrl.apply {
                 transitionName = image
                 Glide
