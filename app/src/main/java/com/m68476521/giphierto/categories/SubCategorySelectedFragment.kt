@@ -11,16 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.R
-import com.m68476521.giphierto.models.SubcategoryViewModel
-import io.reactivex.disposables.CompositeDisposable
+import com.m68476521.giphierto.models.SubCategorySelectedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sub_category_selected.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SubCategorySelectedFragment : Fragment() {
-    private val compositeDisposable = CompositeDisposable()
     private val args: SubCategorySelectedFragmentArgs by navArgs()
-    private val subcategoryModel by viewModels<SubcategoryViewModel>()
+    private val subcategorySelectedModel by viewModels<SubCategorySelectedViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,7 @@ class SubCategorySelectedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subcategoryModel.category = args.category
+        subcategorySelectedModel.subCategorySelected = args.category
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
 
@@ -43,9 +43,9 @@ class SubCategorySelectedFragment : Fragment() {
         postponeEnterTransition()
 
         lifecycleScope.launch {
-            subcategoryModel.subcategoryflow.collectLatest { pagindData ->
+            subcategorySelectedModel.subCategoryFlow.collectLatest { data ->
                 startPostponedEnterTransitions()
-                imagesAdapter.submitData(pagindData)
+                imagesAdapter.submitData(data)
             }
         }
     }
@@ -54,10 +54,5 @@ class SubCategorySelectedFragment : Fragment() {
         (requireView().parent as? ViewGroup)?.doOnPreDraw {
             startPostponedEnterTransition()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 }

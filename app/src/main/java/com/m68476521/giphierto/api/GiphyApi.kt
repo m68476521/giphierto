@@ -1,12 +1,16 @@
 package com.m68476521.giphierto.api
 
-class GiphyApi(private val giphyApi: GiphyService) {
-    suspend fun trending(type: String = Rating.PG_13.rating, pagination: Int = 0, limit: Int = 25) =
+import javax.inject.Inject
+
+class GiphyApi @Inject constructor(private val giphyApi: GiphyService) : ApiHelper {
+    override suspend fun getTrending(type: String, pagination: Int, limit: Int): ImageResponse =
         giphyApi.getTrending(type = type, pagination = pagination, limit = limit)
 
-    suspend fun search(word: String, pagination: Int) = giphyApi.search(word, pagination = pagination)
+    override suspend fun getCategories(): CategoryData = giphyApi.categories()
 
-    fun categories() = giphyApi.categories()
+    override suspend fun getSubCategories(subCategory: String): CategoryData =
+        giphyApi.subCategories(subCategory)
 
-    fun subCategories(category: String) = giphyApi.subCategories(category)
+    override suspend fun search(word: String, pagination: Int): ImageResponse =
+        giphyApi.search(word, pagination = pagination)
 }

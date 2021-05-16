@@ -19,11 +19,13 @@ import com.m68476521.giphierto.ImagesAdapter
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.models.TrendingViewModel
 import com.m68476521.giphierto.util.shortSnackBar
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_trending.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TrendingFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
     private val trendingModel by viewModels<TrendingViewModel>()

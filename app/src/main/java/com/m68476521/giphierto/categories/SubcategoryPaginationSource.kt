@@ -3,12 +3,12 @@ package com.m68476521.giphierto.categories
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bumptech.glide.load.HttpException
-import com.m68476521.giphierto.api.GiphyApi
 import com.m68476521.giphierto.api.Image
+import com.m68476521.giphierto.api.MainRepository
 
 class SubcategoryPaginationSource(
     private val category: String,
-    private val backend: GiphyApi
+    private val repository: MainRepository
 ) : PagingSource<Int, Image>() {
     override suspend fun load(
         params: LoadParams<Int>
@@ -16,7 +16,7 @@ class SubcategoryPaginationSource(
         return try {
             val nextPageNumber = params.key ?: 0
             val page = if (params.key == null) 0 else (params.key!! * 25)
-            val response = backend.search(category, pagination = page)
+            val response = repository.search(category, pagination = page)
             LoadResult.Page(
                 data = response.data,
                 prevKey = null, // Only paging forward.

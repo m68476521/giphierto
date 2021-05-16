@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.databinding.FragmentSearchBinding
 import com.m68476521.giphierto.models.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 

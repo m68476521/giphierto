@@ -1,20 +1,32 @@
 package com.m68476521.giphierto.models
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import com.m68476521.giphierto.api.GiphyManager
-import com.m68476521.giphierto.categories.SubcategoryPaginationSource
+import com.m68476521.giphierto.api.CategoryData
+import com.m68476521.giphierto.api.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SubcategoryViewModel : ViewModel() {
+@HiltViewModel
+class SubcategoryViewModel @Inject constructor(
+    private val mainRepository: MainRepository
+) : ViewModel() {
     var category = ""
-    val subcategoryflow = Pager(
-        // Configure how data is loaded by passing additional properties to
-        // PagingConfig, such as prefetchDistance.
-        PagingConfig(pageSize = 25)
-    ) {
-        SubcategoryPaginationSource(category, GiphyManager.giphyApi)
-    }.flow.cachedIn(viewModelScope)
+
+    private val subCategories: MutableLiveData<CategoryData> by lazy {
+        MutableLiveData<CategoryData>()
+    }
+
+    fun querySubCategories(categorySelected: String) {
+        viewModelScope.launch {
+            subCategories.value = mainRepository.getSubCategories(categorySelected)
+        }
+    }
+
+    fun getSubCategories(): LiveData<CategoryData> {
+        return subCategories
+    }
 }

@@ -7,13 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.m68476521.giphierto.api.GiphyManager
 import com.m68476521.giphierto.util.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.Stack
 
-const val API_KEY = ""
-
+@AndroidEntryPoint
 class MainActivity :
     AppCompatActivity(),
     BottomNavigationView.OnNavigationItemReselectedListener,
@@ -32,7 +31,6 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        GiphyManager.setToken(API_KEY)
         main_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)

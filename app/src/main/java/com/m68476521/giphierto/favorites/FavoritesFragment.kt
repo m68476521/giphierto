@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.m68476521.giphierto.data.GiphApplication
 import com.m68476521.giphierto.databinding.FragmentFavoritesBinding
+import com.m68476521.giphierto.di.GiphApplication
 import com.m68476521.giphierto.models.FavoriteViewModelFactory
 import com.m68476521.giphierto.models.FavoritesViewModel
 
