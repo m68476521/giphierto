@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.m68476521.giphierto.databinding.FragmentCategoriesBinding
 import com.m68476521.giphierto.models.CategoryViewModel
+import com.m68476521.giphierto.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,10 +31,18 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.images.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.images.adapter = imagesAdapter
-        categoryModel.getCategories().observe(
+        categoryModel.categoriesData.observe(
             viewLifecycleOwner,
-            { categories ->
-                imagesAdapter.swapCategories(categories)
+            {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        it.data.let { response ->
+                            response?.data?.let { data -> imagesAdapter.swapCategories(data) }
+                        }
+                    }
+                    Status.LOADING -> { }
+                    Status.ERROR -> { }
+                }
             }
         )
     }

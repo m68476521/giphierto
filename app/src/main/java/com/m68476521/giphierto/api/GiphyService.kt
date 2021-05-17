@@ -1,5 +1,6 @@
 package com.m68476521.giphierto.api
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -10,7 +11,7 @@ interface GiphyService {
         @Query("rating") type: String,
         @Query("offset") pagination: Int,
         @Query("limit") limit: Int
-    ): ImageResponse
+    ): Response<ImageResponse>
 
     @GET("/v1/gifs/search")
     suspend fun search(
@@ -21,7 +22,7 @@ interface GiphyService {
     ): ImageResponse
 
     @GET("/v1/gifs/categories")
-    suspend fun categories(): CategoryData
+    suspend fun categories(): Response<CategoryData>
 
     @GET("/v1/gifs/categories/{category}")
     suspend fun subCategories(@Path("category") category: String): CategoryData

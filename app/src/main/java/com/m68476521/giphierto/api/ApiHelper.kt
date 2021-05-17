@@ -1,9 +1,11 @@
 package com.m68476521.giphierto.api
 
-interface ApiHelper {
-    suspend fun getTrending(type: String, pagination: Int, limit: Int): ImageResponse
+import retrofit2.Response
 
-    suspend fun getCategories(): CategoryData
+interface ApiHelper {
+    suspend fun getTrending(type: String, pagination: Int, limit: Int): Response<ImageResponse>
+
+    suspend fun getCategories(): Response<CategoryData>
 
     suspend fun getSubCategories(subCategory: String): CategoryData
 
