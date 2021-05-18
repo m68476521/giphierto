@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SubCategoryFragment : Fragment() {
-    private var imagesAdapter = CategoryAdapter(false)
     private val args: SubCategoryFragmentArgs by navArgs()
     private val subcategoryModel by viewModels<SubcategoryViewModel>()
 
@@ -32,6 +31,7 @@ class SubCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         images.layoutManager = GridLayoutManager(requireContext(), 3)
+        val imagesAdapter = CategoryAdapter(false)
         images.adapter = imagesAdapter
         subCategories(args.subcategory)
 
@@ -47,5 +47,10 @@ class SubCategoryFragment : Fragment() {
         lifecycleScope.launch {
             subcategoryModel.querySubCategories(category)
         }
+    }
+
+    override fun onDestroyView() {
+        images.adapter = null
+        super.onDestroyView()
     }
 }

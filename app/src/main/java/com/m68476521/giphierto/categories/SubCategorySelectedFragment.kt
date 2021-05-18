@@ -55,4 +55,9 @@ class SubCategorySelectedFragment : Fragment() {
             startPostponedEnterTransition()
         }
     }
+
+    override fun onDestroyView() {
+        images.adapter = null
+        super.onDestroyView()
+    }
 }

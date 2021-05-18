@@ -16,15 +16,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class CategoriesFragment : Fragment() {
     private var imagesAdapter = CategoryAdapter(true)
     private val categoryModel: CategoryViewModel by activityViewModels()
-    private lateinit var binding: FragmentCategoriesBinding
+
+    private var _binding: FragmentCategoriesBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCategoriesBinding.inflate(inflater, container, false)
-        return binding.root
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,5 +48,11 @@ class CategoriesFragment : Fragment() {
                 }
             }
         )
+    }
+
+    override fun onDestroyView() {
+        binding.images.adapter = null
+        super.onDestroyView()
+        _binding = null
     }
 }
