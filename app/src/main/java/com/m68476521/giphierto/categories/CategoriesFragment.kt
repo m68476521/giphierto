@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.m68476521.giphierto.databinding.FragmentCategoriesBinding
 import com.m68476521.giphierto.models.CategoryViewModel
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CategoriesFragment : Fragment() {
     private var imagesAdapter = CategoryAdapter(true)
-    private val categoryModel: CategoryViewModel by activityViewModels()
+    private val categoryModel: CategoryViewModel by viewModels()
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TrendingFragment : Fragment() {
-    private val trendingModel by viewModels<TrendingViewModel>()
+    private val trendingModel: TrendingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

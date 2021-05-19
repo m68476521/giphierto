@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SubCategorySelectedFragment : Fragment() {
     private val args: SubCategorySelectedFragmentArgs by navArgs()
-    private val subcategorySelectedModel by viewModels<SubCategorySelectedViewModel>()
+    private val subcategorySelectedModel: SubCategorySelectedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

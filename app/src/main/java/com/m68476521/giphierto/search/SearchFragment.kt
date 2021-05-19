@@ -22,8 +22,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-
-    private val searchModel by viewModels<SearchViewModel>()
+    private val searchModel: SearchViewModel by viewModels()
     private lateinit var imagesAdapter: ImagesSearchAdapter
 
     override fun onCreateView(
