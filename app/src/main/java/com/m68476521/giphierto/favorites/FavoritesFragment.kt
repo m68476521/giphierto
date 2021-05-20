@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.databinding.FragmentFavoritesBinding
 import com.m68476521.giphierto.di.GiphApplication
 import com.m68476521.giphierto.models.FavoriteViewModelFactory
 import com.m68476521.giphierto.models.FavoritesViewModel
+import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoritesFragment : Fragment() {
 
@@ -56,7 +56,12 @@ class FavoritesFragment : Fragment() {
     private fun subscribeUi(adapter: FavoriteAdapter) {
         favoritesModel.favorites.observe(
             viewLifecycleOwner,
-            Observer { images ->
+            { images ->
+                if (images.isEmpty())
+                    textFavorites.visibility = View.VISIBLE
+                else
+                    textFavorites.visibility = View.GONE
+
                 images?.let {
                     adapter.submitList(it)
                 }
