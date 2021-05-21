@@ -89,4 +89,9 @@ class SearchFragment : Fragment() {
             startPostponedEnterTransition()
         }
     }
+
+    override fun onDestroyView() {
+        binding.images.adapter = null
+        super.onDestroyView()
+    }
 }
