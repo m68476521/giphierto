@@ -1,5 +1,6 @@
 package com.m68476521.giphierto
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -26,8 +27,15 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.request.target.Target
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.models.LocalImagesViewModel
+import com.m68476521.giphierto.util.shortSnackBar
 import kotlinx.android.synthetic.main.giph_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -82,7 +90,7 @@ class GiphDialog : DialogFragment() {
         }
 
         imageById(args.id)
-        shareIcon.setOnClickListener { saveImageAndShare(gifDrawable) }
+        shareIcon.setOnClickListener { checkPermission(gifDrawable) }
     }
 
     private fun ImageView.load(
@@ -135,6 +143,27 @@ class GiphDialog : DialogFragment() {
                     }
                 })
         }
+    }
+
+    private fun checkPermission(gifDrawable: GifDrawable) {
+        Dexter.withContext(requireContext())
+            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                    saveImageAndShare(gifDrawable)
+                }
+
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                    requireView().shortSnackBar(getString(R.string.permissionNotGranted))
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+            }).check()
     }
 
     private fun saveImageAndShare(gifDrawable: GifDrawable?) {
