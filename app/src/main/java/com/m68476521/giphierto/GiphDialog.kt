@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
@@ -28,7 +29,6 @@ import com.bumptech.glide.request.target.Target
 import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.models.LocalImagesViewModel
 import kotlinx.android.synthetic.main.giph_fragment.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -193,7 +193,7 @@ class GiphDialog : DialogFragment() {
     }
 
     private fun imageById(id: String) {
-        GlobalScope.launch(Dispatchers.Unconfined) {
+        lifecycleScope.launch {
             val result = favoritesModel.imageById(id)
             if (result != null)
                 toggleFavorite.isChecked = true
