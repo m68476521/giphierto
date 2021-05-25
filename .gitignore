@@ -145,5 +145,11 @@ fabric.properties
 
 .idea/
 # End of https://www.gitignore.io/api/android,intellij
-app/release
+app/release/
 api-key-firebase.json
+
+# Ignore this file because here are the keys
+*.jks
+app/debug/
+gradle.properties
+

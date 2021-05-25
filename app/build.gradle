@@ -10,6 +10,16 @@ plugins {
 }
 
 android {
+
+    signingConfigs {
+        release {
+                keyAlias project.property("keyAlias")
+                keyPassword project.property("keyPassword")
+                storeFile file(project.property("storeFile"))
+                storePassword project.property("storePassword")
+        }
+    }
+
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -30,10 +40,12 @@ android {
             // Enables code shrinking, obfuscation, and optimization for only
             // your project's release build type.
             minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField("String", "BASE_URL", "\"https://api.giphy.com\"")
 
+            buildConfigField("String", "API_KEY", "\"" + project.property("apiKey") + "\"")
             // Enables resource shrinking, which is performed by the
             // Android Gradle plugin.
             shrinkResources true
@@ -48,6 +60,8 @@ android {
         debug {
             debuggable = true
             buildConfigField("String", "BASE_URL", "\"https://api.giphy.com\"")
+
+            buildConfigField("String", "API_KEY", "\"" + project.property("apiKey") + "\"")
         }
     }
 
