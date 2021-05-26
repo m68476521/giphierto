@@ -27,8 +27,8 @@ android {
         applicationId "com.m68476521.giphierto"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.1.3"
+        versionCode 8
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //strip other than english resources
