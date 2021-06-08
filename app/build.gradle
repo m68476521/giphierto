@@ -56,6 +56,8 @@ android {
             renderscriptDebuggable false
             pseudoLocalesEnabled false
             zipAlignEnabled true
+
+            manifestPlaceholders = [crashlyticsCollectionEnabled:"true"]
         }
         debug {
             debuggable = true
@@ -63,6 +65,8 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api.giphy.com\"")
 
             buildConfigField("String", "API_KEY", "\"" + project.property("apiKey") + "\"")
+            manifestPlaceholders = [crashlyticsCollectionEnabled:"false"]
+            ext.enableCrashlytics=false
         }
     }
 
