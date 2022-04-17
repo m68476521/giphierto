@@ -12,39 +12,20 @@ import com.bumptech.glide.Glide
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.data.Image
 import com.m68476521.giphierto.databinding.ImageItemBinding
-import kotlinx.android.synthetic.main.image_item.view.*
 
-class FavoriteAdapter : ListAdapter<Image, FavoriteAdapter.ViewHolder>(DiffCallback()) {
+class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback()) {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        return ViewHolder(
-            ImageItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
+        return ViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val image = getItem(position)
-        holder.apply {
+        (holder as ViewHolder).apply {
             bind(image, context)
             itemView.tag = image
-        }
-
-        holder.itemView.setOnClickListener {
-            val extras = FragmentNavigatorExtras(
-                it.imageUrl to image.originalUrl
-            )
-            val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog() // (id, name)
-                .apply {
-                    this.image = image.fixedHeightDownsampled
-                    this.id = image.uid
-                    this.imageOriginal = image.originalUrl
-                    this.title = image.title
-                }
-            it.findNavController().navigate(direction, extras)
         }
     }
 
@@ -63,10 +44,32 @@ class FavoriteAdapter : ListAdapter<Image, FavoriteAdapter.ViewHolder>(DiffCallb
                         .fitCenter()
                         .placeholder(R.drawable.giphy_icon)
                         .dontTransform()
-                        .into(itemView.imageUrl)
+                        .into(binding.imageUrl)
                 }
 
                 executePendingBindings()
+            }
+                binding.root.setOnClickListener {
+                val extras = FragmentNavigatorExtras(
+                    binding.imageUrl to item.originalUrl
+                )
+                val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog() // (id, name)
+                    .apply {
+                        this.image = item.fixedHeightDownsampled
+                        this.id = item.uid
+                        this.imageOriginal = item.originalUrl
+                        this.title = item.title
+                    }
+                it.findNavController().navigate(direction, extras)
+            }
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): ViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.image_item, parent, false)
+                val binding = ImageItemBinding.bind(view)
+                return ViewHolder(binding)
             }
         }
     }

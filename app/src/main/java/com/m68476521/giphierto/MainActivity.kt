@@ -7,16 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.m68476521.giphierto.databinding.ActivityMainBinding
 import com.m68476521.giphierto.util.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.Stack
 
 @AndroidEntryPoint
 class MainActivity :
     AppCompatActivity(),
+    // TODO: Fix this deprecated
     BottomNavigationView.OnNavigationItemReselectedListener,
     BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var binding: ActivityMainBinding
 
     private val backStack = Stack<Int>()
 
@@ -30,38 +33,40 @@ class MainActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        main_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 val itemId = indexToPage[position] ?: R.id.homePage
-                if (bottom_navigation.selectedItemId != itemId)
-                    bottom_navigation.selectedItemId = itemId
+                if (binding.bottomNavigation.selectedItemId != itemId)
+                    binding.bottomNavigation.selectedItemId = itemId
             }
         })
-        main_pager.adapter = ViewPagerAdapter()
-        main_pager.offscreenPageLimit = fragments.size
+        binding.mainPager.adapter = ViewPagerAdapter()
+        binding.mainPager.offscreenPageLimit = fragments.size
 
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
-        bottom_navigation.setOnNavigationItemReselectedListener(this)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
+        binding.bottomNavigation.setOnNavigationItemReselectedListener(this)
 
         if (backStack.empty()) backStack.push(0)
     }
 
     override fun onBackPressed() {
-        val fragment = fragments[main_pager.currentItem]
+        val fragment = fragments[binding.mainPager.currentItem]
         val navigatedUp = fragment.onBackPressed()
         if (!navigatedUp) {
             if (backStack.size > 1) {
                 backStack.pop()
-                main_pager.currentItem = backStack.peek()
+                binding.mainPager.currentItem = backStack.peek()
             } else super.onBackPressed()
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val position = indexToPage.values.indexOf(item.itemId)
-        if (main_pager.currentItem != position) setItem(position)
+        if (binding.mainPager.currentItem != position) setItem(position)
         return true
     }
 
@@ -72,7 +77,7 @@ class MainActivity :
     }
 
     private fun setItem(position: Int) {
-        main_pager.currentItem = position
+        binding.mainPager.currentItem = position
         backStack.push(position)
     }
 

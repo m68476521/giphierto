@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
@@ -20,8 +20,7 @@ android {
         }
     }
 
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.m68476521.giphierto"
@@ -79,6 +78,13 @@ android {
     }
     buildFeatures {
         dataBinding true
+        viewBinding true
+
+        // Enables Jetpack Compose for this module
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
     }
 }
 
@@ -148,4 +154,18 @@ dependencies {
 
     // Material Design
     implementation 'com.google.android.material:material:1.3.0'
+
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    // Compose Material Design
+    implementation 'androidx.compose.material:material:1.1.1'
+    // Animations
+    implementation 'androidx.compose.animation:animation:1.1.1'
+    // Tooling support (Previews, etc.)
+    implementation 'androidx.compose.ui:ui-tooling:1.1.1'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    // UI Tests
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.1'
+
 }

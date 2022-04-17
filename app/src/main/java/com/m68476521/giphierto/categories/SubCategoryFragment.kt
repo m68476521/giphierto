@@ -9,14 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.m68476521.giphierto.R
+import com.m68476521.giphierto.databinding.FragmentSearchBinding
 import com.m68476521.giphierto.models.SubcategoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SubCategoryFragment : Fragment() {
+    private lateinit var binding: FragmentSearchBinding
     private val args: SubCategoryFragmentArgs by navArgs()
     private val subcategoryModel by viewModels<SubcategoryViewModel>()
 
@@ -24,20 +24,21 @@ class SubCategoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    ): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        images.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.images.layoutManager = GridLayoutManager(requireContext(), 3)
         val imagesAdapter = CategoryAdapter(false)
-        images.adapter = imagesAdapter
+        binding.images.adapter = imagesAdapter
         subCategories(args.subcategory)
 
         subcategoryModel.getSubCategories().observe(
             viewLifecycleOwner,
-            { subCategories ->
+            { subCategories -> // //TODO fix this
                 imagesAdapter.swapCategories(subCategories.data)
             }
         )
@@ -50,7 +51,7 @@ class SubCategoryFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        images.adapter = null
+        binding.images.adapter = null
         super.onDestroyView()
     }
 }
