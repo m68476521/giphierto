@@ -12,11 +12,10 @@ import com.m68476521.giphierto.databinding.FragmentFavoritesBinding
 import com.m68476521.giphierto.di.GiphApplication
 import com.m68476521.giphierto.models.FavoriteViewModelFactory
 import com.m68476521.giphierto.models.FavoritesViewModel
-import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoritesFragment : Fragment() {
-
-    private val favoritesModel: FavoritesViewModel by viewModels {
+        private lateinit var binding: FragmentFavoritesBinding
+        private val favoritesModel: FavoritesViewModel by viewModels {
         FavoriteViewModelFactory((requireActivity().application as GiphApplication).repository)
     }
 
@@ -25,7 +24,7 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         val adapter = FavoriteAdapter()
@@ -56,11 +55,11 @@ class FavoritesFragment : Fragment() {
     private fun subscribeUi(adapter: FavoriteAdapter) {
         favoritesModel.favorites.observe(
             viewLifecycleOwner,
-            { images ->
+            { images ->//TODO fix this
                 if (images.isEmpty())
-                    textFavorites.visibility = View.VISIBLE
+                    binding.textFavorites.visibility = View.VISIBLE
                 else
-                    textFavorites.visibility = View.GONE
+                    binding.textFavorites.visibility = View.GONE
 
                 images?.let {
                     adapter.submitList(it)

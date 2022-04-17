@@ -11,48 +11,22 @@ import com.m68476521.giphierto.ImageComparator
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.Image
 import com.m68476521.giphierto.databinding.ImageItemBinding
-import kotlinx.android.synthetic.main.image_item.view.*
 
-class ImagesSearchAdapter :
-    PagingDataAdapter<Image, ImagesSearchAdapter.ImageHolder>(ImageComparator) {
+class ImagesSearchAdapter : PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageComparator) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ImageHolder(
-            ImageItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
+        ImageHolder.create(parent = parent)
 
-    override fun onBindViewHolder(holder: ImageHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        val imageForPreview = item?.images?.fixedHeightDownsampled?.url ?: return
-        holder.bind(imageForPreview)
-
-        holder.itemView.cardView.setOnClickListener {
-            val imageForDetails = item.images.fixedHeight.url
-            val title = item.title
-
-            val extras = FragmentNavigatorExtras(
-                it.imageUrl to imageForDetails
-            )
-
-            val next =
-                SearchFragmentDirections.actionSearchFragmentToGiphDialog()
-                    .apply {
-                        this.image = imageForPreview
-                        id = getItem(position)?.id.toString()
-                        imageOriginal = imageForDetails
-                        this.title = title
-                    }
-
-            it.findNavController().navigate(next, extras)
-        }
+        item?.images?.fixedHeightDownsampled?.url ?: return
+        (holder as ImageHolder).bind(item)
     }
 
-    inner class ImageHolder(private val binding: ImageItemBinding) :
+    class ImageHolder(private val binding: ImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: String) {
+        fun bind(image: Image) {
             binding.imageUrl.apply {
-                transitionName = image
+                transitionName = image.images?.fixedHeightDownsampled?.url
                 Glide
                     .with(context)
                     .asGif()
@@ -61,6 +35,34 @@ class ImagesSearchAdapter :
                     .placeholder(R.drawable.giphy_icon)
                     .dontTransform()
                     .into(binding.imageUrl)
+            }
+
+            binding.root.setOnClickListener {
+                val imageForDetails = image.images.fixedHeight.url
+                val title = image.title
+
+                val extras = FragmentNavigatorExtras(
+                    binding.imageUrl to imageForDetails
+                )
+
+                val next =
+                    SearchFragmentDirections.actionSearchFragmentToGiphDialog()
+                        .apply {
+                            this.image = image.images?.fixedHeightDownsampled?.url ?: return@apply
+                            id = image.id
+                            imageOriginal = imageForDetails
+                            this.title = title
+                        }
+                it.findNavController().navigate(next, extras)
+            }
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): ImageHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.image_item, parent, false)
+                val binding = ImageItemBinding.bind(view)
+                return ImageHolder(binding)
             }
         }
     }

@@ -34,9 +34,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.m68476521.giphierto.data.Image
+import com.m68476521.giphierto.databinding.GiphFragmentBinding
 import com.m68476521.giphierto.models.LocalImagesViewModel
 import com.m68476521.giphierto.util.shortSnackBar
-import kotlinx.android.synthetic.main.giph_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -47,13 +47,15 @@ class GiphDialog : DialogFragment() {
     private val args: GiphDialogArgs by navArgs()
     private lateinit var favoritesModel: LocalImagesViewModel
     private lateinit var gifDrawable: GifDrawable
+    private lateinit var binding: GiphFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.giph_fragment, container, false)
+    ): View {
+        binding = GiphFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,13 +78,13 @@ class GiphDialog : DialogFragment() {
         favoritesModel = ViewModelProvider(this).get(LocalImagesViewModel::class.java)
 
         postponeEnterTransition()
-        image.load(args.imageOriginal) {
+        binding.image.load(args.imageOriginal) {
             startPostponedEnterTransition()
         }
 
-        close.setOnClickListener { it.findNavController().popBackStack() }
+        binding.close.setOnClickListener { it.findNavController().popBackStack() }
 
-        toggleFavorite.setOnCheckedChangeListener { _, isChecked ->
+        binding.toggleFavorite.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 addToFavorite(args.id, args.imageOriginal, args.image, args.title)
             else
@@ -90,7 +92,7 @@ class GiphDialog : DialogFragment() {
         }
 
         imageById(args.id)
-        shareIcon.setOnClickListener { checkPermission(gifDrawable) }
+        binding.shareIcon.setOnClickListener { checkPermission(gifDrawable) }
     }
 
     private fun ImageView.load(
@@ -210,12 +212,14 @@ class GiphDialog : DialogFragment() {
             uid = id, fixedHeightDownsampled = imageFixed,
             originalUrl = imageOriginal, title = title
         )
+        //TODO fix this
         GlobalScope.launch {
             favoritesModel.insert(newImage)
         }
     }
 
     private fun removeFromFavoritesById(id: String) {
+        //TODO fix this
         GlobalScope.launch {
             favoritesModel.deleteById(id)
         }
@@ -225,7 +229,7 @@ class GiphDialog : DialogFragment() {
         lifecycleScope.launch {
             val result = favoritesModel.imageById(id)
             if (result != null)
-                toggleFavorite.isChecked = true
+                binding.toggleFavorite.isChecked = true
         }
     }
 }

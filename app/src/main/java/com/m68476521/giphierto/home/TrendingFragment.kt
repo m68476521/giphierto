@@ -17,23 +17,25 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphierto.ImagesAdapter
 import com.m68476521.giphierto.R
+import com.m68476521.giphierto.databinding.FragmentTrendingBinding
 import com.m68476521.giphierto.models.TrendingViewModel
 import com.m68476521.giphierto.util.shortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_trending.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TrendingFragment : Fragment() {
+    private lateinit var binding: FragmentTrendingBinding
     private val trendingModel: TrendingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_trending, container, false)
+    ): View {
+        binding = FragmentTrendingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +50,8 @@ class TrendingFragment : Fragment() {
 
         val imagesAdapter = ImagesAdapter()
 
-        images.layoutManager = staggeredGridLayoutManager
-        images.adapter = imagesAdapter
+        binding.images.layoutManager = staggeredGridLayoutManager
+        binding.images.adapter = imagesAdapter
 
         postponeEnterTransition()
 
@@ -70,7 +72,7 @@ class TrendingFragment : Fragment() {
 
     private fun showProgressBar(isVisible: Boolean) {
         val visible = if (isVisible) View.VISIBLE else View.GONE
-        progressBar.visibility = visible
+        binding.progressBar.visibility = visible
     }
 
     private fun showErrorMessage(isVisible: Boolean) {
@@ -84,7 +86,7 @@ class TrendingFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        images.adapter = null
+        binding.images.adapter = null
         super.onDestroyView()
     }
 
