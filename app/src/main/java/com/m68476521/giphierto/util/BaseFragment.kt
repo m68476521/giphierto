@@ -54,9 +54,9 @@ class BaseFragment : Fragment() {
             .navigateUp(appBarConfig)
     }
 
-    fun popToRoot() {//TODO fix this, startDestination not found
+    fun popToRoot() {
         val navController = requireActivity().findNavController(navHostId)
-//        navController.popBackStack(navController.graph.startDestination, false)
+        navController.popBackStack(navController.graph.startDestinationId, false)
     }
 
     companion object {
