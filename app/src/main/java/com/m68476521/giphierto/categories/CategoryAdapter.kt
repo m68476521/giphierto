@@ -3,9 +3,21 @@ package com.m68476521.giphierto.categories
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.sp
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.m68476521.giphierto.R
 import com.m68476521.giphierto.api.Data
 import com.m68476521.giphierto.databinding.CategoryItemBinding
@@ -69,8 +81,25 @@ class CategoryHolder(private val binding: CategoryItemBinding) : RecyclerView.Vi
             .dontTransform()
             .into(binding.imageUrl)
 
-        //TODO fix this
-        binding.categoryName.text = categoryName.toUpperCase()
+        binding.categoryName.setContent { 
+            MdcTheme {
+                Category(categoryName.uppercase())
+            }
+        }
+    }
+
+    @Composable
+    private fun Category(categoryName: String) {
+        Text(
+            text = categoryName,
+            color = Color.White,
+            fontSize = 16.sp,
+            style = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        )
     }
 
     companion object {
