@@ -25,7 +25,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run lint 2
-        run: ./gradlew ktlint
+        run: ./gradlew ktlintFormat
+
 
 #       - name: Upload html test report
 #         uses: actions/upload-artifact@v2
