@@ -81,7 +81,7 @@ class CategoryHolder(private val binding: CategoryItemBinding) : RecyclerView.Vi
             .dontTransform()
             .into(binding.imageUrl)
 
-        binding.categoryName.setContent { 
+        binding.categoryName.setContent {
             MdcTheme {
                 Category(categoryName.uppercase())
             }

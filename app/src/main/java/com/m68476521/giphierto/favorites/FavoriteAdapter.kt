@@ -49,7 +49,7 @@ class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback
 
                 executePendingBindings()
             }
-                binding.root.setOnClickListener {
+            binding.root.setOnClickListener {
                 val extras = FragmentNavigatorExtras(
                     binding.imageUrl to item.originalUrl
                 )
