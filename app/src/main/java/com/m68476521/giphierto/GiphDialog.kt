@@ -212,14 +212,14 @@ class GiphDialog : DialogFragment() {
             uid = id, fixedHeightDownsampled = imageFixed,
             originalUrl = imageOriginal, title = title
         )
-        //TODO fix this
+        // TODO fix this
         GlobalScope.launch {
             favoritesModel.insert(newImage)
         }
     }
 
     private fun removeFromFavoritesById(id: String) {
-        //TODO fix this
+        // TODO fix this
         GlobalScope.launch {
             favoritesModel.deleteById(id)
         }

@@ -14,8 +14,8 @@ import com.m68476521.giphierto.models.FavoriteViewModelFactory
 import com.m68476521.giphierto.models.FavoritesViewModel
 
 class FavoritesFragment : Fragment() {
-        private lateinit var binding: FragmentFavoritesBinding
-        private val favoritesModel: FavoritesViewModel by viewModels {
+    private lateinit var binding: FragmentFavoritesBinding
+    private val favoritesModel: FavoritesViewModel by viewModels {
         FavoriteViewModelFactory((requireActivity().application as GiphApplication).repository)
     }
 
@@ -55,7 +55,7 @@ class FavoritesFragment : Fragment() {
     private fun subscribeUi(adapter: FavoriteAdapter) {
         favoritesModel.favorites.observe(
             viewLifecycleOwner,
-            { images ->//TODO fix this
+            { images -> // TODO fix this
                 if (images.isEmpty())
                     binding.textFavorites.visibility = View.VISIBLE
                 else
