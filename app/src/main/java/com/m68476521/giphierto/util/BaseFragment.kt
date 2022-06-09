@@ -23,7 +23,7 @@ class BaseFragment : Fragment() {
         )
     private val appBarConfig = AppBarConfiguration(rootDestinations)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         arguments?.let {
             layoutRes = it.getInt(KEY_LAYOUT)
