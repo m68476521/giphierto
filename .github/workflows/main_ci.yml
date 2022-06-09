@@ -24,8 +24,8 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v2
 
-      - name: Run lint
-        run: ./gradlew lint
+      - name: Run lint 2
+        run: ./gradlew ktlint
 
 #       - name: Upload html test report
 #         uses: actions/upload-artifact@v2
