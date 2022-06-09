@@ -7,6 +7,7 @@ plugins {
     id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
     id("com.google.secrets_gradle_plugin") version '0.6'
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
 }
 
 android {
