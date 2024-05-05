@@ -21,12 +21,12 @@ android {
         }
     }
 
-    compileSdkVersion 31
+    compileSdk = 34
 
     defaultConfig {
         applicationId "com.m68476521.giphierto"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 24
+        targetSdkVersion 34
         versionCode 8
         versionName "2.0.0"
 
@@ -114,6 +114,7 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-compose:2.7.7"
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
@@ -136,7 +137,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
 
     // Jetpack Compose Integration
-    implementation "androidx.paging:paging-compose:1.0.0-alpha08"
+    implementation "androidx.paging:paging-compose:3.2.1"
 
     // ViewPager2
     implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
@@ -147,8 +148,8 @@ dependencies {
     // Hilt for dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_compiler"
-    kapt "androidx.hilt:hilt-compiler:$hilt_compiler"
+//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_compiler"// TODO, check if this is need it
+    annotationProcessor "androidx.hilt:hilt-compiler:$hilt_compiler"
 
     // Dexter permission lib
     implementation 'com.karumi:dexter:6.2.2'
@@ -157,30 +158,30 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
 
     // Integration with activities
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.activity:activity-compose:1.9.0'
     // Compose Material Design
-    implementation 'androidx.compose.material:material:1.1.1'
+    implementation 'androidx.compose.material:material:1.6.6'
     // Animations
-    implementation 'androidx.compose.animation:animation:1.1.1'
+    implementation 'androidx.compose.animation:animation:1.6.6'
     // Tooling support (Previews, etc.)
-    implementation 'androidx.compose.ui:ui-tooling:1.1.1'
+    implementation 'androidx.compose.ui:ui-tooling:1.6.6'
     // Integration with ViewModels
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
     // UI Tests
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.6.6'
 
-    implementation 'androidx.compose.ui:ui:1.1.1'
+    implementation 'androidx.compose.ui:ui:1.6.6'
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation 'androidx.compose.foundation:foundation:1.1.1'
+    implementation 'androidx.compose.foundation:foundation:1.6.6'
     // Material design icons
-    implementation 'androidx.compose.material:material-icons-core:1.1.1'
-    implementation 'androidx.compose.material:material-icons-extended:1.1.1'
+    implementation 'androidx.compose.material:material-icons-core:1.6.6'
+    implementation 'androidx.compose.material:material-icons-extended:1.6.6'
     // Integration with observables
-    implementation 'androidx.compose.runtime:runtime-livedata:1.1.1'
-    implementation 'androidx.compose.runtime:runtime-rxjava2:1.1.1'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.6.6'
+    implementation 'androidx.compose.runtime:runtime-rxjava2:1.6.6'
 
     // When using a MDC theme
-    implementation "com.google.android.material:compose-theme-adapter:1.1.1"
+    implementation "com.google.android.material:compose-theme-adapter:1.2.1"
 
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
