@@ -7,7 +7,7 @@
 
         <variable
             name="image"
-            type="com.m68476521.giphierto.data.Image" />
+            type="com.m68476521.giphiertwo.data.Image" />
     </data>
 
     <androidx.cardview.widget.CardView
