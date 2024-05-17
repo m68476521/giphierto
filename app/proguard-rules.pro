@@ -20,4 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 # Not shink and apply proguard to the API
--keep public class com.m68476521.giphierto.api.** {*;}
+-keep public class com.m68476521.giphiertwo.api.** {*;}

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favorites"
-        android:name="com.m68476521.giphierto.favorites.FavoritesFragment"
+        android:name="com.m68476521.giphiertwo.favorites.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/giphDialog"
-        android:name="com.m68476521.giphierto.GiphDialog"
+        android:name="com.m68476521.giphiertwo.GiphDialog"
         android:label="GiphDialog">
         <argument
             android:name="image"
