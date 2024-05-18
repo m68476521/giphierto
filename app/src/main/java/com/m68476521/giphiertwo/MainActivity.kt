@@ -53,7 +53,7 @@ class MainActivity :
         if (backStack.empty()) backStack.push(0)
     }
 
-    override fun onBackPressed() {//TODO check this deprecated
+    override fun onBackPressed() { // TODO check this deprecated
         val fragment = fragments[binding.mainPager.currentItem]
         val navigatedUp = fragment.onBackPressed()
         if (!navigatedUp) {
