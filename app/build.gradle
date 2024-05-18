@@ -21,9 +21,8 @@ android {
         }
     }
 
-    compileSdk = 34
-
     defaultConfig {
+        compileSdk = 34
         applicationId "com.m68476521.giphierto"
         minSdkVersion 24
         targetSdkVersion 34
