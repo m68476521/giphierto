@@ -30,7 +30,7 @@ class ImagesSearchAdapter : PagingDataAdapter<Image, RecyclerView.ViewHolder>(Im
                 Glide
                     .with(context)
                     .asGif()
-                    .load(image)
+                    .load(image.images?.fixedHeightDownsampled?.url)
                     .fitCenter()
                     .placeholder(R.drawable.giphy_icon)
                     .dontTransform()
