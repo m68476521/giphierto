@@ -104,7 +104,7 @@ class GiphDialog : DialogFragment() {
             override fun onLoadFailed(
                 e: GlideException?,
                 model: Any?,
-                target: Target<GifDrawable>?,
+                target: Target<GifDrawable?>,
                 isFirstResource: Boolean
             ): Boolean {
                 onLoadingFinished()
@@ -112,10 +112,10 @@ class GiphDialog : DialogFragment() {
             }
 
             override fun onResourceReady(
-                resource: GifDrawable?,
-                model: Any?,
-                target: Target<GifDrawable>?,
-                dataSource: DataSource?,
+                resource: GifDrawable,
+                model: Any,
+                target: Target<GifDrawable?>?,
+                dataSource: DataSource,
                 isFirstResource: Boolean
             ): Boolean {
                 if (resource != null)

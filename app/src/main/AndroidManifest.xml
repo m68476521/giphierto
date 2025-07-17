@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.m68476521.giphiertwo">
+    >
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -29,9 +29,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="${crashlyticsCollectionEnabled}"/>
+<!--        <meta-data-->
+<!--            android:name="firebase_crashlytics_collection_enabled"-->
+<!--            android:value="${crashlyticsCollectionEnabled}"/>-->
     </application>
 
 </manifest>
