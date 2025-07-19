@@ -8,11 +8,9 @@ import com.m68476521.giphiertwo.api.MainRepository
 import com.m68476521.giphiertwo.util.Resource
 
 class TrendingPaginationSource(
-    private val repository: MainRepository
+    private val repository: MainRepository,
 ) : PagingSource<Int, Image>() {
-    override suspend fun load(
-        params: LoadParams<Int>
-    ): LoadResult<Int, Image> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         return try {
             val nextPageNumber = params.key ?: 0
             val page = if (params.key == null) 0 else (params.key!! * 25)
@@ -21,13 +19,15 @@ class TrendingPaginationSource(
             when {
                 response.isSuccessful -> {
                     val res = Resource.success(response.body()).data
-                    if (res != null)
+                    if (res != null) {
                         LoadResult.Page(
                             data = res.data,
                             prevKey = null, // Only paging forward.
-                            nextKey = nextNumber
+                            nextKey = nextNumber,
                         )
-                    else returnEmpty(nextNumber)
+                    } else {
+                        returnEmpty(nextNumber)
+                    }
                 }
                 else -> return returnEmpty(nextNumber)
             }
@@ -38,18 +38,16 @@ class TrendingPaginationSource(
         }
     }
 
-    private fun returnEmpty(nextPageNumber: Int): LoadResult.Page<Int, Image> {
-        return LoadResult.Page(
+    private fun returnEmpty(nextPageNumber: Int): LoadResult.Page<Int, Image> =
+        LoadResult.Page(
             data = emptyList(),
             prevKey = null,
-            nextKey = nextPageNumber
+            nextKey = nextPageNumber,
         )
-    }
 
-    override fun getRefreshKey(state: PagingState<Int, Image>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+    override fun getRefreshKey(state: PagingState<Int, Image>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
-    }
 }

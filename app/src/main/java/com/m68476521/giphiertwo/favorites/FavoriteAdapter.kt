@@ -16,12 +16,18 @@ import com.m68476521.giphiertwo.databinding.ImageItemBinding
 class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback()) {
     private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ViewHolder {
         context = parent.context
         return ViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
         val image = getItem(position)
         (holder as ViewHolder).apply {
             bind(image, context)
@@ -29,9 +35,13 @@ class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback
         }
     }
 
-    class ViewHolder(private val binding: ImageItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Image, context: Context) {
+    class ViewHolder(
+        private val binding: ImageItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(
+            item: Image,
+            context: Context,
+        ) {
             binding.apply {
                 image = item
                 val imageData = item.fixedHeightDownsampled
@@ -50,24 +60,29 @@ class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback
                 executePendingBindings()
             }
             binding.root.setOnClickListener {
-                val extras = FragmentNavigatorExtras(
-                    binding.imageUrl to item.originalUrl
-                )
-                val direction = FavoritesFragmentDirections.actionFavoritesToGiphDialog() // (id, name)
-                    .apply {
-                        this.image = item.fixedHeightDownsampled
-                        this.id = item.uid
-                        this.imageOriginal = item.originalUrl
-                        this.title = item.title
-                    }
+                val extras =
+                    FragmentNavigatorExtras(
+                        binding.imageUrl to item.originalUrl,
+                    )
+                val direction =
+                    FavoritesFragmentDirections
+                        .actionFavoritesToGiphDialog() // (id, name)
+                        .apply {
+                            this.image = item.fixedHeightDownsampled
+                            this.id = item.uid
+                            this.imageOriginal = item.originalUrl
+                            this.title = item.title
+                        }
                 it.findNavController().navigate(direction, extras)
             }
         }
 
         companion object {
             fun create(parent: ViewGroup): ViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.image_item, parent, false)
+                val view =
+                    LayoutInflater
+                        .from(parent.context)
+                        .inflate(R.layout.image_item, parent, false)
                 val binding = ImageItemBinding.bind(view)
                 return ViewHolder(binding)
             }
@@ -76,11 +91,13 @@ class FavoriteAdapter : ListAdapter<Image, RecyclerView.ViewHolder>(DiffCallback
 }
 
 class DiffCallback : DiffUtil.ItemCallback<Image>() {
-    override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-        return oldItem == newItem
-    }
+    override fun areItemsTheSame(
+        oldItem: Image,
+        newItem: Image,
+    ): Boolean = oldItem == newItem
 
-    override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
-        return oldItem.uid == newItem.uid
-    }
+    override fun areContentsTheSame(
+        oldItem: Image,
+        newItem: Image,
+    ): Boolean = oldItem.uid == newItem.uid
 }

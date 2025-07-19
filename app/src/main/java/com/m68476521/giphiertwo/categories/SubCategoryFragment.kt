@@ -23,13 +23,16 @@ class SubCategoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding.images.layoutManager = GridLayoutManager(requireContext(), 3)
         val imagesAdapter = CategoryAdapter(false)
@@ -38,9 +41,10 @@ class SubCategoryFragment : Fragment() {
 
         subcategoryModel.getSubCategories().observe(
             viewLifecycleOwner,
-            { subCategories -> // //TODO fix this
+            { subCategories ->
+                // //TODO fix this
                 imagesAdapter.swapCategories(subCategories.data)
-            }
+            },
         )
     }
 

@@ -18,32 +18,35 @@ class MainActivity :
     // TODO: Fix this deprecated
     BottomNavigationView.OnNavigationItemReselectedListener,
     BottomNavigationView.OnNavigationItemSelectedListener {
-
     private lateinit var binding: ActivityMainBinding
 
     private val backStack = Stack<Int>()
 
     private val indexToPage = mapOf(0 to R.id.homePage, 1 to R.id.categoriesPage, 2 to R.id.favoritesPage)
 
-    private val fragments = listOf(
-        BaseFragment.newInstance(R.layout.content_home_base, R.id.nav_host_home),
-        BaseFragment.newInstance(R.layout.content_search_base, R.id.nav_host_search),
-        BaseFragment.newInstance(R.layout.content_favorites_base, R.id.nav_host_search)
-    )
+    private val fragments =
+        listOf(
+            BaseFragment.newInstance(R.layout.content_home_base, R.id.nav_host_home),
+            BaseFragment.newInstance(R.layout.content_search_base, R.id.nav_host_search),
+            BaseFragment.newInstance(R.layout.content_favorites_base, R.id.nav_host_search),
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                val itemId = indexToPage[position] ?: R.id.homePage
-                if (binding.bottomNavigation.selectedItemId != itemId)
-                    binding.bottomNavigation.selectedItemId = itemId
-            }
-        })
+        binding.mainPager.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    val itemId = indexToPage[position] ?: R.id.homePage
+                    if (binding.bottomNavigation.selectedItemId != itemId) {
+                        binding.bottomNavigation.selectedItemId = itemId
+                    }
+                }
+            },
+        )
         binding.mainPager.adapter = ViewPagerAdapter()
         binding.mainPager.offscreenPageLimit = fragments.size
 
@@ -60,7 +63,9 @@ class MainActivity :
             if (backStack.size > 1) {
                 backStack.pop()
                 binding.mainPager.currentItem = backStack.peek()
-            } else super.onBackPressed()
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -82,7 +87,6 @@ class MainActivity :
     }
 
     inner class ViewPagerAdapter : FragmentStateAdapter(supportFragmentManager, lifecycle) {
-
         override fun getItemCount(): Int = fragments.size
 
         override fun createFragment(position: Int): Fragment = fragments[position]

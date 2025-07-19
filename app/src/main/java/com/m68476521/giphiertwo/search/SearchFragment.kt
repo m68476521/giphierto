@@ -28,7 +28,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,7 +39,10 @@ class SearchFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding.images.layoutManager =
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
@@ -57,7 +60,10 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater,
+    ) {
         inflater.inflate(R.menu.menu_search, menu)
         super.onCreateOptionsMenu(menu, inflater)
         val searchView = SearchView(requireContext())
@@ -65,23 +71,24 @@ class SearchFragment : Fragment() {
             actionView = searchView
         }
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                lifecycleScope.launch {
-                    searchModel.searchByWord(query)
-                        .collectLatest { pagingData ->
-                            startPostponedEnterTransitions()
-                            imagesAdapter.submitData(pagingData)
-                        }
+        searchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    lifecycleScope.launch {
+                        searchModel
+                            .searchByWord(query)
+                            .collectLatest { pagingData ->
+                                startPostponedEnterTransitions()
+                                imagesAdapter.submitData(pagingData)
+                            }
+                    }
+
+                    return false
                 }
 
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String): Boolean = false
+            },
+        )
     }
 
     private fun startPostponedEnterTransitions() {

@@ -14,16 +14,14 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class SearchTest {
-
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     private fun childAtPosition(
         parentMatcher: Matcher<View>,
-        position: Int
+        position: Int,
     ): Matcher<View> {
-
         return object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description) {
                 description.appendText("Child at position $position in parent ")
@@ -32,7 +30,8 @@ class SearchTest {
 
             public override fun matchesSafely(view: View): Boolean {
                 val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent) &&
+                return parent is ViewGroup &&
+                    parentMatcher.matches(parent) &&
                     view == parent.getChildAt(position)
             }
         }

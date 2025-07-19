@@ -15,14 +15,13 @@ plugins {
     kotlin("kapt")
 }
 
-fun getLocalProperties(): Properties {
-    return Properties().apply {
+fun getLocalProperties(): Properties =
+    Properties().apply {
         val file = rootProject.file("gradle.properties")
         if (file.exists()) {
             file.inputStream().use { load(it) }
         }
     }
-}
 
 android {
     namespace = "com.m68476521.giphiertwo"
@@ -34,7 +33,8 @@ android {
 //            storeFile file(project.property("storeFile"))
 //            storePassword project.property("storePassword")
 //        }
-        create("release") { // You can name your configuration as needed
+        create("release") {
+            // You can name your configuration as needed
             val properties = getLocalProperties()
             storeFile = file("../giphierto_key_store.jks") // Replace with your keystore file path
             storePassword = properties.getProperty("storePassword") // Replace with your keystore password
@@ -69,7 +69,7 @@ android {
 //            shrinkResources = true
             isShrinkResources = true
 
-            //Other parameters
+            // Other parameters
 //            debuggable = false
 //            jniDebuggable = false
 //            renderscriptDebuggable = false
@@ -114,7 +114,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-
 }
 
 dependencies {

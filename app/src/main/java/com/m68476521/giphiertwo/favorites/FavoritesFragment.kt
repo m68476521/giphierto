@@ -22,7 +22,7 @@ class FavoritesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         context ?: return binding.root
@@ -41,7 +41,10 @@ class FavoritesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransitions()
     }
@@ -55,16 +58,18 @@ class FavoritesFragment : Fragment() {
     private fun subscribeUi(adapter: FavoriteAdapter) {
         favoritesModel.favorites.observe(
             viewLifecycleOwner,
-            { images -> // TODO fix this
-                if (images.isEmpty())
+            { images ->
+                // TODO fix this
+                if (images.isEmpty()) {
                     binding.textFavorites.visibility = View.VISIBLE
-                else
+                } else {
                     binding.textFavorites.visibility = View.GONE
+                }
 
                 images?.let {
                     adapter.submitList(it)
                 }
-            }
+            },
         )
     }
 }

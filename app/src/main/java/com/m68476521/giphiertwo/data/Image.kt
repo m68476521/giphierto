@@ -12,5 +12,5 @@ data class Image(
     @ColumnInfo(name = "fixedHeightDownsampled")
     val fixedHeightDownsampled: String,
     @ColumnInfo(name = "title")
-    val title: String
+    val title: String,
 )
