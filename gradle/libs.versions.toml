@@ -57,6 +57,7 @@ hiltLifecycleViewModel = "1.0.0-alpha03"
 roomVersion = "2.7.2"
 googleServicesVersion = "4.4.3"
 crashlyticsVersion = "3.0.4"
+ktlintVersion = "13.0.0"
 
 
 [libraries]
@@ -135,3 +136,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt-version" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsVersion" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion"}
