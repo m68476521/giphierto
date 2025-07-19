@@ -11,22 +11,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SubcategoryViewModel @Inject constructor(
-    private val mainRepository: MainRepository
-) : ViewModel() {
-    var category = ""
+class SubcategoryViewModel
+    @Inject
+    constructor(
+        private val mainRepository: MainRepository,
+    ) : ViewModel() {
+        var category = ""
 
-    private val subCategories: MutableLiveData<CategoryData> by lazy {
-        MutableLiveData<CategoryData>()
-    }
-
-    fun querySubCategories(categorySelected: String) {
-        viewModelScope.launch {
-            subCategories.value = mainRepository.getSubCategories(categorySelected)
+        private val subCategories: MutableLiveData<CategoryData> by lazy {
+            MutableLiveData<CategoryData>()
         }
-    }
 
-    fun getSubCategories(): LiveData<CategoryData> {
-        return subCategories
+        fun querySubCategories(categorySelected: String) {
+            viewModelScope.launch {
+                subCategories.value = mainRepository.getSubCategories(categorySelected)
+            }
+        }
+
+        fun getSubCategories(): LiveData<CategoryData> = subCategories
     }
-}

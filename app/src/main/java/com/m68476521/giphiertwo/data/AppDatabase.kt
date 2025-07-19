@@ -21,19 +21,22 @@ abstract class AppDatabase : RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(AppDatabase::class.java) {
                     if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            AppDatabase::class.java,
-                            DB_NAME
-                        )
-                            .allowMainThreadQueries()
-                            .fallbackToDestructiveMigration()
-                            .addCallback(object : Callback() {
-                                override fun onCreate(db: SupportSQLiteDatabase) {
-                                    super.onCreate(db)
-                                    GlobalScope.launch(Dispatchers.IO) { rebuildDB(INSTANCE) }
-                                }
-                            }).build()
+                        INSTANCE =
+                            Room
+                                .databaseBuilder(
+                                    context.applicationContext,
+                                    AppDatabase::class.java,
+                                    DB_NAME,
+                                ).allowMainThreadQueries()
+                                .fallbackToDestructiveMigration()
+                                .addCallback(
+                                    object : Callback() {
+                                        override fun onCreate(db: SupportSQLiteDatabase) {
+                                            super.onCreate(db)
+                                            GlobalScope.launch(Dispatchers.IO) { rebuildDB(INSTANCE) }
+                                        }
+                                    },
+                                ).build()
                     }
                 }
             }

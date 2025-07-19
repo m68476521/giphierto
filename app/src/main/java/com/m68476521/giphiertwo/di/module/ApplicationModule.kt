@@ -28,7 +28,8 @@ class ApplicationModule {
     @Singleton
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val interceptor = RequestInterceptor(BuildConfig.API_KEY)
-        return OkHttpClient.Builder()
+        return OkHttpClient
+            .Builder()
             .addInterceptor(interceptor)
             .addInterceptor(loggingInterceptor)
             .build()
@@ -43,12 +44,20 @@ class ApplicationModule {
 
     @Provides
     fun provideLoggingInterceptor() =
-        HttpLoggingInterceptor().apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE }
+        HttpLoggingInterceptor().apply {
+            level =
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String, dateFormatter: Gson): Retrofit =
-        Retrofit.Builder()
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        BASE_URL: String,
+        dateFormatter: Gson,
+    ): Retrofit =
+        Retrofit
+            .Builder()
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(dateFormatter))

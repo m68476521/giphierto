@@ -32,36 +32,49 @@ class CategoryAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.isFromCategory = isFromCategory
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): CategoryHolder {
         context = parent.context
         return CategoryHolder.create(parent = parent)
     }
 
     override fun getItemCount(): Int = categoryList.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val image = categoryList[position].gif.images.fixedHeightDownSampled.url ?: return
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
+        val image =
+            categoryList[position]
+                .gif.images.fixedHeightDownSampled.url ?: return
 
         (holder as CategoryHolder).bind(image, categoryList[position].name, context)
 
         holder.itemView.setOnClickListener {
-            val next = if (isFromCategory)
-                CategoriesFragmentDirections.actionSearchToSubCategoryFragment()
-                    .apply {
-                        this.subcategory = categoryList[position].nameEncoded
-                    }
-            else
-                SubCategoryFragmentDirections.actionSubCategoryFragmentToSubCategorySelectedFragment()
-                    .apply {
-                        this.category = categoryList[position].nameEncoded
-                    }
+            val next =
+                if (isFromCategory) {
+                    CategoriesFragmentDirections
+                        .actionSearchToSubCategoryFragment()
+                        .apply {
+                            this.subcategory = categoryList[position].nameEncoded
+                        }
+                } else {
+                    SubCategoryFragmentDirections
+                        .actionSubCategoryFragmentToSubCategorySelectedFragment()
+                        .apply {
+                            this.category = categoryList[position].nameEncoded
+                        }
+                }
             it.findNavController().navigate(next)
         }
     }
 
     fun swapCategories(categories: List<Data>) {
-        if (this.categoryList === categories)
+        if (this.categoryList === categories) {
             return
+        }
 
         this.categoryList = categories
         // TODO fix this
@@ -69,9 +82,14 @@ class CategoryAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 }
 
-class CategoryHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(image: String, categoryName: String, context: Context) {
-
+class CategoryHolder(
+    private val binding: CategoryItemBinding,
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(
+        image: String,
+        categoryName: String,
+        context: Context,
+    ) {
         Glide
             .with(context)
             .asGif()
@@ -95,17 +113,20 @@ class CategoryHolder(private val binding: CategoryItemBinding) : RecyclerView.Vi
             color = Color.White,
             fontSize = 16.sp,
             style = MaterialTheme.typography.h5,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
-                .wrapContentWidth(Alignment.CenterHorizontally)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(id = R.dimen.margin_small))
+                    .wrapContentWidth(Alignment.CenterHorizontally),
         )
     }
 
     companion object {
         fun create(parent: ViewGroup): CategoryHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.category_item, parent, false)
+            val view =
+                LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.category_item, parent, false)
             val binding = CategoryItemBinding.bind(view)
             return CategoryHolder(binding)
         }

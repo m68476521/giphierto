@@ -6,7 +6,9 @@ import com.m68476521.giphiertwo.data.AppDatabase
 import com.m68476521.giphiertwo.data.Image
 import com.m68476521.giphiertwo.data.ImageDao
 
-class LocalImagesViewModel(application: Application) : AndroidViewModel(application) {
+class LocalImagesViewModel(
+    application: Application,
+) : AndroidViewModel(application) {
     val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
 
     suspend fun insert(image: Image) {
@@ -17,7 +19,5 @@ class LocalImagesViewModel(application: Application) : AndroidViewModel(applicat
         imagesDao.deleteById(id)
     }
 
-    suspend fun imageById(id: String): Image? {
-        return imagesDao.imageById(id)
-    }
+    suspend fun imageById(id: String): Image? = imagesDao.imageById(id)
 }

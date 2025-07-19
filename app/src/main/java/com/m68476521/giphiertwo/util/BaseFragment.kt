@@ -19,7 +19,7 @@ class BaseFragment : Fragment() {
         setOf(
             R.id.trending,
             R.id.categories,
-            R.id.favorites
+            R.id.favorites,
         )
     private val appBarConfig = AppBarConfiguration(rootDestinations)
 
@@ -34,11 +34,13 @@ class BaseFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return if (layoutRes == defaultInt) null
-        else inflater.inflate(layoutRes, container, false)
-    }
+        savedInstanceState: Bundle?,
+    ): View? =
+        if (layoutRes == defaultInt) {
+            null
+        } else {
+            inflater.inflate(layoutRes, container, false)
+        }
 
     override fun onStart() {
         super.onStart()
@@ -48,11 +50,10 @@ class BaseFragment : Fragment() {
         NavigationUI.navigateUp(navController, appBarConfig)
     }
 
-    fun onBackPressed(): Boolean {
-        return requireActivity()
+    fun onBackPressed(): Boolean =
+        requireActivity()
             .findNavController(navHostId)
             .navigateUp(appBarConfig)
-    }
 
     fun popToRoot() {
         val navController = requireActivity().findNavController(navHostId)
@@ -63,11 +64,15 @@ class BaseFragment : Fragment() {
         private const val KEY_LAYOUT = "layout_key"
         private const val KEY_NAV_HOST = "nav_host_key"
 
-        fun newInstance(layoutRes: Int, navHostId: Int) = BaseFragment().apply {
-            arguments = Bundle().apply {
-                putInt(KEY_LAYOUT, layoutRes)
-                putInt(KEY_NAV_HOST, navHostId)
-            }
+        fun newInstance(
+            layoutRes: Int,
+            navHostId: Int,
+        ) = BaseFragment().apply {
+            arguments =
+                Bundle().apply {
+                    putInt(KEY_LAYOUT, layoutRes)
+                    putInt(KEY_NAV_HOST, navHostId)
+                }
         }
     }
 }

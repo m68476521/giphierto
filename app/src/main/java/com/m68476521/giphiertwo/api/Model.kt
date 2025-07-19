@@ -9,19 +9,19 @@ data class Image(
     @SerializedName("embed_url")
     val embedUrl: String,
     val title: String,
-    val images: SubImage
+    val images: SubImage,
 )
 
 data class ImageResponse(
     val data: List<Image>,
-    val pagination: Pagination
+    val pagination: Pagination,
 )
 
 data class Pagination(
     @SerializedName("total_count")
     val totalCount: Int,
     val count: Int,
-    val offset: Int
+    val offset: Int,
 )
 
 data class SubImage(
@@ -47,27 +47,29 @@ data class SubImage(
     @SerializedName("preview_gif")
     val previewGif: ImageSmall,
     @SerializedName("fixed_height")
-    val fixedHeight: ImageOriginal
+    val fixedHeight: ImageOriginal,
 )
 
 data class ImageOriginal(
-    val url: String
+    val url: String,
 )
 
 data class ImageSmall(
-    val url: String?
+    val url: String?,
 )
 
-enum class Rating(val rating: String) {
+enum class Rating(
+    val rating: String,
+) {
     G("G"),
     P("P"),
     PG_13("PG-13"),
-    R("R")
+    R("R"),
 }
 
 data class CategoryData(
     val pagination: Pagination,
-    val data: List<Data>
+    val data: List<Data>,
 )
 
 data class Data(
@@ -75,13 +77,13 @@ data class Data(
     @SerializedName("name_encoded")
     val nameEncoded: String,
     val subcategories: List<Subcategories>,
-    val gif: Gif
+    val gif: Gif,
 )
 
 data class Subcategories(
     val name: String,
     @SerializedName("name_encoded")
-    val nameEncoded: String
+    val nameEncoded: String,
 )
 
 data class Gif(
@@ -106,7 +108,7 @@ data class Gif(
     @SerializedName("trending_datetime") val trendingDatetime: String,
     @SerializedName("create_datetime") val createDatetime: String,
     @SerializedName("update_datetime") val updateDatetime: String,
-    @SerializedName("images") val images: Images
+    @SerializedName("images") val images: Images,
 )
 
 data class Images(
@@ -119,5 +121,5 @@ data class Images(
     @SerializedName("preview_webp") val previewWebp: ImageSmall,
     @SerializedName("fixed_height_small") val fixedHeightSmall: ImageSmall,
     @SerializedName("fixed_width_downsampled") val fixedWidthDownSampled: ImageSmall,
-    @SerializedName("fixed_width_small") val fixedWidthSmall: ImageSmall
+    @SerializedName("fixed_width_small") val fixedWidthSmall: ImageSmall,
 )

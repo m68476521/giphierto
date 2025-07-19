@@ -52,7 +52,7 @@ class GiphDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = GiphFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,12 +68,15 @@ class GiphDialog : DialogFragment() {
         super.onStart()
         dialog?.window?.setLayout(
             LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
+            LinearLayout.LayoutParams.MATCH_PARENT,
         )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         favoritesModel = ViewModelProvider(this).get(LocalImagesViewModel::class.java)
 
@@ -85,10 +88,11 @@ class GiphDialog : DialogFragment() {
         binding.close.setOnClickListener { it.findNavController().popBackStack() }
 
         binding.toggleFavorite.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
+            if (isChecked) {
                 addToFavorite(args.id, args.imageOriginal, args.image, args.title)
-            else
+            } else {
                 removeFromFavoritesById(args.id)
+            }
         }
 
         imageById(args.id)
@@ -98,37 +102,41 @@ class GiphDialog : DialogFragment() {
     private fun ImageView.load(
         url: String,
         loadOnlyFromCache: Boolean = false,
-        onLoadingFinished: () -> Unit = {}
+        onLoadingFinished: () -> Unit = {},
     ) {
-        val listener = object : RequestListener<GifDrawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<GifDrawable?>,
-                isFirstResource: Boolean
-            ): Boolean {
-                onLoadingFinished()
-                return false
+        val listener =
+            object : RequestListener<GifDrawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<GifDrawable?>,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    onLoadingFinished()
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: GifDrawable,
+                    model: Any,
+                    target: Target<GifDrawable?>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    if (resource != null) {
+                        gifDrawable = resource
+                    }
+
+                    onLoadingFinished()
+                    return false
+                }
             }
 
-            override fun onResourceReady(
-                resource: GifDrawable,
-                model: Any,
-                target: Target<GifDrawable?>?,
-                dataSource: DataSource,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (resource != null)
-                    gifDrawable = resource
-
-                onLoadingFinished()
-                return false
-            }
-        }
-
-        val requestOptions = RequestOptions.placeholderOf(R.drawable.ic_launcher_background)
-            .dontTransform()
-            .onlyRetrieveFromCache(loadOnlyFromCache)
+        val requestOptions =
+            RequestOptions
+                .placeholderOf(R.drawable.ic_launcher_background)
+                .dontTransform()
+                .onlyRetrieveFromCache(loadOnlyFromCache)
 
         this.apply {
             transitionName = url
@@ -139,33 +147,38 @@ class GiphDialog : DialogFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(requestOptions)
                 .listener(listener)
-                .into(object : ImageViewTarget<GifDrawable>(this) {
-                    override fun setResource(resource: GifDrawable?) {
-                        this.setDrawable(resource)
-                    }
-                })
+                .into(
+                    object : ImageViewTarget<GifDrawable>(this) {
+                        override fun setResource(resource: GifDrawable?) {
+                            this.setDrawable(resource)
+                        }
+                    },
+                )
         }
     }
 
     private fun checkPermission(gifDrawable: GifDrawable) {
-        Dexter.withContext(requireContext())
+        Dexter
+            .withContext(requireContext())
             .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    saveImageAndShare(gifDrawable)
-                }
+            .withListener(
+                object : PermissionListener {
+                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                        saveImageAndShare(gifDrawable)
+                    }
 
-                override fun onPermissionDenied(response: PermissionDeniedResponse) {
-                    requireView().shortSnackBar(getString(R.string.permissionNotGranted))
-                }
+                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                        requireView().shortSnackBar(getString(R.string.permissionNotGranted))
+                    }
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-            }).check()
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?,
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+                },
+            ).check()
     }
 
     private fun saveImageAndShare(gifDrawable: GifDrawable?) {
@@ -176,10 +189,12 @@ class GiphDialog : DialogFragment() {
             val sharingGifFile = File(baseDir, fileName)
             gifDrawableToFile(gifDrawable, sharingGifFile)
 
-            val uri: Uri = FileProvider.getUriForFile(
-                requireContext(), BuildConfig.APPLICATION_ID + ".provider",
-                sharingGifFile
-            )
+            val uri: Uri =
+                FileProvider.getUriForFile(
+                    requireContext(),
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    sharingGifFile,
+                )
 
             shareFile(uri)
         }
@@ -193,7 +208,10 @@ class GiphDialog : DialogFragment() {
         startActivity(Intent.createChooser(shareIntent, "Share Emoji"))
     }
 
-    private fun gifDrawableToFile(gifDrawable: GifDrawable, gifFile: File) {
+    private fun gifDrawableToFile(
+        gifDrawable: GifDrawable,
+        gifFile: File,
+    ) {
         val byteBuffer = gifDrawable.buffer
         val output = FileOutputStream(gifFile)
         val bytes = ByteArray(byteBuffer.capacity())
@@ -206,12 +224,15 @@ class GiphDialog : DialogFragment() {
         id: String,
         imageOriginal: String,
         imageFixed: String,
-        title: String
+        title: String,
     ) {
-        val newImage = Image(
-            uid = id, fixedHeightDownsampled = imageFixed,
-            originalUrl = imageOriginal, title = title
-        )
+        val newImage =
+            Image(
+                uid = id,
+                fixedHeightDownsampled = imageFixed,
+                originalUrl = imageOriginal,
+                title = title,
+            )
         // TODO fix this
         GlobalScope.launch {
             favoritesModel.insert(newImage)
@@ -228,8 +249,9 @@ class GiphDialog : DialogFragment() {
     private fun imageById(id: String) {
         lifecycleScope.launch {
             val result = favoritesModel.imageById(id)
-            if (result != null)
+            if (result != null) {
                 binding.toggleFavorite.isChecked = true
+            }
         }
     }
 }

@@ -23,14 +23,17 @@ class CategoriesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         binding.images.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.images.adapter = imagesAdapter
@@ -46,7 +49,7 @@ class CategoriesFragment : Fragment() {
                     Status.LOADING -> { }
                     Status.ERROR -> { }
                 }
-            }
+            },
         )
     }
 

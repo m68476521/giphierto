@@ -12,23 +12,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoryViewModel @Inject constructor(
-    mainRepository: MainRepository
-) : ViewModel() {
-    private val categories = MutableLiveData<Resource<CategoryData>>()
+class CategoryViewModel
+    @Inject
+    constructor(
+        mainRepository: MainRepository,
+    ) : ViewModel() {
+        private val categories = MutableLiveData<Resource<CategoryData>>()
 
-    val categoriesData: LiveData<Resource<CategoryData>>
-        get() = categories
+        val categoriesData: LiveData<Resource<CategoryData>>
+            get() = categories
 
-    init {
-        viewModelScope.launch {
-            categories.postValue(Resource.loading(null))
-            mainRepository.getCategories().let { response ->
-                if (response.isSuccessful)
-                    categories.postValue(Resource.success(response.body()))
-                else
-                    categories.postValue(Resource.error(response.errorBody().toString(), null))
+        init {
+            viewModelScope.launch {
+                categories.postValue(Resource.loading(null))
+                mainRepository.getCategories().let { response ->
+                    if (response.isSuccessful) {
+                        categories.postValue(Resource.success(response.body()))
+                    } else {
+                        categories.postValue(Resource.error(response.errorBody().toString(), null))
+                    }
+                }
             }
         }
     }
-}
