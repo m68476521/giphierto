@@ -14,14 +14,14 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun imageDao(): ImageDao
 
     companion object {
-        private var INSTANCE: AppDatabase? = null
+        private var instance: AppDatabase? = null
         private const val DB_NAME = "images.db"
 
         fun getDatabase(context: Context): AppDatabase {
-            if (INSTANCE == null) {
+            if (instance == null) {
                 synchronized(AppDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE =
+                    if (instance == null) {
+                        instance =
                             Room
                                 .databaseBuilder(
                                     context.applicationContext,
@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     object : Callback() {
                                         override fun onCreate(db: SupportSQLiteDatabase) {
                                             super.onCreate(db)
-                                            GlobalScope.launch(Dispatchers.IO) { rebuildDB(INSTANCE) }
+                                            GlobalScope.launch(Dispatchers.IO) { rebuildDB(instance) }
                                         }
                                     },
                                 ).build()
@@ -41,7 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
                 }
             }
 
-            return INSTANCE!!
+            return instance!!
         }
     }
 }

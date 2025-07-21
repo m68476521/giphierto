@@ -101,13 +101,13 @@ class CategoryHolder(
 
         binding.categoryName.setContent {
             MdcTheme {
-                Category(categoryName.uppercase())
+                category(categoryName.uppercase())
             }
         }
     }
 
     @Composable
-    private fun Category(categoryName: String) {
+    private fun category(categoryName: String) {
         Text(
             text = categoryName,
             color = Color.White,

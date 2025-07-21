@@ -17,15 +17,14 @@ class CategoriesFragment : Fragment() {
     private var imagesAdapter = CategoryAdapter(true)
     private val categoryModel: CategoryViewModel by viewModels()
 
-    private var _binding: FragmentCategoriesBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentCategoriesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -56,6 +55,6 @@ class CategoriesFragment : Fragment() {
     override fun onDestroyView() {
         binding.images.adapter = null
         super.onDestroyView()
-        _binding = null
+        binding.images.adapter = null
     }
 }
