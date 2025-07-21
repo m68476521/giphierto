@@ -46,7 +46,7 @@ android {
     defaultConfig {
         applicationId = "com.m68476521.giphiertwo"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 9
         versionName = "2.0.1"
     }
