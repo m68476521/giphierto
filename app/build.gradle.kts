@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         applicationId = "com.m68476521.giphiertwo"
-        minSdk = 24
+        minSdk = 30
         targetSdk = 35
         versionCode = 10
         versionName = "2.0.2"
@@ -175,7 +175,8 @@ dependencies {
     implementation(libs.androidx.viewpager2)
 
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation(libs.leakcanary.android)
+    // TODO maybe delete leakcanary check if is need it
+//    debugImplementation(libs.leakcanary.android)
 
     // Hilt for dependency injection
     implementation(libs.hilt.android)
