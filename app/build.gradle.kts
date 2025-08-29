@@ -25,7 +25,7 @@ fun getLocalProperties(): Properties =
 
 android {
     namespace = "com.m68476521.giphiertwo"
-    compileSdk = 35
+    compileSdk = 36
     signingConfigs {
 //        release {
 //            keyAlias project.property("keyAlias")

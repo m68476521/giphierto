@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -112,7 +112,7 @@ class CategoryHolder(
             text = categoryName,
             color = Color.White,
             fontSize = 16.sp,
-            style = MaterialTheme.typography.h5,
+            style = MaterialTheme.typography.bodyMedium,
             modifier =
                 Modifier
                     .fillMaxWidth()
