@@ -8,21 +8,30 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.doOnPreDraw
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.m68476521.giphiertwo.ImagesAdapter
+import androidx.paging.compose.collectAsLazyPagingItems
+import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.R
 import com.m68476521.giphiertwo.databinding.FragmentTrendingBinding
 import com.m68476521.giphiertwo.models.TrendingViewModel
-import com.m68476521.giphiertwo.util.shortSnackBar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TrendingFragment : Fragment() {
@@ -34,64 +43,52 @@ class TrendingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
+        // TODO on rotation crash
+
         binding = FragmentTrendingBinding.inflate(inflater, container, false)
+            .apply {
+                composeView.setContent {
+                    val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
+
+                    if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    } else {
+
+                        LazyVerticalStaggeredGrid(
+                            columns = StaggeredGridCells.Fixed(3),
+                        ) {
+                            items(count = lazyPagingItems.itemCount) { idx ->
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    elevation = CardDefaults.cardElevation(12.dp),
+                                    shape = RectangleShape,
+                                    onClick = {
+
+                                    }
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight(),
+                                        model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
+                                        contentDescription = lazyPagingItems[idx]?.title,
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?,
-    ) {
-        super.onViewCreated(view, savedInstanceState)
-        val staggeredGridLayoutManager =
-            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-
-        val imagesAdapter = ImagesAdapter()
-
-        binding.images.layoutManager = staggeredGridLayoutManager
-        binding.images.adapter = imagesAdapter
-
-        postponeEnterTransition()
-
-        lifecycleScope.launch {
-            trendingModel.flow.collectLatest { pagingData ->
-                startPostponedEnterTransitions()
-                imagesAdapter.submitData(pagingData)
-            }
-        }
-
-        lifecycleScope.launch {
-            imagesAdapter.loadStateFlow.collectLatest { loadStates ->
-                showProgressBar(loadStates.refresh is LoadState.Loading)
-                showErrorMessage(loadStates.refresh is LoadState.Error)
-            }
-        }
-    }
-
-    private fun showProgressBar(isVisible: Boolean) {
-        val visible = if (isVisible) View.VISIBLE else View.GONE
-        binding.progressBar.visibility = visible
-    }
-
-    private fun showErrorMessage(isVisible: Boolean) {
-        if (isVisible) requireView().shortSnackBar(getString(R.string.errorMessage))
-    }
-
-    private fun startPostponedEnterTransitions() {
-        (requireView().parent as? ViewGroup)?.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-    }
-
-    override fun onDestroyView() {
-        binding.images.adapter = null
-        super.onDestroyView()
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menuGoToSearch) {

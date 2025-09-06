@@ -217,4 +217,8 @@ dependencies {
 
     // When using a AppCompat theme
     implementation(libs.accompanist.appcompat.theme)
+
+    // coil
+    implementation(libs.coils)
+    implementation(libs.coils.network.impl)
 }

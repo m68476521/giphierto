@@ -58,7 +58,7 @@ roomVersion = "2.7.2"
 googleServicesVersion = "4.4.3"
 crashlyticsVersion = "3.0.6"
 ktlintVersion = "13.1.0"
-
+coils = "3.0.0"
 
 [libraries]
 accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanistAppcompatTheme" }
@@ -124,7 +124,8 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-lifecycle-viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", version.ref = "hiltLifecycleViewModel" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
-
+coils = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coils" }
+coils-network-impl = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coils" }
 
 
 [plugins]
