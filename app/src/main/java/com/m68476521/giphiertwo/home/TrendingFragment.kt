@@ -43,23 +43,21 @@ class TrendingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         // TODO on rotation crash
 
-        binding = FragmentTrendingBinding.inflate(inflater, container, false)
-            .apply {
+        binding =
+            FragmentTrendingBinding.inflate(inflater, container, false).apply {
                 composeView.setContent {
                     val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
 
                     if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             CircularProgressIndicator()
                         }
                     } else {
-
                         LazyVerticalStaggeredGrid(
                             columns = StaggeredGridCells.Fixed(3),
                         ) {
@@ -69,16 +67,16 @@ class TrendingFragment : Fragment() {
                                     elevation = CardDefaults.cardElevation(12.dp),
                                     shape = RectangleShape,
                                     onClick = {
-
-                                    }
+                                    },
                                 ) {
                                     AsyncImage(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .wrapContentHeight(),
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .wrapContentHeight(),
                                         model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
                                         contentDescription = lazyPagingItems[idx]?.title,
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Crop,
                                     )
                                 }
                             }
@@ -88,7 +86,6 @@ class TrendingFragment : Fragment() {
             }
         return binding.root
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menuGoToSearch) {

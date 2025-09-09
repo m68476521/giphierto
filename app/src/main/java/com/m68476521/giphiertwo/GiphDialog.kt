@@ -2,21 +2,15 @@ package com.m68476521.giphiertwo
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -50,6 +44,7 @@ import java.io.FileOutputStream
 import java.nio.ByteBuffer
 
 const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1234
+
 class GiphDialog : DialogFragment() {
     private val args: GiphDialogArgs by navArgs()
     private lateinit var favoritesModel: LocalImagesViewModel
@@ -104,7 +99,7 @@ class GiphDialog : DialogFragment() {
 
         imageById(args.id)
         binding.shareIcon.setOnClickListener {
-            //TODO update this for later, It looks like on messaging apps is not working, the image does animate
+            // TODO update this for later, It looks like on messaging apps is not working, the image does animate
             saveImageAndShare(gifDrawable)
 
 //            lifecycleScope.launch {
@@ -112,23 +107,25 @@ class GiphDialog : DialogFragment() {
 //            }
         }
     }
-    //onRequestPermissionsResult
+    // onRequestPermissionsResult
 
     private suspend fun sendImage() {
         val imageFile = File(requireContext().filesDir, "my_image.gif")
         gifDrawableToFile(gifDrawable, imageFile)
-        val imageUri: Uri = FileProvider.getUriForFile(
-            requireContext(),
-            BuildConfig.APPLICATION_ID + ".provider",
-            imageFile
-        )
+        val imageUri: Uri =
+            FileProvider.getUriForFile(
+                requireContext(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                imageFile,
+            )
 
-        val shareIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, imageUri)
-            type = "image/gif"
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
+        val shareIntent: Intent =
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, imageUri)
+                type = "image/gif"
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
 
         startActivity(Intent.createChooser(shareIntent, "Share GIF"))
     }
@@ -239,7 +236,8 @@ class GiphDialog : DialogFragment() {
         shareIntent.type = "image/gif"
 
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        shareIntent.flags =
+            Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         startActivity(Intent.createChooser(shareIntent, "Share Emoji"))
     }
 
