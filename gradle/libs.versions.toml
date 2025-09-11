@@ -126,6 +126,7 @@ hilt-lifecycle-viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 coils = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coils" }
 coils-network-impl = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coils" }
+coils-network-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coils" }
 
 
 [plugins]

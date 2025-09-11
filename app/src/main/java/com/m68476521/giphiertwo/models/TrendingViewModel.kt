@@ -5,9 +5,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.m68476521.giphiertwo.api.Image
 import com.m68476521.giphiertwo.api.MainRepository
 import com.m68476521.giphiertwo.home.TrendingPaginationSource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,4 +29,43 @@ class TrendingViewModel
             ) {
                 TrendingPaginationSource(mainRepository)
             }.flow.cachedIn(viewModelScope)
+
+        private val _state = MutableStateFlow(TrendingViewState())
+        val state: StateFlow<TrendingViewState> = _state
+
+        fun handleIntent(intent: TrendingIntent) {
+            viewModelScope.launch {
+                when (intent) {
+                    is TrendingIntent.SelectItem -> {
+                        _state.update {
+                            it.copy(
+                                currentItemSelected = intent.item,
+                            )
+                        }
+                    }
+
+                    is TrendingIntent.ClearItemSelected -> {
+                        _state.update {
+                            it.copy(
+                                currentItemSelected = null,
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
+
+data class TrendingViewState(
+    val loading: Boolean = false,
+    val error: String? = null,
+    val currentItemSelected: Image? = null,
+)
+
+sealed class TrendingIntent {
+    data class SelectItem(
+        val item: Image,
+    ) : TrendingIntent()
+
+    data object ClearItemSelected : TrendingIntent()
+}

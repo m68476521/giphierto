@@ -1,5 +1,6 @@
 package com.m68476521.giphiertwo.home
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,20 +9,34 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -30,6 +45,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.R
 import com.m68476521.giphiertwo.databinding.FragmentTrendingBinding
+import com.m68476521.giphiertwo.models.TrendingIntent
 import com.m68476521.giphiertwo.models.TrendingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,6 +66,63 @@ class TrendingFragment : Fragment() {
                 composeView.setContent {
                     val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
 
+                    val state by trendingModel.state.collectAsState()
+
+                    if (state.currentItemSelected != null) {
+                        Dialog(onDismissRequest = {
+                        }) {
+                            Box(modifier = Modifier.fillMaxWidth(0.9f)) {
+                                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.5f).background(Color.DarkGray)) {
+                                    Row(
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_favorite_white_18dp),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            modifier =
+                                                Modifier.wrapContentSize().clickable {
+                                                },
+                                        )
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_share_white_18dp),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier.wrapContentSize(),
+                                        )
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_close_white_24dp),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            modifier =
+                                                Modifier.wrapContentSize().clickable {
+                                                    trendingModel.handleIntent(
+                                                        TrendingIntent.ClearItemSelected,
+                                                    )
+                                                },
+                                        )
+                                    }
+
+                                    AsyncImage(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        model =
+                                            state.currentItemSelected
+                                                ?.images
+                                                ?.fixedHeight
+                                                ?.url,
+                                        contentDescription = state.currentItemSelected?.title,
+                                        contentScale = ContentScale.Crop,
+                                    )
+                                }
+                            }
+                        }
+                    }
+
                     if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -67,6 +140,12 @@ class TrendingFragment : Fragment() {
                                     elevation = CardDefaults.cardElevation(12.dp),
                                     shape = RectangleShape,
                                     onClick = {
+                                        val itemClicked = lazyPagingItems[idx]
+                                        itemClicked?.let { image ->
+                                            trendingModel.handleIntent(
+                                                TrendingIntent.SelectItem(image),
+                                            )
+                                        }
                                     },
                                 ) {
                                     AsyncImage(

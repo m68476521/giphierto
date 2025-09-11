@@ -221,4 +221,5 @@ dependencies {
     // coil
     implementation(libs.coils)
     implementation(libs.coils.network.impl)
+    implementation(libs.coils.network.gif)
 }

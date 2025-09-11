@@ -13,6 +13,8 @@ class FavoritesViewModel(
     val favorites: LiveData<List<Image>> = repository.allFavorites.asLiveData()
 }
 
+// TODO: On this model, I need to be sure that I need to save the whole image item, or at least, 2 URLs
+// 1 to show in the grid and another the actual URL for sharing
 class FavoriteViewModelFactory(
     private val repository: GiphRepository,
 ) : ViewModelProvider.Factory {
