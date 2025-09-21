@@ -1,6 +1,5 @@
 package com.m68476521.giphiertwo.home
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -24,9 +23,14 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -44,7 +48,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.R
+import com.m68476521.giphiertwo.data.Image
 import com.m68476521.giphiertwo.databinding.FragmentTrendingBinding
+import com.m68476521.giphiertwo.models.LocalImagesViewModel
 import com.m68476521.giphiertwo.models.TrendingIntent
 import com.m68476521.giphiertwo.models.TrendingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,6 +59,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class TrendingFragment : Fragment() {
     private lateinit var binding: FragmentTrendingBinding
     private val trendingModel: TrendingViewModel by viewModels()
+
+    private val favoritesViewModel: LocalImagesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,11 +76,18 @@ class TrendingFragment : Fragment() {
 
                     val state by trendingModel.state.collectAsState()
 
+                    val favoriteState by favoritesViewModel.state.collectAsState()
+
                     if (state.currentItemSelected != null) {
                         Dialog(onDismissRequest = {
                         }) {
                             Box(modifier = Modifier.fillMaxWidth(0.9f)) {
-                                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.5f).background(Color.DarkGray)) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f)
+                                        .background(Color.DarkGray)
+                                ) {
                                     Row(
                                         modifier =
                                             Modifier
@@ -81,14 +96,36 @@ class TrendingFragment : Fragment() {
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.ic_favorite_white_18dp),
-                                            contentDescription = null,
-                                            contentScale = ContentScale.Crop,
-                                            modifier =
-                                                Modifier.wrapContentSize().clickable {
-                                                },
-                                        )
+
+                                        IconButton(
+                                            onClick = {
+                                                if (!favoriteState.isFavorite) {
+                                                    val image = Image(
+                                                        uid = state.currentItemSelected?.id ?: "",
+                                                        fixedHeightDownsampled = state.currentItemSelected?.images?.fixedHeightDownsampled?.url
+                                                            ?: "",
+                                                        originalUrl = state.currentItemSelected?.images?.original?.url
+                                                            ?: "",
+                                                        title = state.currentItemSelected?.title
+                                                            ?: ""
+                                                    )
+                                                    favoritesViewModel.insert(
+                                                        image = image
+                                                    )
+                                                } else {
+                                                    favoritesViewModel.deleteById(
+                                                        state.currentItemSelected?.id ?: ""
+                                                    )
+                                                }
+                                            }
+                                        ) {
+                                            Icon(
+                                                imageVector = if (favoriteState.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                                                tint = Color.White,
+                                                contentDescription = "Favorite Button",
+                                            )
+                                        }
+
                                         Image(
                                             painter = painterResource(id = R.drawable.ic_share_white_18dp),
                                             contentDescription = null,
@@ -100,11 +137,13 @@ class TrendingFragment : Fragment() {
                                             contentDescription = null,
                                             contentScale = ContentScale.Crop,
                                             modifier =
-                                                Modifier.wrapContentSize().clickable {
-                                                    trendingModel.handleIntent(
-                                                        TrendingIntent.ClearItemSelected,
-                                                    )
-                                                },
+                                                Modifier
+                                                    .wrapContentSize()
+                                                    .clickable {
+                                                        trendingModel.handleIntent(
+                                                            TrendingIntent.ClearItemSelected,
+                                                        )
+                                                    },
                                         )
                                     }
 
