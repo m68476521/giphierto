@@ -83,10 +83,11 @@ class TrendingFragment : Fragment() {
                         }) {
                             Box(modifier = Modifier.fillMaxWidth(0.9f)) {
                                 Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight(0.5f)
-                                        .background(Color.DarkGray)
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.5f)
+                                            .background(Color.DarkGray),
                                 ) {
                                     Row(
                                         modifier =
@@ -96,28 +97,37 @@ class TrendingFragment : Fragment() {
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
-
                                         IconButton(
                                             onClick = {
                                                 if (!favoriteState.isFavorite) {
-                                                    val image = Image(
-                                                        uid = state.currentItemSelected?.id ?: "",
-                                                        fixedHeightDownsampled = state.currentItemSelected?.images?.fixedHeightDownsampled?.url
-                                                            ?: "",
-                                                        originalUrl = state.currentItemSelected?.images?.original?.url
-                                                            ?: "",
-                                                        title = state.currentItemSelected?.title
-                                                            ?: ""
-                                                    )
+                                                    val image =
+                                                        Image(
+                                                            uid = state.currentItemSelected?.id ?: "",
+                                                            fixedHeightDownsampled =
+                                                                state.currentItemSelected
+                                                                    ?.images
+                                                                    ?.fixedHeightDownsampled
+                                                                    ?.url
+                                                                    ?: "",
+                                                            originalUrl =
+                                                                state.currentItemSelected
+                                                                    ?.images
+                                                                    ?.original
+                                                                    ?.url
+                                                                    ?: "",
+                                                            title =
+                                                                state.currentItemSelected?.title
+                                                                    ?: "",
+                                                        )
                                                     favoritesViewModel.insert(
-                                                        image = image
+                                                        image = image,
                                                     )
                                                 } else {
                                                     favoritesViewModel.deleteById(
-                                                        state.currentItemSelected?.id ?: ""
+                                                        state.currentItemSelected?.id ?: "",
                                                     )
                                                 }
-                                            }
+                                            },
                                         ) {
                                             Icon(
                                                 imageVector = if (favoriteState.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,

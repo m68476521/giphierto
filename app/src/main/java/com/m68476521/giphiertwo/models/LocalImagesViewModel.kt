@@ -14,36 +14,36 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LocalImagesViewModel
-@Inject
-constructor(
-    application: Application
-) : AndroidViewModel(application) {
-    val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
+    @Inject
+    constructor(
+        application: Application,
+    ) : AndroidViewModel(application) {
+        val imagesDao: ImageDao = AppDatabase.getDatabase(application).imageDao()
 
-    private val _state = MutableStateFlow(FavoriteViewState())
-    val state: StateFlow<FavoriteViewState> = _state
+        private val _state = MutableStateFlow(FavoriteViewState())
+        val state: StateFlow<FavoriteViewState> = _state
 
-    fun insert(image: Image) {
-        viewModelScope.launch {
-            imagesDao.insert(image)
-            imageById(image.uid)
+        fun insert(image: Image) {
+            viewModelScope.launch {
+                imagesDao.insert(image)
+                imageById(image.uid)
+            }
+        }
+
+        fun deleteById(id: String) {
+            viewModelScope.launch {
+                imagesDao.deleteById(id)
+                imageById(id)
+            }
+        }
+
+        fun imageById(id: String) {
+            viewModelScope.launch {
+                val result = imagesDao.imageById(id)
+                _state.value = _state.value.copy(isFavorite = result != null)
+            }
         }
     }
-
-    fun deleteById(id: String) {
-        viewModelScope.launch {
-            imagesDao.deleteById(id)
-            imageById(id)
-        }
-    }
-
-    fun imageById(id: String) {
-        viewModelScope.launch {
-            val result = imagesDao.imageById(id)
-            _state.value = _state.value.copy(isFavorite = result != null)
-        }
-    }
-}
 
 data class FavoriteViewState(
     val isFavorite: Boolean = false,
