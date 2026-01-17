@@ -100,6 +100,7 @@ android {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
         }
+//        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -117,6 +118,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":presentation"))
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.core.ktx)
