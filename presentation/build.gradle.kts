@@ -42,12 +42,23 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:models"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.material)
     implementation(libs.androidx.runtime)
+    // Paging 3
+    implementation(libs.androidx.paging.runtime)
+
+    // Jetpack Compose Integration
+    implementation(libs.androidx.paging.compose)
+
+    // coil
+    implementation(libs.coils)
+    implementation(libs.coils.network.impl)
+    implementation(libs.coils.network.gif)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.hilt.android)
