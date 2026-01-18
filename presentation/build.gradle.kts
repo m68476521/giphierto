@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
+//    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -30,12 +33,21 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+//    buildFeatures {
+//        compose = true
+//    }
+
+//    kotlin {
+//        jvmToolchain(11) // This replaces both kotlinOptions and compileOptions
+//    }
 }
 
 dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.androidx.material)
     implementation(libs.material)
+    implementation(libs.androidx.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -51,7 +51,7 @@ import com.m68476521.giphiertwo.databinding.FragmentTrendingBinding
 import com.m68476521.giphiertwo.models.LocalImagesViewModel
 import com.m68476521.giphiertwo.models.TrendingIntent
 import com.m68476521.giphiertwo.models.TrendingViewModel
-import com.m68476521.giphiertwo.ui.theme.giphiertwoTheme
+import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,7 +76,7 @@ class TrendingFragment : Fragment() {
                     )
 
                     setContent {
-                        giphiertwoTheme {
+                        GiphiertwoTheme {
                             val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
 
                             val state by trendingModel.state.collectAsState()

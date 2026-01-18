@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.serialization)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ktlint)
 //    alias(libs.plugins.google.services)
@@ -188,6 +189,7 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     kapt(libs.hilt.lifecycle.viewmodel)
 
+    implementation(libs.kotlinx.serializationJson)
     // Dexter permission lib
     implementation(libs.dexter)
 
