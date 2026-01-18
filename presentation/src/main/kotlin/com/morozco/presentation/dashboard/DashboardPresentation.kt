@@ -1,5 +1,7 @@
 package com.morozco.presentation.dashboard
 
+
+import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.StateFlow
 
 interface DashboardPresentation: DashboardUIActions, DashboardUIStateProvider
@@ -13,5 +15,7 @@ interface DashboardUIStateProvider {
 }
 
 data class DashboardUIState(
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val currentItemSelected: Image? = null,
 )

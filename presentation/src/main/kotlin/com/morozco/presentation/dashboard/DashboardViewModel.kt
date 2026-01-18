@@ -1,7 +1,11 @@
 package com.morozco.presentation.dashboard
 
+import android.media.Image
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.morozco.domain.giftevents.GiftUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -17,39 +21,43 @@ class DashboardViewModel
 constructor(
 //    mainRepository: MainRepository,
     private val orderEventsUseCase: GiftUseCase,
-) : ViewModel() {
-    val flow =
-        Pager(
-            // Configure how data is loaded by passing additional properties to
-            // PagingConfig, such as prefetchDistance.
-            PagingConfig(pageSize = 25),
-        ) {
-            TrendingPaginationSource(mainRepository)
-        }.flow.cachedIn(viewModelScope)
+) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
+//    val flow =
+//        Pager(
+//            // Configure how data is loaded by passing additional properties to
+//            // PagingConfig, such as prefetchDistance.
+//            PagingConfig(pageSize = 25),
+//        ) {
+//            TrendingPaginationSource(mainRepository)
+//        }.flow.cachedIn(viewModelScope)
 
-    private val _state = MutableStateFlow(TrendingViewState())
-    val state: StateFlow<TrendingViewState> = _state
+    private val _state = MutableStateFlow(DashboardUIState())
+    override val state: StateFlow<DashboardUIState> = _state
 
     fun handleIntent(intent: TrendingIntent) {
-        viewModelScope.launch {
-            when (intent) {
-                is TrendingIntent.SelectItem -> {
-                    _state.update {
-                        it.copy(
-                            currentItemSelected = intent.item,
-                        )
-                    }
-                }
+//        viewModelScope.launch {
+//            when (intent) {
+//                is TrendingIntent.SelectItem -> {
+//                    _state.update {
+//                        it.copy(
+//                            currentItemSelected = intent.item,
+//                        )
+//                    }
+//                }
+//
+//                is TrendingIntent.ClearItemSelected -> {
+//                    _state.update {
+//                        it.copy(
+//                            currentItemSelected = null,
+//                        )
+//                    }
+//                }
+//            }
+//        }
+    }
 
-                is TrendingIntent.ClearItemSelected -> {
-                    _state.update {
-                        it.copy(
-                            currentItemSelected = null,
-                        )
-                    }
-                }
-            }
-        }
+    override fun navigateToNext() {
+        TODO("Not yet implemented")
     }
 }
 
