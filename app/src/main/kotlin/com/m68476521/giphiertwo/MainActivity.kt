@@ -16,8 +16,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.m68476521.giphiertwo.navigation.Screen
 import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
-import com.morozco.domain.NavigationEvent
-import com.morozco.domain.Navigator
+import com.morozco.domain.navigation.NavigationEvent
+import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.dashboard.DashboardScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

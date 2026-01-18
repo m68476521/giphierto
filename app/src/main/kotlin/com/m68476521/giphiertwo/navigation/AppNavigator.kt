@@ -1,7 +1,7 @@
 package com.m68476521.giphiertwo.navigation
 
-import com.morozco.domain.NavigationEvent
-import com.morozco.domain.Navigator
+import com.morozco.domain.navigation.NavigationEvent
+import com.morozco.domain.navigation.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
