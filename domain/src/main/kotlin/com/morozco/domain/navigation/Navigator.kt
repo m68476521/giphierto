@@ -1,4 +1,4 @@
-package com.morozco.domain
+package com.morozco.domain.navigation
 
 import kotlinx.coroutines.flow.Flow
 
