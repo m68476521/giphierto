@@ -2,7 +2,7 @@
 accompanistAppcompatTheme = "0.36.0"
 activityCompose = "1.10.1"
 adapterRxjava2 = "3.0.0"
-android = "8.12.2"
+android = "8.13.2"
 animation = "1.9.0"
 appcompat = "1.7.1"
 composeThemeAdapter = "1.2.1"
@@ -139,3 +139,4 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hil
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsVersion" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion"}
+android-library = { id = "com.android.library", version.ref = "android" }
