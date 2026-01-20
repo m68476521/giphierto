@@ -11,11 +11,14 @@ import com.m68476521.giphiertwo.api.GiphyService
 import com.m68476521.giphiertwo.api.RequestInterceptor
 import com.m68476521.giphiertwo.data.AppDatabase
 import com.m68476521.giphiertwo.data.ImageDao
+import com.m68476521.networking.MainAPI
+import com.m68476521.networking.MainSDK
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -91,4 +94,17 @@ class ApplicationModule {
 
     @Provides
     fun provideImageDao(appDatabase: AppDatabase): ImageDao = appDatabase.imageDao()
+
+//    @Provides
+//    @Singleton
+//    fun providesCSSAPI(
+//        client: HttpClient,
+//        json: Json,
+//    ): MainAPI {
+//        return MainSDK(
+//            environment = Environment.fromString(BuildConfig.FLAVOR),
+//            client = client,
+//            json = json,
+//        )
+//    }
 }
