@@ -18,7 +18,7 @@ import com.m68476521.giphiertwo.models.FavoritesViewModel
 import com.m68476521.giphiertwo.models.LocalImagesViewModel
 import com.m68476521.giphiertwo.ui.components.FavoriteTileCard
 import com.m68476521.giphiertwo.ui.components.ImageDialog
-import com.m68476521.giphiertwo.ui.theme.giphiertwoTheme
+import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +41,7 @@ class FavoritesFragment : Fragment() {
                         ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
                     )
                     setContent {
-                        giphiertwoTheme {
+                        GiphiertwoTheme {
                             SideEffect {
                                 favoritesModel.getData()
                             }

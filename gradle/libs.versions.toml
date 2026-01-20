@@ -59,6 +59,8 @@ googleServicesVersion = "4.4.3"
 crashlyticsVersion = "3.0.6"
 ktlintVersion = "13.1.0"
 coils = "3.0.0"
+runtime = "1.10.1"
+serializationJson = "1.9.0"
 
 [libraries]
 accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanistAppcompatTheme" }
@@ -127,6 +129,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 coils = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coils" }
 coils-network-impl = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coils" }
 coils-network-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coils" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+kotlinx-serializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationJson" }
 
 
 [plugins]
@@ -140,3 +144,5 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyticsVersion" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion"}
 android-library = { id = "com.android.library", version.ref = "android" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
