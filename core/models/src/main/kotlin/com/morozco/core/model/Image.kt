@@ -1,8 +1,9 @@
 package com.morozco.core.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class Image(
     val type: String,
     val id: String,
@@ -13,12 +14,13 @@ data class Image(
     val images: SubImage,
 )
 
-
+@Serializable
 data class ImageResponse(
     val data: List<Image>,
     val pagination: Pagination,
 )
 
+@Serializable
 data class Pagination(
     @SerializedName("total_count")
     val totalCount: Int,
@@ -26,6 +28,7 @@ data class Pagination(
     val offset: Int,
 )
 
+@Serializable
 data class SubImage(
     @SerializedName("fixed_height_small")
     val fixedHeightSmall: ImageSmall,
@@ -52,10 +55,12 @@ data class SubImage(
     val fixedHeight: ImageOriginal,
 )
 
+@Serializable
 data class ImageOriginal(
     val url: String,
 )
 
+@Serializable
 data class ImageSmall(
     val url: String?,
 )

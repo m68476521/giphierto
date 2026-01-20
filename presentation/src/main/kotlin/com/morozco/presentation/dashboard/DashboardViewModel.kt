@@ -2,17 +2,26 @@ package com.morozco.presentation.dashboard
 
 import android.media.Image
 import androidx.lifecycle.ViewModel
+
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.morozco.core.model.Rating
+import com.morozco.domain.giftevents.GiftEventsResult
 import com.morozco.domain.giftevents.GiftUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel
 @Inject
 constructor(
-    private val orderEventsUseCase: GiftUseCase,
+    private val useCase: GiftUseCase,
+
 ) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
 //    val flow =
 //        Pager(
@@ -22,6 +31,33 @@ constructor(
 //        ) {
 //            TrendingPaginationSource(mainRepository)
 //        }.flow.cachedIn(viewModelScope)
+
+    init {
+        viewModelScope.launch {
+            val response = useCase.getGiftEvents(
+                type = Rating.PG_13.rating,
+                pagination = 0,
+                limit = 25,
+            )
+            
+
+//            when (response) {
+//                is GiftEventsResult.EventsFetched -> {
+//
+//                }
+//
+//                is GiftEventsResult.EmptyData -> {
+//
+//                }
+//
+//                is GiftEventsResult.Failure -> {
+//
+//                } else -> {
+//
+//                }
+//            }
+        }
+    }
 
     private val _state = MutableStateFlow(DashboardUIState())
     override val state: StateFlow<DashboardUIState> = _state

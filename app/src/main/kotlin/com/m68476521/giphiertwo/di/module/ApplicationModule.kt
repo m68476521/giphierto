@@ -91,4 +91,5 @@ class ApplicationModule {
 
     @Provides
     fun provideImageDao(appDatabase: AppDatabase): ImageDao = appDatabase.imageDao()
+
 }

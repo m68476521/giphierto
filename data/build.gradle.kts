@@ -37,9 +37,15 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:networking"))
+    implementation(project(":core:models"))
+    implementation(project(":domain"))
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.retrofit)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

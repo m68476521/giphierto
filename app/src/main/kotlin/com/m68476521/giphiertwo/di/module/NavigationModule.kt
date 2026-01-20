@@ -10,10 +10,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NavigationModule  {
+object NavigationModule {
     @Provides
     @Singleton
-    fun providesNavigator(): Navigator {
-        return AppNavigator()
-    }
+    fun providesNavigator(): Navigator = AppNavigator()
 }

@@ -33,15 +33,16 @@ class MainActivity : ComponentActivity() {
             GiphiertwoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
                     ) {
                         val navController = rememberNavController()
 
                         LaunchedEffect(Unit) {
                             navigator.navigationEvents.collect { event ->
-                                when(event) {
+                                when (event) {
                                     is NavigationEvent.NavigateBack -> {
                                         navController.popBackStack()
                                     }
@@ -60,12 +61,9 @@ class MainActivity : ComponentActivity() {
                                 DashboardScreen()
                             }
                         }
-
                     }
                 }
             }
         }
     }
-
-
 }

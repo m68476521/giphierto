@@ -6,17 +6,18 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-class AppNavigator @Inject constructor(): Navigator {
-    private val _navigationEvents = Channel<NavigationEvent>(Channel.BUFFERED)
+class AppNavigator
+    @Inject
+    constructor() : Navigator {
+        private val _navigationEvents = Channel<NavigationEvent>(Channel.BUFFERED)
 
-    override val navigationEvents = _navigationEvents.receiveAsFlow()
+        override val navigationEvents = _navigationEvents.receiveAsFlow()
 
-    override suspend fun navigateBack() {
-        _navigationEvents.trySend(NavigationEvent.NavigateBack)
+        override suspend fun navigateBack() {
+            _navigationEvents.trySend(NavigationEvent.NavigateBack)
+        }
+
+        override suspend fun navigateToDashboard() {
+            _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Dashboard))
+        }
     }
-
-    override suspend fun navigateToDashboard() {
-        _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Dashboard))
-    }
-
-}

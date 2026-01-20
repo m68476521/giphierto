@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.morozco.core.model"
+    namespace = "com.m68476521.networking"
     compileSdk {
         version = release(36)
     }
@@ -36,13 +36,16 @@ android {
 }
 
 dependencies {
+    api(project(":core:models"))
+
     implementation(libs.kotlinx.serializationJson)
+    implementation(libs.ktor.client.core)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.gson)
-    testImplementation(libs.junit)
+    implementation(libs.retrofit)
 
+    implementation(libs.material)
+    testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

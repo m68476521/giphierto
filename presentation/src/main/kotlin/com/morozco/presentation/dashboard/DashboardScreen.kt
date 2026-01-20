@@ -34,17 +34,6 @@ fun DashboardScreen(
 
     val state by presentation.state.collectAsState()
 
-
-
-//    private val trendingModel: TrendingViewModel by viewModels()
-
-//    val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
-
-
-//    val state by trendingModel.state.collectAsState()
-
-//    val favoriteState by favoritesViewModel.state.collectAsState()
-
     if (state.currentItemSelected != null) {
         Dialog(onDismissRequest = {
         }) {
