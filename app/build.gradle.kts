@@ -115,10 +115,30 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+        }
+
+        create("prod") {
+            dimension = "environment"
+        }
+
+        create("local") {
+            dimension = "environment"
+            applicationIdSuffix = ".local"
+            isDefault = true
+        }
+    }
 }
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:networking"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":presentation"))
@@ -133,8 +153,8 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     // Networking
-    implementation(libs.retrofit)
     implementation(libs.okhttp)
+    implementation(libs.retrofit)
     implementation(libs.logging.interceptor)
 
     implementation(libs.adapter.rxjava2)
@@ -228,4 +248,11 @@ dependencies {
     implementation(libs.coils)
     implementation(libs.coils.network.impl)
     implementation(libs.coils.network.gif)
+
+    // ktor
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }
