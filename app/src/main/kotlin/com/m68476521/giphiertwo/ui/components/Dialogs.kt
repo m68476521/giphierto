@@ -25,6 +25,7 @@ import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.R
 import com.m68476521.giphiertwo.data.Image
 
+@Suppress("FunctionName")
 @Composable
 fun ImageDialog(
     isFavorite: Boolean,

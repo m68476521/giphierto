@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.data.Image
 
+@Suppress("FunctionName")
 @Composable
 fun FavoriteTileCard(
     item: Image,
