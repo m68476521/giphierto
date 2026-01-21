@@ -57,7 +57,6 @@ object NetworkingModule {
                     takeFrom(base)
 
                     parameters.append("api_key", BuildConfig.API_KEY)
-
                 }
                 header(HttpHeaders.Accept, ContentType.Application.Json)
                 header(HttpHeaders.ContentType, ContentType.Application.Json)

@@ -36,6 +36,7 @@ val DarkColors =
         onSurface = theme_dark_onSurface,
     )
 
+@Suppress("FunctionName")
 @Composable
 fun GiphiertwoTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
