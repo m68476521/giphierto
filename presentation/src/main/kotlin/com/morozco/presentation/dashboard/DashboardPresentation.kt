@@ -18,4 +18,5 @@ data class DashboardUIState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val currentItemSelected: Image? = null,
+    val listOfImages: List<Image> = emptyList(),
 )

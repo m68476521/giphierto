@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:networking"))
+
     implementation(libs.kotlinx.serializationJson)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
