@@ -1,6 +1,7 @@
 package com.morozco.core.model
 
 import com.google.gson.annotations.SerializedName
+import com.m68476521.networking.request.NetworkResponse
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,11 +15,6 @@ data class Image(
     val images: SubImage,
 )
 
-@Serializable
-data class ImageResponse(
-    val data: List<Image>,
-    val pagination: Pagination,
-)
 
 @Serializable
 data class Pagination(

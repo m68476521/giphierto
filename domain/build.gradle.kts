@@ -38,7 +38,9 @@ android {
 
 dependencies {
     implementation(project(":core:models"))
+    implementation(project(":core:networking"))
     implementation(libs.core.ktx)
+    implementation(libs.androidx.paging.common)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)

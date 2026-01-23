@@ -43,6 +43,7 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.androidx.paging.common)
     implementation(libs.material)
     implementation(libs.retrofit)
 

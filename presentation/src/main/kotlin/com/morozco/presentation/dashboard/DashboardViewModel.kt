@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val PAGINATION_SIZE = 25
 @HiltViewModel
 class DashboardViewModel
 @Inject
@@ -59,7 +60,13 @@ constructor(
         }
     }
 
-    private val _state = MutableStateFlow(DashboardUIState())
+    private val _state = MutableStateFlow(DashboardUIState(
+        listOfImages = Pager(
+            PagingConfig(pageSize = PAGINATION_SIZE),
+        ) {
+            useCase.pagingSourceForTrending()
+        }.flow.cachedIn(viewModelScope)
+    ))
     override val state: StateFlow<DashboardUIState> = _state
 
     fun handleIntent(intent: TrendingIntent) {
