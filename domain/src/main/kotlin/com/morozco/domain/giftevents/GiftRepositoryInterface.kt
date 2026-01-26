@@ -4,8 +4,7 @@ import androidx.paging.PagingSource
 import com.m68476521.networking.request.ImageResponse
 import com.morozco.core.model.Image
 
-
-interface HomeRepository {
+interface GiftRepositoryInterface {
     suspend fun getTrending(
         type: String,
         pagination: Int,
@@ -18,13 +17,3 @@ interface HomeRepository {
         limit: Int,
     ): PagingSource<Int, Image>
 }
-
-//sealed class GiftEventsResult {
-//    data class EventsFetched(
-//        val events: ImageResponse
-//    ) : GiftEventsResult()
-//
-//    data object EmptyData : GiftEventsResult()
-//
-//    data object Failure : GiftEventsResult()
-//}

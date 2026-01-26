@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.m68476521.giphiertwo.api.CategoryData
-import com.m68476521.giphiertwo.api.MainRepository
+//import com.morozco.data.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SubcategoryViewModel
     @Inject
     constructor(
-        private val mainRepository: MainRepository,
+//        private val mainRepository: MainRepository,
     ) : ViewModel() {
         var category = ""
 
@@ -24,7 +24,7 @@ class SubcategoryViewModel
 
         fun querySubCategories(categorySelected: String) {
             viewModelScope.launch {
-                subCategories.value = mainRepository.getSubCategories(categorySelected)
+//                subCategories.value = mainRepository.getSubCategories(categorySelected)
             }
         }
 

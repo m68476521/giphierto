@@ -20,3 +20,11 @@ sealed class NetworkResult<out T: Any> {
         }
     }
 }
+
+fun <T: Any> NetworkResult<T>.toResult(): Result<T> {
+    return when (this) {
+        is NetworkResult.Success -> Result.success(resultValue)
+        is NetworkResult.Error -> Result.failure(error ?: Throwable("Unknown error"))
+
+    }
+}

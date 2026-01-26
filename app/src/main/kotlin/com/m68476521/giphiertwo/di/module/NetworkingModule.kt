@@ -3,7 +3,9 @@ package com.m68476521.giphiertwo.di.module
 import android.util.Log
 import com.m68476521.giphiertwo.BuildConfig
 import com.m68476521.networking.MainAPI
+import com.m68476521.networking.MainAPIInterface
 import com.m68476521.networking.MainSDK
+import com.m68476521.networking.MainSDK2
 import com.m68476521.networking.request.Environment
 import dagger.Module
 import dagger.Provides
@@ -77,6 +79,18 @@ object NetworkingModule {
         json: Json,
     ): MainAPI =
         MainSDK(
+            environment = Environment.fromString(BuildConfig.FLAVOR),
+            client = client,
+            json = json,
+        )
+
+    @Provides
+    @Singleton
+    fun providesMainAPIInterface(
+        client: HttpClient,
+        json: Json,
+    ): MainAPIInterface =
+        MainSDK2(
             environment = Environment.fromString(BuildConfig.FLAVOR),
             client = client,
             json = json,

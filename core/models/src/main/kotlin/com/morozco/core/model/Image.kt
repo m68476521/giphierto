@@ -1,7 +1,7 @@
 package com.morozco.core.model
 
 import com.google.gson.annotations.SerializedName
-import com.m68476521.networking.request.NetworkResponse
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,7 +10,7 @@ data class Image(
     val id: String,
     val url: String,
     @SerializedName("embed_url")
-    val embedUrl: String,
+    val embedUrl: String ?=null,
     val title: String,
     val images: SubImage,
 )
@@ -19,7 +19,7 @@ data class Image(
 @Serializable
 data class Pagination(
     @SerializedName("total_count")
-    val totalCount: Int,
+    val totalCount: Int ? = null,
     val count: Int,
     val offset: Int,
 )
@@ -27,28 +27,28 @@ data class Pagination(
 @Serializable
 data class SubImage(
     @SerializedName("fixed_height_small")
-    val fixedHeightSmall: ImageSmall,
+    val fixedHeightSmall: ImageSmall ? = null,
     val original: ImageOriginal,
     @SerializedName("fixed_height_small_still")
-    val fixedHeightSmallStill: ImageSmall,
-    @SerializedName("fixed_height_downsampled")
-    val fixedHeightDownsampled: ImageSmall,
+    val fixedHeightSmallStill: ImageSmall ? = null,
+    @SerialName("fixed_height_downsampled")
+    val fixedHeightDownsampled: ImageData ? = null,
     @SerializedName("downsized_still")
-    val downsizedStill: ImageSmall,
+    val downsizedStill: ImageSmall ?= null,
     @SerializedName("fixed_height_still")
-    val fixedHeightStill: ImageSmall,
+    val fixedHeightStill: ImageSmall ?= null,
     @SerializedName("downsized_medium")
-    val downsizedMedium: ImageSmall,
+    val downsizedMedium: ImageSmall ?= null,
     @SerializedName("preview_webp")
-    val previewWebp: ImageSmall,
+    val previewWebp: ImageSmall ?=null,
     @SerializedName("fixed_width_downsampled")
-    val fixedWidthDownsampled: ImageSmall,
+    val fixedWidthDownsampled: ImageSmall ? = null,
     @SerializedName("fixed_width_small")
-    val fixedWidthSmall: ImageSmall,
+    val fixedWidthSmall: ImageSmall ?= null,
     @SerializedName("preview_gif")
-    val previewGif: ImageSmall,
+    val previewGif: ImageSmall ?= null,
     @SerializedName("fixed_height")
-    val fixedHeight: ImageOriginal,
+    val fixedHeight: ImageOriginal ?= null,
 )
 
 @Serializable
@@ -125,4 +125,18 @@ data class Images(
     @SerializedName("fixed_height_small") val fixedHeightSmall: ImageSmall,
     @SerializedName("fixed_width_downsampled") val fixedWidthDownSampled: ImageSmall,
     @SerializedName("fixed_width_small") val fixedWidthSmall: ImageSmall,
+)
+
+@Serializable
+data class ImageData(
+    val height: String ? = null,
+    val width: String ? = null,
+    val size: String ? = null,
+    val url: String ? = null,
+    @SerializedName("mp4_size")
+    val mp4Size: String ? = null,
+    val mp4: String ? = null,
+    @SerializedName("webp_size")
+    val webpSize : String ? = null,
+    val webp : String ? = null,
 )

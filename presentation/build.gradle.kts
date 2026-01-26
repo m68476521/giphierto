@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:networking"))
     implementation(project(":core:models"))
 
     implementation(libs.core.ktx)

@@ -77,7 +77,7 @@ class TrendingFragment : Fragment() {
 
                     setContent {
                         GiphiertwoTheme {
-                            val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
+//                            val lazyPagingItems = trendingModel.flow.collectAsLazyPagingItems()
 
                             val state by trendingModel.state.collectAsState()
 
@@ -188,7 +188,7 @@ class TrendingFragment : Fragment() {
                                     }
                                 }
                             }
-
+                            /*
                             if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
@@ -200,33 +200,33 @@ class TrendingFragment : Fragment() {
                                 LazyVerticalStaggeredGrid(
                                     columns = StaggeredGridCells.Fixed(3),
                                 ) {
-                                    items(count = lazyPagingItems.itemCount) { idx ->
-                                        Card(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            elevation = CardDefaults.cardElevation(12.dp),
-                                            shape = RectangleShape,
-                                            onClick = {
-                                                val itemClicked = lazyPagingItems[idx]
-                                                itemClicked?.let { image ->
-                                                    trendingModel.handleIntent(
-                                                        TrendingIntent.SelectItem(image),
-                                                    )
-                                                }
-                                            },
-                                        ) {
-                                            AsyncImage(
-                                                modifier =
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .wrapContentHeight(),
-                                                model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
-                                                contentDescription = lazyPagingItems[idx]?.title,
-                                                contentScale = ContentScale.Crop,
-                                            )
-                                        }
-                                    }
+//                                    items(count = lazyPagingItems.itemCount) { idx ->
+//                                        Card(
+//                                            modifier = Modifier.fillMaxWidth(),
+//                                            elevation = CardDefaults.cardElevation(12.dp),
+//                                            shape = RectangleShape,
+//                                            onClick = {
+//                                                val itemClicked = lazyPagingItems[idx]
+//                                                itemClicked?.let { image ->
+//                                                    trendingModel.handleIntent(
+//                                                        TrendingIntent.SelectItem(image),
+//                                                    )
+//                                                }
+//                                            },
+//                                        ) {
+//                                            AsyncImage(
+//                                                modifier =
+//                                                    Modifier
+//                                                        .fillMaxWidth()
+//                                                        .wrapContentHeight(),
+//                                                model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
+//                                                contentDescription = lazyPagingItems[idx]?.title,
+//                                                contentScale = ContentScale.Crop,
+//                                            )
+//                                        }
+//                                    }
                                 }
-                            }
+                            } */
                         }
                     }
                 }

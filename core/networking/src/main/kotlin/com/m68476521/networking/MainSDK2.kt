@@ -19,46 +19,27 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
+import io.ktor.util.rootCause
 import kotlinx.serialization.json.Json
 
 @Suppress("UNCHECKED_CAST")
-class MainSDK(
+class MainSDK2(
     val environment: Environment,
     private val client: HttpClient,
     private val json: Json,
-) : MainAPI {
+) : MainAPIInterface {
 
     override suspend fun getTrending(
         type: String,
         pagination: Int,
         limit: Int
     ): NetworkResult<ImageResponse> {
-//        return executeRequest(GetTrendingEvents(type, pagination, limit))
         val result = executeRequest(GetTrendingEvents(type, pagination, limit))
 
         return result as NetworkResult<ImageResponse>
     }
 
     private suspend fun <T> executeRequest(request: Request<T>): NetworkResult<NetworkResponse> {
-
-//        val requestBuilder: HttpRequestBuilder.() -> Unit = {
-//            contentType(ContentType.Application.Json)
-//
-//            when (request.method) {
-//                RequestMethod.GET -> {
-//
-//                }
-//
-//                RequestMethod.PUT -> {
-//
-//                }
-//
-//                else -> {
-//
-//                }
-//            }
-//        }
-
 
         try {
             val response = when (request.method) {
@@ -89,16 +70,9 @@ class MainSDK(
                 return NetworkResult.Error(Exception("Request failed"))
             }
 
-//            NetworkResponse(
-//                responseCode = response.status.value,
-//                Result.success(result)
-
         } catch (e: Exception) {
-                    return NetworkResult.Error(e)
+            return NetworkResult.Error(e)
         }
-
-//        return Response(-1, result = Result.failure(Exception("Request failed")))
-//        return NetworkResult.Error()
     }
 }
 
