@@ -1,11 +1,12 @@
-package com.morozco.domain.giftevents
+package com.morozco.presentation.dashboard.domain
 
 import androidx.paging.PagingSource
 import com.m68476521.networking.request.ImageResponse
 import com.morozco.core.model.Image
+import com.morozco.domain.giftevents.HomeRepository
 
-class GiftUseCase(
-    private val repository: GiftRepositoryInterface
+class HomeUseCase(
+    private val repository: HomeRepository
 ) {
     suspend fun getGiftEvents(
         type: String,
@@ -29,6 +30,7 @@ class GiftUseCase(
         return repository.pagingSourceForTrending(type, pagination, limit)
     }
 
+
     sealed class GetGiftEventsResult {
         data class FetchingSuccess(
             val events: ImageResponse
@@ -37,5 +39,7 @@ class GiftUseCase(
         data object EmptyData : GetGiftEventsResult()
 
         data object Failure : GetGiftEventsResult()
+
     }
+
 }

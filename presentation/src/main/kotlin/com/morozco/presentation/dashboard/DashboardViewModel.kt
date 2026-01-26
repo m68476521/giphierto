@@ -8,8 +8,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.morozco.core.model.Rating
-import com.morozco.domain.giftevents.GiftEventsResult
+//import com.morozco.domain.giftevents.GiftEventsResult
 import com.morozco.domain.giftevents.GiftUseCase
+import com.morozco.presentation.dashboard.domain.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +22,7 @@ private const val PAGINATION_SIZE = 25
 class DashboardViewModel
 @Inject
 constructor(
-    private val useCase: GiftUseCase,
+    private val useCase: HomeUseCase,
 
 ) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
 //    val flow =
@@ -35,11 +36,18 @@ constructor(
 
     init {
         viewModelScope.launch {
-            val response = useCase.getGiftEvents(
-                type = Rating.PG_13.rating,
-                pagination = 0,
-                limit = 25,
-            )
+//            val response = useCase.getGiftEvents(
+//                type = Rating.PG_13.rating,
+//                pagination = 0,
+//                limit = 25,
+//            )
+//
+////            val response = useCase.getGiftEvents(
+////                type = Rating.PG_13.rating,
+////                pagination = 0,
+////                limit = 25,
+////            )
+//////
             
 
 //            when (response) {
@@ -60,13 +68,19 @@ constructor(
         }
     }
 
-    private val _state = MutableStateFlow(DashboardUIState(
-        listOfImages = Pager(
-            PagingConfig(pageSize = PAGINATION_SIZE),
-        ) {
-            useCase.pagingSourceForTrending()
-        }.flow.cachedIn(viewModelScope)
-    ))
+    private val _state = MutableStateFlow(
+        DashboardUIState(
+            listOfImages = Pager(
+                PagingConfig(pageSize = PAGINATION_SIZE),
+            ) {
+                useCase.pagingSourceForTrending(
+                    type = Rating.PG_13.rating,
+                    pagination = 0,
+                    limit = 25,
+                )
+            }.flow.cachedIn(viewModelScope),
+        ),
+    )
     override val state: StateFlow<DashboardUIState> = _state
 
     fun handleIntent(intent: TrendingIntent) {

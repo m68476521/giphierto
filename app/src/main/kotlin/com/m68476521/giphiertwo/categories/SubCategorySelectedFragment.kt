@@ -48,10 +48,10 @@ class SubCategorySelectedFragment : Fragment() {
         postponeEnterTransition()
 
         lifecycleScope.launch {
-            subcategorySelectedModel.subCategoryFlow.collectLatest { data ->
-                startPostponedEnterTransitions()
-                imagesAdapter.submitData(data)
-            }
+//            subcategorySelectedModel.subCategoryFlow.collectLatest { data ->
+//                startPostponedEnterTransitions()
+//                imagesAdapter.submitData(data)
+//            }
         }
     }
 

@@ -6,8 +6,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.m68476521.giphiertwo.api.Image
-import com.m68476521.giphiertwo.api.MainRepository
-import com.m68476521.giphiertwo.home.TrendingPaginationSource
+//import com.m68476521.giphiertwo.api.MainRepository
+//import com.morozco.data.MainRepository
+//import com.m68476521.giphiertwo.home.TrendingPaginationSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,16 +20,18 @@ import javax.inject.Inject
 class TrendingViewModel
     @Inject
     constructor(
-        mainRepository: MainRepository,
+//        mainRepository: MainRepository,
     ) : ViewModel() {
-        val flow =
-            Pager(
-                // Configure how data is loaded by passing additional properties to
-                // PagingConfig, such as prefetchDistance.
-                PagingConfig(pageSize = 25),
-            ) {
-                TrendingPaginationSource(mainRepository)
-            }.flow.cachedIn(viewModelScope)
+//        val flow =
+//            Pager(
+//                // Configure how data is loaded by passing additional properties to
+//                // PagingConfig, such as prefetchDistance.
+//                PagingConfig(pageSize = 25),
+//            ) {
+//                TrendingPaginationSource(mainRepository)
+//            }.flow.cachedIn(viewModelScope)
+
+//        val flow = Flow<PagingData<Image>> =
 
         private val _state = MutableStateFlow(TrendingViewState())
         val state: StateFlow<TrendingViewState> = _state

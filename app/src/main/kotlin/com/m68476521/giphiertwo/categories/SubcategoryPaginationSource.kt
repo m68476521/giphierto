@@ -4,22 +4,24 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bumptech.glide.load.HttpException
 import com.m68476521.giphiertwo.api.Image
-import com.m68476521.giphiertwo.api.MainRepository
+
+//import com.m68476521.giphiertwo.api.MainRepository
 
 class SubcategoryPaginationSource(
     private val category: String,
-    private val repository: MainRepository,
+//    private val repository: MainRepository,
 ) : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> =
         try {
             val nextPageNumber = params.key ?: 0
             val page = if (params.key == null) 0 else (params.key!! * 25)
-            val response = repository.search(category, pagination = page)
-            LoadResult.Page(
-                data = response.data,
-                prevKey = null, // Only paging forward.
-                nextKey = nextPageNumber.plus(1),
-            )
+//            val response = repository.search(category, pagination = page)
+//            LoadResult.Page(
+//                data = response.data,
+//                prevKey = null, // Only paging forward.
+//                nextKey = nextPageNumber.plus(1),
+//            )
+            LoadResult.Error(Exception("Something went wrong 001"))
         } catch (e: Exception) {
             LoadResult.Error(e)
         } catch (e: HttpException) {

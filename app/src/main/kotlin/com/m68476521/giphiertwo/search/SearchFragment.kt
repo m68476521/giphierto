@@ -75,12 +75,12 @@ class SearchFragment : Fragment() {
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     lifecycleScope.launch {
-                        searchModel
-                            .searchByWord(query)
-                            .collectLatest { pagingData ->
-                                startPostponedEnterTransitions()
-                                imagesAdapter.submitData(pagingData)
-                            }
+//                        searchModel
+//                            .searchByWord(query)
+//                            .collectLatest { pagingData ->
+//                                startPostponedEnterTransitions()
+//                                imagesAdapter.submitData(pagingData)
+//                            }
                     }
 
                     return false

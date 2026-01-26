@@ -37,8 +37,6 @@ android {
 
 dependencies {
     api(project(":core:models"))
-    api(project(":core:networking"))
-
 
     implementation(libs.kotlinx.serializationJson)
     implementation(libs.ktor.client.core)
