@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.m68476521.giphiertwo.databinding.FragmentSubCategorySelectedBinding
 import com.m68476521.giphiertwo.models.SubCategorySelectedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
