@@ -1,14 +1,8 @@
 package com.m68476521.giphiertwo.models
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.m68476521.giphiertwo.api.Image
-//import com.m68476521.giphiertwo.api.MainRepository
-import com.m68476521.giphiertwo.home.SearchPaginationSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

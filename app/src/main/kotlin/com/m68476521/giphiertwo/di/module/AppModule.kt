@@ -1,6 +1,6 @@
 package com.m68476521.giphiertwo.di.module
 
-//import com.m68476521.data.MainRepository
+// import com.m68476521.data.MainRepository
 import com.m68476521.networking.MainAPI
 import com.m68476521.networking.MainAPIInterface
 import com.morozco.data.MainRepository
@@ -28,13 +28,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideHomeRepository(api: MainAPIInterface): HomeRepository {
-        return NetworkHomeRepository(api)
-    }
+    fun provideHomeRepository(api: MainAPIInterface): HomeRepository = NetworkHomeRepository(api)
 
     @Provides
     @Singleton
-    fun provideHomeUseCase(repository: HomeRepository): HomeUseCase {
-        return HomeUseCase(repository)
-    }
+    fun provideHomeUseCase(repository: HomeRepository): HomeUseCase = HomeUseCase(repository)
 }
