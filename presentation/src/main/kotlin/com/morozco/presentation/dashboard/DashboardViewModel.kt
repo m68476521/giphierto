@@ -1,19 +1,18 @@
 package com.morozco.presentation.dashboard
 
-import android.media.Image
 import androidx.lifecycle.ViewModel
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.morozco.core.model.Image
 import com.morozco.core.model.Rating
-//import com.morozco.domain.giftevents.GiftEventsResult
-import com.morozco.domain.giftevents.GiftUseCase
 import com.morozco.presentation.dashboard.domain.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -106,7 +105,23 @@ constructor(
     }
 
     override fun navigateToNext() {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
+    }
+
+    override fun updateSelectedItem(item: Image) {
+        _state.update {
+            it.copy(
+                currentItemSelected = item,
+            )
+        }
+    }
+
+    override fun clearSelectedItem() {
+        _state.update {
+            it.copy(
+                currentItemSelected = null,
+            )
+        }
     }
 }
 

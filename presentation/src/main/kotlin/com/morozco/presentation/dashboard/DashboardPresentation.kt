@@ -10,6 +10,10 @@ interface DashboardPresentation: DashboardUIActions, DashboardUIStateProvider
 
 interface DashboardUIActions {
     fun navigateToNext()
+
+    fun updateSelectedItem(item: Image)
+
+    fun clearSelectedItem()
 }
 
 interface DashboardUIStateProvider {
