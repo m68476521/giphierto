@@ -17,6 +17,7 @@ class MainRepository(
         pagination: Int,
         limit: Int
     ): Result<ImageResponse> {
+        println("MKE90003")
         return api.getTrending(type = type, pagination = pagination, limit = limit).toResult()
     }
 

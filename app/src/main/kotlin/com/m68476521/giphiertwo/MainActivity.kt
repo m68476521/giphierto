@@ -18,6 +18,7 @@ import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
 import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.dashboard.DashboardScreen
+import com.morozco.presentation.search.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,6 +60,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             composable<Screen.Dashboard> {
                                 DashboardScreen()
+                            }
+                            composable<Screen.Search> {
+                                SearchScreen()
                             }
                         }
                     }

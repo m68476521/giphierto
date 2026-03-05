@@ -33,7 +33,6 @@ class MainSDK(
         pagination: Int,
         limit: Int
     ): NetworkResult<ImageResponse> {
-//        return executeRequest(GetTrendingEvents(type, pagination, limit))
         val result = executeRequest(GetTrendingEvents(type, pagination, limit))
 
         return result as NetworkResult<ImageResponse>
@@ -58,8 +57,7 @@ class MainSDK(
 //                }
 //            }
 //        }
-
-
+        
         try {
             val response = when (request.method) {
                 RequestMethod.GET -> client.get(request.path)

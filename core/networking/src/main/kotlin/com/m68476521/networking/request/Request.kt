@@ -8,6 +8,13 @@ sealed interface Request<T> {
     val path: String
     val method: RequestMethod
 
+    val headers: List<Pair<String, String>>
+        get() = emptyList()
+
+    val parameters: Map<String, String>
+        get() = emptyMap()
+
+
     // This allow us to generically serialize what we expect
 //    val serializer: KSerializer<T>
 

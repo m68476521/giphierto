@@ -2,6 +2,7 @@ package com.morozco.presentation.dashboard
 
 
 import androidx.paging.PagingData
+import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,4 +26,5 @@ data class DashboardUIState(
     val error: String? = null,
     val currentItemSelected: Image? = null,
     val listOfImages: Flow<PagingData<Image>>,
+    val listOfCategories: Flow<PagingData<Data>>,
 )

@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.morozco.core.model.Image
 import com.morozco.core.model.Rating
 import com.morozco.presentation.dashboard.domain.HomeUseCase
+import com.morozco.presentation.dashboard.domain.HomeUseCase.GetGiftEventsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,14 +17,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val PAGINATION_SIZE = 25
+private const val PAGINATION_SIZE = 20
+
 @HiltViewModel
 class DashboardViewModel
 @Inject
 constructor(
     private val useCase: HomeUseCase,
 
-) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
+    ) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
 //    val flow =
 //        Pager(
 //            // Configure how data is loaded by passing additional properties to
@@ -47,7 +49,7 @@ constructor(
 ////                limit = 25,
 ////            )
 //////
-            
+
 
 //            when (response) {
 //                is GiftEventsResult.EventsFetched -> {
@@ -64,20 +66,44 @@ constructor(
 //
 //                }
 //            }
+            println("MKE200 this one")
+            when (val result = useCase.getGiftEvents(type = Rating.PG_13.rating,
+                pagination = 1,
+                limit = 100,)) {
+                is GetGiftEventsResult.FetchingSuccess -> {
+                    println("MKE200 Success ${result.events}")
+                    println("MKE200 Success ${result.events.data.size}")
+                }
+                is GetGiftEventsResult.EmptyData -> {
+                    println("MKE200 Empty ${result}")
+                }
+                is GetGiftEventsResult.Failure -> {
+                    println("MKE200 FAIL ${result}")
+                }
+            }
         }
     }
 
     private val _state = MutableStateFlow(
         DashboardUIState(
             listOfImages = Pager(
-                PagingConfig(pageSize = PAGINATION_SIZE),
-            ) {
-                useCase.pagingSourceForTrending(
-                    type = Rating.PG_13.rating,
-                    pagination = 0,
-                    limit = 25,
-                )
-            }.flow.cachedIn(viewModelScope),
+                config = PagingConfig(pageSize = PAGINATION_SIZE),
+                pagingSourceFactory = {
+                    useCase.pagingSourceForTrending(
+                        type = Rating.PG_13.rating,
+                        pagination = 0,
+                        limit = 15,
+                    )
+                }
+            )
+            .flow.cachedIn(viewModelScope),
+
+            listOfCategories = Pager(
+                config = PagingConfig(pageSize = 7),
+                pagingSourceFactory = {
+                    useCase.pagingSourceForCategories()
+                }
+            ).flow.cachedIn(viewModelScope)
         ),
     )
     override val state: StateFlow<DashboardUIState> = _state

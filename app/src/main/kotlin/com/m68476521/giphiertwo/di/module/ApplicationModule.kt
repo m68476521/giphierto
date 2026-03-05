@@ -6,8 +6,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.m68476521.giphiertwo.BuildConfig
 import com.m68476521.giphiertwo.api.ApiHelper
-import com.m68476521.giphiertwo.api.GiphyApi
-import com.m68476521.giphiertwo.api.GiphyService
+//import com.m68476521.giphiertwo.api.GiphyApi
+//import com.m68476521.giphiertwo.api.GiphyService
 import com.m68476521.giphiertwo.api.RequestInterceptor
 import com.m68476521.giphiertwo.data.AppDatabase
 import com.m68476521.giphiertwo.data.ImageDao
@@ -69,13 +69,13 @@ class ApplicationModule {
             .baseUrl(BASE_URL)
             .build()
 
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit) = retrofit.create(GiphyService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideApiHelper(apiHelper: GiphyApi): ApiHelper = apiHelper
+//    @Provides
+//    @Singleton
+//    fun provideApiService(retrofit: Retrofit) = retrofit.create(GiphyService::class.java)
+//
+//    @Provides
+//    @Singleton
+//    fun provideApiHelper(apiHelper: GiphyApi): ApiHelper = apiHelper
 
     @Provides
     @Singleton

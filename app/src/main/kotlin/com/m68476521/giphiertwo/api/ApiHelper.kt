@@ -1,5 +1,7 @@
 package com.m68476521.giphiertwo.api
 
+import com.m68476521.networking.request.CategoryData
+import com.m68476521.networking.request.ImageResponse
 import retrofit2.Response
 
 interface ApiHelper {

@@ -5,10 +5,13 @@ import com.m68476521.networking.MainAPI
 import com.m68476521.networking.MainAPIInterface
 import com.morozco.data.MainRepository
 import com.morozco.data.NetworkHomeRepository
+import com.morozco.data.NetworkSearchRepository
 import com.morozco.domain.giftevents.GiftRepositoryInterface
 import com.morozco.domain.giftevents.GiftUseCase
 import com.morozco.domain.giftevents.HomeRepository
+import com.morozco.domain.giftevents.SearchRepository
 import com.morozco.presentation.dashboard.domain.HomeUseCase
+import com.morozco.presentation.search.domain.SearchUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +36,14 @@ class AppModule {
     @Provides
     @Singleton
     fun provideHomeUseCase(repository: HomeRepository): HomeUseCase = HomeUseCase(repository)
+
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(api: MainAPIInterface): SearchRepository = NetworkSearchRepository(api)
+
+
+    @Provides
+    @Singleton
+    fun provideSearchUseCase(repository: SearchRepository): SearchUseCase = SearchUseCase(repository)
 }
