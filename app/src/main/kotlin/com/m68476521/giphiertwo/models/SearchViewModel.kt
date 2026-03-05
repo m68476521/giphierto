@@ -2,7 +2,8 @@ package com.m68476521.giphiertwo.models
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import com.m68476521.giphiertwo.api.Image
+import com.morozco.core.model.Image
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

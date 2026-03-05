@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
@@ -19,12 +20,17 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Blue
@@ -36,6 +42,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
+import com.morozco.core.model.Data
 import util.getPreferredUrl
 
 @Composable
@@ -46,6 +53,11 @@ fun DashboardScreen(
     val state by presentation.state.collectAsState()
 
     val lazyPagingItems = state.listOfImages.collectAsLazyPagingItems()
+
+    val lazyCategoriesPagingItems = state.listOfCategories.collectAsLazyPagingItems()
+
+
+    var selectedCategory by remember { mutableStateOf<Data?>(null) }
 
     if (state.currentItemSelected != null) {
         Dialog(onDismissRequest = {
@@ -157,38 +169,72 @@ fun DashboardScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Blue)
+//                .background(Blue)
         ) {
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Fixed(3),
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    count = lazyPagingItems.itemCount,
-                ) { idx ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(12.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            val itemClicked = lazyPagingItems[idx]
-                            itemClicked?.let { item ->
-                                presentation.updateSelectedItem(item)
+
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    items(lazyCategoriesPagingItems.itemCount) { idx ->
+                        val category = lazyCategoriesPagingItems.get(idx)
+                        println("MKE category ::::: $category")
+                        FilterChip(
+                            selected = selectedCategory == category,
+                            onClick = { selectedCategory = category },
+                            label = {
+                                Text(text = category?.name.orEmpty(),
+//                                    modifier = Modifier.background()
+                                )
                             }
-                        },
-                    ) {
-                        AsyncImage(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight(),
-                            model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
-                            contentDescription = lazyPagingItems[idx]?.title,
-                            contentScale = ContentScale.Crop,
                         )
+                    }
+                }
+
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Fixed(3),
+                ) {
+                    items(
+                        count = lazyPagingItems.itemCount,
+//                        key = { index -> lazyPagingItems[index]?.id ?: index }
+//                        key = { index ->
+//                            val item = lazyPagingItems.peek(index) // Peek doesn't trigger a load
+//                            item?.id ?: index
+//                        }
+                    ) { idx ->
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(12.dp),
+                            shape = RectangleShape,
+                            onClick = {
+                                val itemClicked = lazyPagingItems[idx]
+                                itemClicked?.let { item ->
+                                    presentation.updateSelectedItem(item)
+                                }
+                            },
+                        ) {
+                            AsyncImage(
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentHeight(),
+                                model = lazyPagingItems[idx]?.images?.fixedHeightDownsampled?.url,
+                                contentDescription = lazyPagingItems[idx]?.title,
+                                contentScale = ContentScale.Crop,
+                            )
+                        }
                     }
                 }
             }
         }
     }
+
+    println("MKE categories:::: ${lazyPagingItems.itemCount}")
+
+
 
 }

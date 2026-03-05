@@ -9,6 +9,8 @@ import com.m68476521.networking.MainAPI
 import com.morozco.core.model.Image
 
 // The latest one
+
+@Deprecated("This is not being used")
 class TrendingPaginationSource(
     private val type: String,
     private val pagination: Int,
@@ -24,8 +26,9 @@ class TrendingPaginationSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         return try {
+            println("MKE900010")
             val nextPageNumber = (params.key ?: 0) + 1
-            val result = mainAPI.getTrending(type = type, pagination = pagination, limit = limit)
+            val result = mainAPI.getTrending(type = type, pagination = nextPageNumber, limit = limit)
 //            val nextNumber = nextPageNumber.plus(1)
 //            when {
 //                response.isSuccessful -> {

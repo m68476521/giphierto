@@ -43,13 +43,15 @@ object NetworkingModule {
             }
 
             install(Logging) {
+                level = LogLevel.ALL
+
                 logger =
                     object : Logger {
                         override fun log(message: String) {
                             Log.d("HTTP Client", message)
                         }
                     }
-                level = LogLevel.ALL
+
             }
 
             defaultRequest {
@@ -69,7 +71,10 @@ object NetworkingModule {
     @Singleton
     fun providesJSON(): Json =
         Json {
+            coerceInputValues = true
             ignoreUnknownKeys = true
+            prettyPrint = true
+            isLenient = true
         }
 
     @Provides

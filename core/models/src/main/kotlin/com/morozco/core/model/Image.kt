@@ -18,36 +18,37 @@ data class Image(
 
 @Serializable
 data class Pagination(
-    @SerializedName("total_count")
+    @SerialName("total_count")
     val totalCount: Int ? = null,
+    @SerialName("count")
     val count: Int,
     val offset: Int,
 )
 
 @Serializable
 data class SubImage(
-    @SerializedName("fixed_height_small")
+    @SerialName("fixed_height_small")
     val fixedHeightSmall: ImageSmall ? = null,
     val original: ImageOriginal,
-    @SerializedName("fixed_height_small_still")
+    @SerialName("fixed_height_small_still")
     val fixedHeightSmallStill: ImageSmall ? = null,
     @SerialName("fixed_height_downsampled")
     val fixedHeightDownsampled: ImageData ? = null,
-    @SerializedName("downsized_still")
+    @SerialName("downsized_still")
     val downsizedStill: ImageSmall ?= null,
-    @SerializedName("fixed_height_still")
+    @SerialName("fixed_height_still")
     val fixedHeightStill: ImageSmall ?= null,
-    @SerializedName("downsized_medium")
+    @SerialName("downsized_medium")
     val downsizedMedium: ImageSmall ?= null,
-    @SerializedName("preview_webp")
+    @SerialName("preview_webp")
     val previewWebp: ImageSmall ?=null,
-    @SerializedName("fixed_width_downsampled")
+    @SerialName("fixed_width_downsampled")
     val fixedWidthDownsampled: ImageSmall ? = null,
-    @SerializedName("fixed_width_small")
+    @SerialName("fixed_width_small")
     val fixedWidthSmall: ImageSmall ?= null,
-    @SerializedName("preview_gif")
+    @SerialName("preview_gif")
     val previewGif: ImageSmall ?= null,
-    @SerializedName("fixed_height")
+    @SerialName("fixed_height")
     val fixedHeight: ImageOriginal ?= null,
 )
 
@@ -70,61 +71,98 @@ enum class Rating(
     R("R"),
 }
 
-data class CategoryData(
-    val pagination: Pagination,
-    val data: List<Data>,
-)
+//@Serializable
+//data class CategoryData(
+//    val pagination: Pagination,
+//    val data: List<Data>,
+//)
 
+
+@Serializable
 data class Data(
     val name: String,
     @SerializedName("name_encoded")
-    val nameEncoded: String,
-    val subcategories: List<Subcategories>,
+    val nameEncoded: String? = null,
+    val subcategories: List<Subcategories>?,
     val gif: Gif,
 )
 
+@Serializable
 data class Subcategories(
     val name: String,
     @SerializedName("name_encoded")
-    val nameEncoded: String,
+    val nameEncoded: String? = null, //1
 )
 
+@Serializable
 data class Gif(
-    @SerializedName("type") val type: String,
-    @SerializedName("id") val id: String,
-    @SerializedName("url") val url: String,
-    @SerializedName("slug") val slug: String,
-    @SerializedName("bitly_gif_url") val bitlyGifUrl: String,
-    @SerializedName("bitly_url") val bitlyUrl: String,
-    @SerializedName("embed_url") val embedUrl: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("source") val source: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("rating") val rating: String,
-    @SerializedName("content_url") val contentUrl: String,
-    @SerializedName("tags") val tags: List<String>,
-    @SerializedName("featured_tags") val featuredTags: List<String>,
-    @SerializedName("source_tld") val sourceTld: String,
-    @SerializedName("source_post_url") val sourcePostUrl: String,
-    @SerializedName("is_sticker") val isSticker: Int,
-    @SerializedName("import_datetime") val importDatetime: String,
-    @SerializedName("trending_datetime") val trendingDatetime: String,
-    @SerializedName("create_datetime") val createDatetime: String,
-    @SerializedName("update_datetime") val updateDatetime: String,
-    @SerializedName("images") val images: Images,
+    @SerializedName("type")
+    val type: String,
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("slug")
+    val slug: String,
+    @SerializedName("bitly_gif_url")
+    val bitlyGifUrl: String ?= null,
+    @SerializedName("bitly_url")
+    val bitlyUrl: String?= null,
+    @SerializedName("embed_url")
+    val embedUrl: String?= null,
+    @SerializedName("username")
+    val username: String,
+    @SerializedName("source")
+    val source: String,
+    @SerializedName("title")
+    val title: String,
+    @SerializedName("rating")
+    val rating: String,
+    @SerializedName("content_url")
+    val contentUrl: String?= null,
+    @SerializedName("tags")
+    val tags: List<String>?= null,
+    @SerializedName("featured_tags")
+    val featuredTags: List<String> = emptyList(),
+    @SerializedName("source_tld")
+    val sourceTld: String?= null,
+    @SerializedName("source_post_url")
+    val sourcePostUrl: String?= null,
+    @SerializedName("is_sticker")
+    val isSticker: Int ?= null,
+    @SerializedName("import_datetime")
+    val importDatetime: String?= null,
+    @SerializedName("trending_datetime")
+    val trendingDatetime: String?= null,
+    @SerializedName("create_datetime")
+    val createDatetime: String?= null,
+    @SerializedName("update_datetime")
+    val updateDatetime: String?= null,
+    @SerializedName("images")
+    val images: Images,
 )
 
+@Serializable
 data class Images(
-    @SerializedName("fixed_height_small_still") val fixedHeightSmallStill: ImageSmall,
-    val original: ImageSmall,
-    @SerializedName("fixed_height_downsampled") val fixedHeightDownSampled: ImageSmall,
-    @SerializedName("downsized_still") val downsizedStill: ImageSmall,
-    @SerializedName("fixed_height_still") val fixedHeightStill: ImageSmall,
-    @SerializedName("downsized_medium") val downsizedMedium: ImageSmall,
-    @SerializedName("preview_webp") val previewWebp: ImageSmall,
-    @SerializedName("fixed_height_small") val fixedHeightSmall: ImageSmall,
-    @SerializedName("fixed_width_downsampled") val fixedWidthDownSampled: ImageSmall,
-    @SerializedName("fixed_width_small") val fixedWidthSmall: ImageSmall,
+    @SerializedName("fixed_height_small_still")
+    val fixedHeightSmallStill: ImageSmall ?= null,
+    val original: ImageSmall?= null,
+    @SerializedName("fixed_height_downsampled")
+    val fixedHeightDownSampled: ImageSmall?= null,
+    @SerializedName("downsized_still")
+    val downsizedStill: ImageSmall?= null,
+    @SerializedName("fixed_height_still")
+    val fixedHeightStill: ImageSmall?= null,
+    @SerializedName("downsized_medium")
+    val downsizedMedium: ImageSmall?= null,
+    @SerializedName("preview_webp")
+    val previewWebp: ImageSmall?= null,
+    @SerializedName("fixed_height_small")
+    val fixedHeightSmall: ImageSmall?= null,
+    @SerializedName("fixed_width_downsampled")
+    val fixedWidthDownSampled: ImageSmall?= null,
+    @SerializedName("fixed_width_small")
+    val fixedWidthSmall: ImageSmall?= null,
 )
 
 @Serializable
