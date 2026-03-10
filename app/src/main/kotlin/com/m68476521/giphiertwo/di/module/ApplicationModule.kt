@@ -5,9 +5,6 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.m68476521.giphiertwo.BuildConfig
-import com.m68476521.giphiertwo.api.ApiHelper
-//import com.m68476521.giphiertwo.api.GiphyApi
-//import com.m68476521.giphiertwo.api.GiphyService
 import com.m68476521.giphiertwo.api.RequestInterceptor
 import com.m68476521.giphiertwo.data.AppDatabase
 import com.m68476521.giphiertwo.data.ImageDao

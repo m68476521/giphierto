@@ -51,7 +51,6 @@ object NetworkingModule {
                             Log.d("HTTP Client", message)
                         }
                     }
-
             }
 
             defaultRequest {
