@@ -37,11 +37,9 @@ class AppModule {
     @Singleton
     fun provideHomeUseCase(repository: HomeRepository): HomeUseCase = HomeUseCase(repository)
 
-
     @Provides
     @Singleton
     fun provideSearchRepository(api: MainAPIInterface): SearchRepository = NetworkSearchRepository(api)
-
 
     @Provides
     @Singleton

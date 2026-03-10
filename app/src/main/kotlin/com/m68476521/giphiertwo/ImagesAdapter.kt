@@ -8,7 +8,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
 import com.m68476521.giphiertwo.databinding.ImageItemBinding
 import com.m68476521.giphiertwo.home.TrendingFragmentDirections
 import com.morozco.core.model.Image
@@ -45,7 +44,10 @@ class ImagesAdapter : PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageCom
                         .dontTransform()
                         .into(binding.imageUrl)
                 }.setOnClickListener {
-                    val imageForDetails = image.images.fixedHeight?.url.orEmpty()
+                    val imageForDetails =
+                        image.images.fixedHeight
+                            ?.url
+                            .orEmpty()
                     val title = image.title
                     val extras =
                         FragmentNavigatorExtras(

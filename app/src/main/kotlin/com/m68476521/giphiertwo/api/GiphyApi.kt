@@ -1,11 +1,7 @@
 package com.m68476521.giphiertwo.api
 
-import com.m68476521.networking.request.CategoryData
-import com.m68476521.networking.request.ImageResponse
-import retrofit2.Response
-import javax.inject.Inject
-
-//class GiphyApi
+@Deprecated("This is only for reference")
+class GiphyApi
 //    @Inject
 //    constructor(
 //        private val giphyApi: GiphyService,

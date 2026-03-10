@@ -1,11 +1,12 @@
-//package com.m68476521.giphiertwo.api
+// package com.m68476521.giphiertwo.api
 //
-//import retrofit2.Response
-//import retrofit2.http.GET
-//import retrofit2.http.Path
-//import retrofit2.http.Query
+// import retrofit2.Response
+// import retrofit2.http.GET
+// import retrofit2.http.Path
+// import retrofit2.http.Query
 //
-//interface GiphyService {
+@Deprecated("This is only for reference")
+interface GiphyService {
 //    @GET("/v1/gifs/trending")
 //    suspend fun getTrending(
 //        @Query("rating") type: String,
@@ -28,4 +29,4 @@
 //    suspend fun subCategories(
 //        @Path("category") category: String,
 //    ): CategoryData
-//}
+}
