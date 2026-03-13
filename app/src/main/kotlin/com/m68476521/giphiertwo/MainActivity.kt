@@ -17,6 +17,7 @@ import com.m68476521.giphiertwo.navigation.Screen
 import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
 import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
+import com.morozco.presentation.categories.CategoriesScreen
 import com.morozco.presentation.dashboard.DashboardScreen
 import com.morozco.presentation.search.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,13 +57,16 @@ class MainActivity : ComponentActivity() {
 
                         NavHost(
                             navController = navController,
-                            startDestination = Screen.Dashboard,
+                            startDestination = Screen.Categories,
                         ) {
                             composable<Screen.Dashboard> {
                                 DashboardScreen()
                             }
                             composable<Screen.Search> {
                                 SearchScreen()
+                            }
+                            composable<Screen.Categories> {
+                                CategoriesScreen()
                             }
                         }
                     }

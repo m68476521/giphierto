@@ -4,12 +4,15 @@ package com.m68476521.giphiertwo.di.module
 import com.m68476521.networking.MainAPI
 import com.m68476521.networking.MainAPIInterface
 import com.morozco.data.MainRepository
+import com.morozco.data.NetworkCategoriesRepository
 import com.morozco.data.NetworkHomeRepository
 import com.morozco.data.NetworkSearchRepository
+import com.morozco.domain.giftevents.CategoriesRepository
 import com.morozco.domain.giftevents.GiftRepositoryInterface
 import com.morozco.domain.giftevents.GiftUseCase
 import com.morozco.domain.giftevents.HomeRepository
 import com.morozco.domain.giftevents.SearchRepository
+import com.morozco.presentation.categories.domain.CategoriesUseCase
 import com.morozco.presentation.dashboard.domain.HomeUseCase
 import com.morozco.presentation.search.domain.SearchUseCase
 import dagger.Module
@@ -44,4 +47,12 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSearchUseCase(repository: SearchRepository): SearchUseCase = SearchUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideCategoriesRepository(api: MainAPIInterface): CategoriesRepository = NetworkCategoriesRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideCategoriesUseCase(repository: CategoriesRepository): CategoriesUseCase = CategoriesUseCase(repository)
 }

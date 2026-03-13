@@ -144,24 +144,24 @@ data class Gif(
 
 @Serializable
 data class Images(
-    @SerializedName("fixed_height_small_still")
+    @SerialName("fixed_height_small_still")
     val fixedHeightSmallStill: ImageSmall ?= null,
     val original: ImageSmall?= null,
-    @SerializedName("fixed_height_downsampled")
+    @SerialName("fixed_height_downsampled")
     val fixedHeightDownSampled: ImageSmall?= null,
-    @SerializedName("downsized_still")
+    @SerialName("downsized_still")
     val downsizedStill: ImageSmall?= null,
-    @SerializedName("fixed_height_still")
+    @SerialName("fixed_height_still")
     val fixedHeightStill: ImageSmall?= null,
-    @SerializedName("downsized_medium")
+    @SerialName("downsized_medium")
     val downsizedMedium: ImageSmall?= null,
-    @SerializedName("preview_webp")
+    @SerialName("preview_webp")
     val previewWebp: ImageSmall?= null,
-    @SerializedName("fixed_height_small")
+    @SerialName("fixed_height_small")
     val fixedHeightSmall: ImageSmall?= null,
-    @SerializedName("fixed_width_downsampled")
+    @SerialName("fixed_width_downsampled")
     val fixedWidthDownSampled: ImageSmall?= null,
-    @SerializedName("fixed_width_small")
+    @SerialName("fixed_width_small")
     val fixedWidthSmall: ImageSmall?= null,
 )
 
