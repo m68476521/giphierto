@@ -1,4 +1,4 @@
-package com.m68476521.giphiertwo.navigation
+package com.morozco.core.model
 
 import kotlinx.serialization.Serializable
 
@@ -12,4 +12,7 @@ sealed class Screen {
 
     @Serializable
     data object Categories : Screen()
+
+    @Serializable
+    data class SubCategories(val subcategories: String) : Screen()
 }

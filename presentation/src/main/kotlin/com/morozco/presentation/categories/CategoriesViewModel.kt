@@ -2,6 +2,8 @@ package com.morozco.presentation.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.morozco.core.model.Subcategories
+import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.categories.domain.CategoriesUseCase
 import com.morozco.presentation.dashboard.domain.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +18,7 @@ class CategoriesViewModel
 @Inject
 constructor(
     private val useCase: CategoriesUseCase,
+    private val navigator: Navigator
 ) : ViewModel(), CategoriesPresentation {
 
     private val _state = MutableStateFlow(CategoriesUIState())
@@ -45,7 +48,8 @@ constructor(
         }
     }
 
-    override fun navigateToNext() {
-
+    override fun navigateToSubCategories(subcategory: String) {
+        navigator.navigateToSubCategories(subcategory)
     }
+
 }

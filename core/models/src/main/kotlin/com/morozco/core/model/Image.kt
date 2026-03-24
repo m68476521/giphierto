@@ -22,7 +22,7 @@ data class Pagination(
     val totalCount: Int ? = null,
     @SerialName("count")
     val count: Int,
-    val offset: Int,
+    val offset: Int? = null,
 )
 
 @Serializable
@@ -76,7 +76,14 @@ enum class Rating(
 //    val pagination: Pagination,
 //    val data: List<Data>,
 //)
+@Serializable
+data class SubCategoryData(
 
+    @SerializedName("name_encoded")
+    val nameEncoded: String? = null,
+    val name: String?,
+    val gif: Gif?,
+)
 
 @Serializable
 data class Data(
@@ -138,7 +145,7 @@ data class Gif(
     val createDatetime: String?= null,
     @SerializedName("update_datetime")
     val updateDatetime: String?= null,
-    @SerializedName("images")
+    @SerialName("images")
     val images: Images,
 )
 

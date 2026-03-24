@@ -13,13 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.m68476521.giphiertwo.navigation.Screen
 import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
+import com.morozco.core.model.Screen
 import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.categories.CategoriesScreen
 import com.morozco.presentation.dashboard.DashboardScreen
 import com.morozco.presentation.search.SearchScreen
+import com.morozco.presentation.subcategories.SubCategoriesScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -67,6 +68,9 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<Screen.Categories> {
                                 CategoriesScreen()
+                            }
+                            composable<Screen.SubCategories> {
+                                SubCategoriesScreen()
                             }
                         }
                     }

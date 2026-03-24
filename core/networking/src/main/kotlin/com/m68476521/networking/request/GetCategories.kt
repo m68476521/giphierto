@@ -3,12 +3,13 @@ package com.m68476521.networking.request
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 import com.morozco.core.model.Pagination
+import com.morozco.core.model.SubCategoryData
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
 
 @Serializable
-data object GetCategories2: Request<ImageResponse> {
+data object GetCategories2: Request<CategoryData> {
     override val path: String = "/v1/gifs/categories"
 
     override val method = RequestMethod.GET
@@ -28,10 +29,15 @@ data object GetCategories2: Request<ImageResponse> {
 
 }
 
-
 @Serializable
 data class CategoryData(
-    val pagination: Pagination ?= null,
+    val pagination: Pagination,
     val data: List<Data>,
 ) : NetworkResponse
 
+
+@Serializable
+data class SubCategoryDataResponse(
+    val pagination: Pagination,
+    val data: List<SubCategoryData>,
+) : NetworkResponse

@@ -3,7 +3,6 @@ package com.morozco.presentation.dashboard.domain
 import androidx.paging.PagingSource
 import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.ImageResponse
-//import com.morozco.core.model.CategoryData
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 import com.morozco.domain.giftevents.HomeRepository

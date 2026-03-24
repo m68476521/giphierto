@@ -5,12 +5,15 @@ import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.Environment
 import com.m68476521.networking.request.GetCategories2
 import com.m68476521.networking.request.GetSearchImages
+import com.m68476521.networking.request.GetSubCategories
 import com.m68476521.networking.request.GetTrendingEvents
 import com.m68476521.networking.request.ImageResponse
 import com.m68476521.networking.request.NetworkResponse
 import com.m68476521.networking.request.NetworkResult
+import com.m68476521.networking.request.NetworkResult.*
 import com.m68476521.networking.request.Request
 import com.m68476521.networking.request.RequestMethod
+import com.m68476521.networking.request.SubCategoryDataResponse
 import com.morozco.core.model.Rating
 //import com.morozco.core.model.CategoryData
 import io.ktor.client.HttpClient
@@ -55,11 +58,11 @@ class MainSDK2(
     }
 
     override suspend fun getCategories(): NetworkResult<CategoryData> {
-        println("MKE getCategories ::: get cstegories")
+
         val result = executeRequest(GetCategories2)
-        if (result is NetworkResult.Success) {
+        if (result is Success) {
             println("MKE resultQ: ${result}")
-        } else if (result is NetworkResult.Error) {
+        } else if (result is Error) {
             println("MKE resultP: ${result.error}")
         }
         println("MKE result: $result")
@@ -81,6 +84,12 @@ class MainSDK2(
             randomId = UUID.randomUUID().toString(),
         ))
         return result as NetworkResult<ImageResponse>
+    }
+
+    override suspend fun getSubCategories(category: String, offset: Int,
+                                          limit: Int,): NetworkResult<SubCategoryDataResponse> {
+        val result = executeRequest(GetSubCategories(category, offset, limit))
+        return result as NetworkResult<SubCategoryDataResponse>
     }
 
     private suspend fun <T> executeRequest(request: Request<T>): NetworkResult<NetworkResponse> {
@@ -162,13 +171,13 @@ class MainSDK2(
                 LogUtils.logLongString("MKE :RESPONSE", body)
                 val result = json.decodeFromString<NetworkResponse>(request.responseType(), body)
                 println("MKE result---> $result")
-                return NetworkResult.Success(result)
+                return Success(result)
             } else {
-                return NetworkResult.Error(Exception("Request failed"))
+                return Error(Exception("Request failed"))
             }
 
         } catch (e: Exception) {
-            return NetworkResult.Error(e)
+            return Error(e)
         }
     }
 }

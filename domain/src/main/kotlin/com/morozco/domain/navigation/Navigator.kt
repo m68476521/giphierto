@@ -1,5 +1,6 @@
 package com.morozco.domain.navigation
 
+import com.morozco.core.model.Subcategories
 import kotlinx.coroutines.flow.Flow
 
 interface Navigator {
@@ -7,7 +8,13 @@ interface Navigator {
 
     suspend fun navigateBack()
 
-    suspend fun navigateToDashboard()
+    fun navigateToDashboard()
+
+    fun navigateToSearch()
+
+    fun navigateToCategories()
+
+    fun navigateToSubCategories(subcategory: String)
 }
 
 sealed class NavigationEvent {
