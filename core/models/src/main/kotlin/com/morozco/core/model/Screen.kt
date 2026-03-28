@@ -14,5 +14,5 @@ sealed class Screen {
     data object Categories : Screen()
 
     @Serializable
-    data class SubCategories(val subcategories: String) : Screen()
+    data class SubCategories(val subcategory: String) : Screen()
 }

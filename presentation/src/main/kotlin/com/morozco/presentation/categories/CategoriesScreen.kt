@@ -53,10 +53,7 @@ fun CategoriesScreen(
                         shape = RectangleShape,
                         onClick = {
                             val itemClicked = state.listOfCategories[idx]
-                            itemClicked.subcategories?.let {
-                                // TODO: Implement Navigation to subcategories
-                                presentation.navigateToSubCategories("Goku")
-                            }
+                            presentation.navigateToSubCategories(itemClicked.nameEncoded.orEmpty())
                         },
                     ) {
                         val currentCategory = state.listOfCategories[idx]

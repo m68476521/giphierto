@@ -1,6 +1,5 @@
 package com.morozco.core.model
 
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,7 +8,7 @@ data class Image(
     val type: String,
     val id: String,
     val url: String,
-    @SerializedName("embed_url")
+    @SerialName("embed_url")
     val embedUrl: String ?=null,
     val title: String,
     val images: SubImage,
@@ -79,7 +78,7 @@ enum class Rating(
 @Serializable
 data class SubCategoryData(
 
-    @SerializedName("name_encoded")
+    @SerialName("name_encoded")
     val nameEncoded: String? = null,
     val name: String?,
     val gif: Gif?,
@@ -88,7 +87,7 @@ data class SubCategoryData(
 @Serializable
 data class Data(
     val name: String,
-    @SerializedName("name_encoded")
+    @SerialName("name_encoded")
     val nameEncoded: String? = null,
     val subcategories: List<Subcategories>?,
     val gif: Gif,
@@ -97,53 +96,53 @@ data class Data(
 @Serializable
 data class Subcategories(
     val name: String,
-    @SerializedName("name_encoded")
+    @SerialName("name_encoded")
     val nameEncoded: String? = null, //1
 )
 
 @Serializable
 data class Gif(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("url")
+    @SerialName("url")
     val url: String,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String,
-    @SerializedName("bitly_gif_url")
+    @SerialName("bitly_gif_url")
     val bitlyGifUrl: String ?= null,
-    @SerializedName("bitly_url")
+    @SerialName("bitly_url")
     val bitlyUrl: String?= null,
-    @SerializedName("embed_url")
+    @SerialName("embed_url")
     val embedUrl: String?= null,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
-    @SerializedName("source")
+    @SerialName("source")
     val source: String,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: String,
-    @SerializedName("content_url")
+    @SerialName("content_url")
     val contentUrl: String?= null,
-    @SerializedName("tags")
+    @SerialName("tags")
     val tags: List<String>?= null,
-    @SerializedName("featured_tags")
+    @SerialName("featured_tags")
     val featuredTags: List<String> = emptyList(),
-    @SerializedName("source_tld")
+    @SerialName("source_tld")
     val sourceTld: String?= null,
-    @SerializedName("source_post_url")
+    @SerialName("source_post_url")
     val sourcePostUrl: String?= null,
-    @SerializedName("is_sticker")
+    @SerialName("is_sticker")
     val isSticker: Int ?= null,
-    @SerializedName("import_datetime")
+    @SerialName("import_datetime")
     val importDatetime: String?= null,
-    @SerializedName("trending_datetime")
+    @SerialName("trending_datetime")
     val trendingDatetime: String?= null,
-    @SerializedName("create_datetime")
+    @SerialName("create_datetime")
     val createDatetime: String?= null,
-    @SerializedName("update_datetime")
+    @SerialName("update_datetime")
     val updateDatetime: String?= null,
     @SerialName("images")
     val images: Images,
@@ -178,10 +177,10 @@ data class ImageData(
     val width: String ? = null,
     val size: String ? = null,
     val url: String ? = null,
-    @SerializedName("mp4_size")
+    @SerialName("mp4_size")
     val mp4Size: String ? = null,
     val mp4: String ? = null,
-    @SerializedName("webp_size")
+    @SerialName("webp_size")
     val webpSize : String ? = null,
     val webp : String ? = null,
 )
