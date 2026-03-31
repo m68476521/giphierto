@@ -58,7 +58,7 @@ fun SubCategoriesScreen(
                         onClick = {
                             val itemClicked = lazyCategoriesPagingItems[idx]
                             itemClicked?.let {
-                                // TODO: Implement Navigation to subcategories
+                                presentation.navigateToNext(it.nameEncoded.orEmpty())
                             }
                         },
                     ) {

@@ -1,11 +1,14 @@
 package com.morozco.presentation.search
 
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.morozco.core.model.Screen
 import com.morozco.presentation.search.domain.SearchResult
 import com.morozco.presentation.search.domain.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,17 +24,20 @@ class SearchViewModel
 @Inject
 constructor(
     private val useCase: SearchUseCase,
+    savedStateHandle: SavedStateHandle
 ): ViewModel(), SearchPresentation {
     override fun navigateBack() {
 //        TODO("Not yet implemented")
     }
+
+    private val route = savedStateHandle.toRoute<Screen.Search>()
 
     private val _UIstate = MutableStateFlow(SearchUIState(
         listOfImages = Pager(
             config = PagingConfig(pageSize = PAGINATION_SIZE),
             pagingSourceFactory = {
                 useCase.pagingSourceForSearch(
-                    search = "Friends",
+                    search = route.word,
                     offset = PAGINATION_SIZE,
                     pagination = PAGINATION_SIZE,
                     limit = PAGINATION_SIZE

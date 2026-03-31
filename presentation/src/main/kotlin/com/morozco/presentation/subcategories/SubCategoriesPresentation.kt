@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface SubCategoriesPresentation : SubCategoriesUIActions, SubCategoriesUIStateProvider
 
 interface SubCategoriesUIActions {
-    fun navigateToNext()
+    fun navigateToNext(word: String)
 }
 
 interface SubCategoriesUIStateProvider {

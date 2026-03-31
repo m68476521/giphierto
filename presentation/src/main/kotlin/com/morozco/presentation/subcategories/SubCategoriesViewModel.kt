@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.morozco.core.model.Screen
+import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.categories.domain.CategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,7 @@ class SubCategoriesViewModel
 @Inject
 constructor(
     private val useCase: CategoriesUseCase,
+    private val navigator: Navigator,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(), SubCategoriesPresentation {
 
@@ -43,7 +45,7 @@ constructor(
 
     override val state: StateFlow<SubCategoriesUIState> = _state
 
-    override fun navigateToNext() {
-
+    override fun navigateToNext(word: String) {
+        navigator.navigateToSearch(word)
     }
 }

@@ -22,8 +22,8 @@ class AppNavigator
             _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Dashboard))
         }
 
-        override fun navigateToSearch() {
-            TODO("Not yet implemented")
+        override fun navigateToSearch(word: String) {
+            _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Search(word)))
         }
 
         override fun navigateToCategories() {

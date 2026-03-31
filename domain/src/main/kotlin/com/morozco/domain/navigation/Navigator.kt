@@ -10,7 +10,7 @@ interface Navigator {
 
     fun navigateToDashboard()
 
-    fun navigateToSearch()
+    fun navigateToSearch(word: String)
 
     fun navigateToCategories()
 
