@@ -1,6 +1,5 @@
 package com.morozco.presentation.search
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,14 +7,13 @@ import androidx.navigation.toRoute
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.morozco.core.model.Image
 import com.morozco.core.model.Screen
-import com.morozco.presentation.search.domain.SearchResult
 import com.morozco.presentation.search.domain.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val PAGINATION_SIZE = 20
@@ -32,7 +30,7 @@ constructor(
 
     private val route = savedStateHandle.toRoute<Screen.Search>()
 
-    private val _UIstate = MutableStateFlow(SearchUIState(
+    private val _uiState = MutableStateFlow(SearchUIState(
         listOfImages = Pager(
             config = PagingConfig(pageSize = PAGINATION_SIZE),
             pagingSourceFactory = {
@@ -46,7 +44,24 @@ constructor(
         ).flow.cachedIn(viewModelScope)
     ))
 
-    override val UIState: StateFlow<SearchUIState> = _UIstate
+    override val UIState: StateFlow<SearchUIState> = _uiState
+
+    override fun updateSelectedItem(item: Image) {
+        _uiState.update {
+            it.copy(
+                currentItemSelected = item,
+            )
+        }
+    }
+
+    override fun clearSelectedItem() {
+        _uiState.update {
+            it.copy(
+                currentItemSelected = null,
+            )
+        }
+    }
+
 
 
 //    init {
