@@ -33,4 +33,8 @@ class AppNavigator
         override fun navigateToSubCategories(subcategory: String) {
             _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.SubCategories(subcategory)))
         }
+
+        override fun navigateToFavorites() {
+            _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Favorites))
+        }
     }

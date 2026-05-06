@@ -32,6 +32,7 @@ import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.categories.CategoriesScreen
 import com.morozco.presentation.dashboard.DashboardScreen
+import com.morozco.presentation.favorites.FavoritesScreen
 import com.morozco.presentation.search.SearchScreen
 import com.morozco.presentation.subcategories.SubCategoriesScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                                 IconButton(
-                                    onClick = { /* Handle settings click */ },
+                                    onClick = { navController.navigate(Screen.Favorites) },
                                     enabled = false,
                                 ) {
                                     Icon(
@@ -129,6 +130,9 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<Screen.SubCategories> {
                                 SubCategoriesScreen()
+                            }
+                            composable<Screen.Favorites> {
+                                FavoritesScreen()
                             }
                         }
                     }

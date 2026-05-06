@@ -15,6 +15,8 @@ interface Navigator {
     fun navigateToCategories()
 
     fun navigateToSubCategories(subcategory: String)
+
+    fun navigateToFavorites()
 }
 
 sealed class NavigationEvent {

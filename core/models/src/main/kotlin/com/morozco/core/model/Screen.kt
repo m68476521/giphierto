@@ -15,4 +15,8 @@ sealed class Screen {
 
     @Serializable
     data class SubCategories(val subcategory: String) : Screen()
+
+
+    @Serializable
+    data object Favorites: Screen()
 }
