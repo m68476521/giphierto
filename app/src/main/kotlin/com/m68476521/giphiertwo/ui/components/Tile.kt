@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.m68476521.giphiertwo.data.Image
+import com.morozco.core.model.Image
 
 @Suppress("FunctionName")
 @Composable
@@ -31,7 +31,7 @@ fun FavoriteTileCard(
                 Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
-            model = item.fixedHeightDownsampled,
+            model = item.images?.fixedHeightDownsampled?.url,
             contentDescription = item.title,
             contentScale = ContentScale.Crop,
         )

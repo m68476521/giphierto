@@ -11,7 +11,7 @@ data class Image(
     @SerialName("embed_url")
     val embedUrl: String ?=null,
     val title: String,
-    val images: SubImage,
+    val images: SubImage? = null,
 )
 
 

@@ -1,17 +1,12 @@
 package com.m68476521.giphiertwo.di.module
 
-import android.content.Context
-import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.m68476521.giphiertwo.BuildConfig
 import com.m68476521.giphiertwo.api.RequestInterceptor
-import com.m68476521.giphiertwo.data.AppDatabase
-import com.m68476521.giphiertwo.data.ImageDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -65,27 +60,4 @@ class ApplicationModule {
             .addConverterFactory(GsonConverterFactory.create(dateFormatter))
             .baseUrl(BASE_URL)
             .build()
-
-//    @Provides
-//    @Singleton
-//    fun provideApiService(retrofit: Retrofit) = retrofit.create(GiphyService::class.java)
-//
-//    @Provides
-//    @Singleton
-//    fun provideApiHelper(apiHelper: GiphyApi): ApiHelper = apiHelper
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(
-        @ApplicationContext appContext: Context,
-    ): AppDatabase =
-        Room
-            .databaseBuilder(
-                appContext,
-                AppDatabase::class.java,
-                "images.db",
-            ).build()
-
-    @Provides
-    fun provideImageDao(appDatabase: AppDatabase): ImageDao = appDatabase.imageDao()
 }

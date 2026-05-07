@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil3.compose.AsyncImage
 import com.m68476521.giphiertwo.R
-import com.m68476521.giphiertwo.data.Image
+import com.morozco.data.local.entities.ImageEntity
 
 @Suppress("FunctionName")
 @Composable
@@ -36,7 +36,7 @@ fun ImageDialog(
     title: String,
     onDelete: (String) -> Unit,
     onClose: () -> Unit,
-    onAddToFavorite: (Image) -> Unit,
+    onAddToFavorite: (ImageEntity) -> Unit,
 ) {
     Dialog(onDismissRequest = {
         onClose()
@@ -60,14 +60,14 @@ fun ImageDialog(
                     IconButton(
                         onClick = {
                             if (!isFavorite) {
-                                val image =
-                                    Image(
-                                        uid = uuId,
-                                        fixedHeightDownsampled = fixedHeightDownsampledUrl,
-                                        originalUrl = originalUrl,
-                                        title = title,
-                                    )
-                                onAddToFavorite(image)
+//                                val image =
+//                                    Image(
+//                                        uid = uuId,
+//                                        fixedHeightDownsampled = fixedHeightDownsampledUrl,
+//                                        originalUrl = originalUrl,
+//                                        title = title,
+//                                    )
+//                                onAddToFavorite(image)
                             } else {
                                 onDelete(uuId)
                             }

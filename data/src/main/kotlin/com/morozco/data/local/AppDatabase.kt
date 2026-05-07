@@ -1,15 +1,16 @@
-package com.m68476521.giphiertwo.data
+package com.morozco.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.morozco.data.local.entities.ImageEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Image::class], version = 1)
+@Database(entities = [ImageEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun imageDao(): ImageDao
 
@@ -28,6 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     AppDatabase::class.java,
                                     DB_NAME,
                                 ).allowMainThreadQueries()
+                                // TODO: Check this warning
                                 .fallbackToDestructiveMigration()
                                 .addCallback(
                                     object : Callback() {

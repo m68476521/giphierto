@@ -1,4 +1,4 @@
-package com.m68476521.giphiertwo.data
+package com.morozco.data.local
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

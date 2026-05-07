@@ -33,7 +33,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
-import com.m68476521.giphiertwo.data.Image
 import com.m68476521.giphiertwo.databinding.GiphFragmentBinding
 import com.m68476521.giphiertwo.models.LocalImagesViewModel
 import com.m68476521.giphiertwo.util.shortSnackBar
@@ -259,17 +258,17 @@ class GiphDialog : DialogFragment() {
         imageFixed: String,
         title: String,
     ) {
-        val newImage =
-            Image(
-                uid = id,
-                fixedHeightDownsampled = imageFixed,
-                originalUrl = imageOriginal,
-                title = title,
-            )
-        // TODO fix this
-        GlobalScope.launch {
-            favoritesModel.insert(newImage)
-        }
+//        val newImage =
+// //            Image(
+// //                uid = id,
+// //                fixedHeightDownsampled = imageFixed,
+// //                originalUrl = imageOriginal,
+// //                title = title,
+// //            )
+//        // TODO fix this
+//        GlobalScope.launch {
+//            favoritesModel.insert(newImage)
+//        }
     }
 
     private fun removeFromFavoritesById(id: String) {

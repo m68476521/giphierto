@@ -47,7 +47,8 @@ import util.getPreferredUrl
 
 @Composable
 fun DashboardScreen(
-    presentation: DashboardPresentation = hiltViewModel<DashboardViewModel>()
+    presentation: DashboardPresentation = hiltViewModel<DashboardViewModel>(),
+    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
 ) {
 
     val state by presentation.state.collectAsState()
@@ -80,6 +81,10 @@ fun DashboardScreen(
                     ) {
                         IconButton(
                             onClick = {
+                                state.currentItemSelected?.let { image ->
+                                    localPresentation.insert(image = image)
+                                }
+
 //                                if (!favoriteState.isFavorite) {
 //                                    val image =
 //                                        Image(

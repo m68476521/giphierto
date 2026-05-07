@@ -45,7 +45,8 @@ class ImagesAdapter : PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageCom
                         .into(binding.imageUrl)
                 }.setOnClickListener {
                     val imageForDetails =
-                        image.images.fixedHeight
+                        image.images
+                            ?.fixedHeight
                             ?.url
                             .orEmpty()
                     val title = image.title

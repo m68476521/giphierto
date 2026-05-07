@@ -1,11 +1,11 @@
-package com.m68476521.giphiertwo.data
+package com.morozco.data.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "images")
-data class Image(
+data class ImageEntity(
     @PrimaryKey val uid: String,
     @ColumnInfo(name = "originalUrl")
     val originalUrl: String,

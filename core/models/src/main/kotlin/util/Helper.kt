@@ -7,5 +7,5 @@ import com.morozco.core.model.Image
  * falling back to the original URL.
  */
 fun Image.getPreferredUrl(): String {
-    return images.fixedHeight?.url ?: images.original.url
+    return images?.fixedHeight?.url ?: images?.original?.url ?: ""
 }
