@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                                 }
                                 IconButton(
                                     onClick = { navController.navigate(Screen.Favorites) },
-                                    enabled = false,
+                                    enabled = true,
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Favorite,
