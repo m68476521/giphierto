@@ -149,6 +149,14 @@ constructor(
             )
         }
     }
+
+    override fun isFavorite(isFavorite: Boolean) {
+        _state.update {
+            it.copy(
+                isFavorite = isFavorite
+            )
+        }
+    }
 }
 
 data class TrendingViewState(

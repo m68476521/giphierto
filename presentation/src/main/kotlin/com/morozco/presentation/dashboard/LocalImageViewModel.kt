@@ -39,11 +39,7 @@ constructor(
         }
     }
 
-    override fun getImage(id: String) {
-        viewModelScope.launch {
-            val image = saveImageUseCase.imageById(id)
-            // Handle image retrieved if necessary, 
-            // maybe update a specific state for "current selected local image"
-        }
+    override suspend fun getImage(id: String): Image? {
+        return saveImageUseCase.imageById(id)
     }
 }

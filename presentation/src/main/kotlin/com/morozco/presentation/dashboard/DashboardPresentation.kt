@@ -15,6 +15,8 @@ interface DashboardUIActions {
     fun updateSelectedItem(item: Image)
 
     fun clearSelectedItem()
+
+    fun isFavorite(isFavorite: Boolean)
 }
 
 interface DashboardUIStateProvider {
@@ -25,6 +27,7 @@ data class DashboardUIState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val currentItemSelected: Image? = null,
+    val isFavorite: Boolean = false,
     val listOfImages: Flow<PagingData<Image>>,
     val listOfCategories: Flow<PagingData<Data>>,
 )

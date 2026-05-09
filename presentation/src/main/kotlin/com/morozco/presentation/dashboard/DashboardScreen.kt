@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
@@ -26,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,12 +55,18 @@ fun DashboardScreen(
 
     val state by presentation.state.collectAsState()
 
+    val localState by localPresentation.state.collectAsState()
+
     val lazyPagingItems = state.listOfImages.collectAsLazyPagingItems()
 
     val lazyCategoriesPagingItems = state.listOfCategories.collectAsLazyPagingItems()
 
-
     var selectedCategory by remember { mutableStateOf<Data?>(null) }
+    val currentId = state.currentItemSelected?.id
+
+    val isFavorite = remember(localState.images, currentId) {
+        localState.images.any { it.id == currentId }
+    }
 
     if (state.currentItemSelected != null) {
         Dialog(onDismissRequest = {
@@ -82,48 +90,20 @@ fun DashboardScreen(
                         IconButton(
                             onClick = {
                                 state.currentItemSelected?.let { image ->
-                                    localPresentation.insert(image = image)
+                                    if (isFavorite) {
+                                        localPresentation.delete(image.id)
+                                    } else {
+                                        localPresentation.insert(image = image)
+                                    }
                                 }
-
-//                                if (!favoriteState.isFavorite) {
-//                                    val image =
-//                                        Image(
-//                                            uid =
-//                                                state.currentItemSelected?.id
-//                                                    ?: "",
-//                                            fixedHeightDownsampled =
-//                                                state.currentItemSelected
-//                                                    ?.images
-//                                                    ?.fixedHeightDownsampled
-//                                                    ?.url
-//                                                    ?: "",
-//                                            originalUrl =
-//                                                state.currentItemSelected
-//                                                    ?.images
-//                                                    ?.original
-//                                                    ?.url
-//                                                    ?: "",
-//                                            title =
-//                                                state.currentItemSelected?.title
-//                                                    ?: "",
-//                                        )
-//                                    favoritesViewModel.insert(
-//                                        image = image,
-//                                    )
-//                                } else {
-//                                    favoritesViewModel.deleteById(
-//                                        state.currentItemSelected?.id ?: "",
-//                                    )
-//                                }
                             },
                         ) {
                             Icon(
-                                imageVector =
-//                                    if (favoriteState.isFavorite) {
-//                                        Icons.Filled.Favorite
-//                                    } else {
-                                    Icons.Filled.FavoriteBorder,
-//                                    },
+                                imageVector = if (isFavorite) {
+                                    Icons.Filled.Favorite
+                                } else {
+                                    Icons.Filled.FavoriteBorder
+                                },
                                 tint = MaterialTheme.colorScheme.onSurface,
                                 contentDescription = "Favorite Button",
                             )

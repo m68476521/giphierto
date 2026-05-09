@@ -10,7 +10,7 @@ interface LocalUIActions {
 
     fun delete(id: String)
 
-    fun getImage(id: String)
+    suspend fun getImage(id: String): Image?
 }
 
 interface LocalUIStateProvider {
