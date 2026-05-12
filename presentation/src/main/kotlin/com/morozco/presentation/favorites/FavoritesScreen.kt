@@ -60,8 +60,7 @@ fun FavoritesScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onSurface),
+            .fillMaxSize(),
     ) {
         if (state.images.isEmpty()) {
             Box(
