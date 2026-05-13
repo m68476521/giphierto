@@ -36,8 +36,8 @@ constructor(
             pagingSourceFactory = {
                 useCase.pagingSourceForSearch(
                     search = route.word,
-                    offset = PAGINATION_SIZE,
-                    pagination = PAGINATION_SIZE,
+                    offset = 0,
+                    pagination = 0,
                     limit = PAGINATION_SIZE
                 )
             }
