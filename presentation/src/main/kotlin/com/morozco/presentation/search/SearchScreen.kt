@@ -14,16 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.morozco.core.ui.GiphDialog
+import com.morozco.core.ui.ShareUtils
 import com.morozco.presentation.dashboard.LocalImagesViewModel
 import com.morozco.presentation.dashboard.LocalPresentation
 
@@ -37,9 +40,14 @@ fun SearchScreen(
 
     val lazyPagingItems = state.listOfImages.collectAsLazyPagingItems()
 
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     val isFavorite = remember(localState.images, state.currentItemSelected?.id) {
         localState.images.any { it.id == state.currentItemSelected?.id }
     }
+
+    println("MKE on Search Screen")
 
     if (state.currentItemSelected != null) {
         GiphDialog(
@@ -55,7 +63,16 @@ fun SearchScreen(
                     }
                 }
             },
-            onShareClick = { /* Handle share */ },
+            onShareClick = {
+                state.currentItemSelected?.images?.original?.url?.let { url ->
+                    ShareUtils.shareImage(
+                        context = context,
+                        scope = scope,
+                        url = url,
+                        title = state.currentItemSelected?.title ?: ""
+                    )
+                }
+            },
             onCloseClick = { presentation.clearSelectedItem() },
             onDismissRequest = { presentation.clearSelectedItem() }
         )

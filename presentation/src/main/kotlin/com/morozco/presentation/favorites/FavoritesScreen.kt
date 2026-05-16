@@ -1,6 +1,5 @@
 package com.morozco.presentation.favorites
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,14 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.morozco.core.ui.GiphDialog
+import com.morozco.core.ui.ShareUtils
 import com.morozco.presentation.dashboard.LocalImagesViewModel
 import com.morozco.presentation.dashboard.LocalPresentation
 
@@ -33,6 +35,9 @@ fun FavoritesScreen(
 ) {
     val state by localPresentation.state.collectAsState()
     val favoritesState by favoritesPresentation.state.collectAsState()
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val isFavorite = remember(state.images, favoritesState.currentImageSelected?.id) {
         state.images.any { it.id == favoritesState.currentImageSelected?.id }
@@ -52,7 +57,16 @@ fun FavoritesScreen(
                     }
                 }
             },
-            onShareClick = { /* Handle share */ },
+            onShareClick = {
+                favoritesState.currentImageSelected?.images?.original?.url?.let { url ->
+                    ShareUtils.shareImage(
+                        context = context,
+                        scope = scope,
+                        url = url,
+                        title = favoritesState.currentImageSelected?.title ?: ""
+                    )
+                }
+            },
             onCloseClick = { favoritesPresentation.clearSelectedItem() },
             onDismissRequest = { favoritesPresentation.clearSelectedItem() }
         )
