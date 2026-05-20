@@ -27,16 +27,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.m68476521.giphiertwo.ui.theme.GiphiertwoTheme
+import com.morozco.core.model.Image
 import com.morozco.core.model.Screen
 import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.categories.CategoriesScreen
 import com.morozco.presentation.dashboard.DashboardScreen
+import com.morozco.presentation.detail.DetailScreen
 import com.morozco.presentation.favorites.FavoritesScreen
 import com.morozco.presentation.search.SearchScreen
 import com.morozco.presentation.subcategories.SubCategoriesScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -109,7 +112,10 @@ class MainActivity : ComponentActivity() {
                                     }
 
                                     is NavigationEvent.NavigateTo -> {
-                                        navController.navigate(event.screen)
+                                        val screen = event.screen
+                                        if (screen is Screen) {
+                                            navController.navigate(screen as Any)
+                                        }
                                     }
                                 }
                             }
@@ -133,6 +139,12 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<Screen.Favorites> {
                                 FavoritesScreen()
+                            }
+
+                            composable<Screen.DetailItem>(
+                                typeMap = mapOf(typeOf<Image>() to Image.NavigationType),
+                            ) {
+                                DetailScreen()
                             }
                         }
                     }

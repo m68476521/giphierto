@@ -105,7 +105,7 @@ fun DashboardScreen(
                             onClick = {
                                 val itemClicked = lazyPagingItems[idx]
                                 itemClicked?.let { item ->
-                                    presentation.updateSelectedItem(item)
+                                    presentation.goToDetails(item)
                                 }
                             },
                         ) {

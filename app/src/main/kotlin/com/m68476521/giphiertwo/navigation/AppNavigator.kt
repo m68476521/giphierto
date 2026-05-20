@@ -1,5 +1,6 @@
 package com.m68476521.giphiertwo.navigation
 
+import com.morozco.core.model.Image
 import com.morozco.core.model.Screen
 import com.morozco.domain.navigation.NavigationEvent
 import com.morozco.domain.navigation.Navigator
@@ -36,5 +37,9 @@ class AppNavigator
 
         override fun navigateToFavorites() {
             _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.Favorites))
+        }
+
+        override fun navigateToDetails(image: Image) {
+            _navigationEvents.trySend(NavigationEvent.NavigateTo(Screen.DetailItem(image)))
         }
     }

@@ -17,6 +17,8 @@ interface DashboardUIActions {
     fun clearSelectedItem()
 
     fun isFavorite(isFavorite: Boolean)
+
+    fun goToDetails(image: Image)
 }
 
 interface DashboardUIStateProvider {

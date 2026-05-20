@@ -19,4 +19,10 @@ sealed class Screen {
 
     @Serializable
     data object Favorites: Screen()
+
+
+    @Serializable
+    data class DetailItem(
+        val image: Image
+    ): Screen()
 }

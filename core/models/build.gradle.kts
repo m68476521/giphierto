@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.gson)
+    implementation(libs.androidx.navigation.common)
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.ext.junit)

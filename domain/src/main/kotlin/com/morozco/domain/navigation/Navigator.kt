@@ -1,5 +1,6 @@
 package com.morozco.domain.navigation
 
+import com.morozco.core.model.Image
 import com.morozco.core.model.Subcategories
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +18,8 @@ interface Navigator {
     fun navigateToSubCategories(subcategory: String)
 
     fun navigateToFavorites()
+
+    fun navigateToDetails(image: Image)
 }
 
 sealed class NavigationEvent {

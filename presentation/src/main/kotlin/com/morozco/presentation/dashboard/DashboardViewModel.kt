@@ -8,6 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.morozco.core.model.Image
 import com.morozco.core.model.Rating
+import com.morozco.domain.navigation.Navigator
 import com.morozco.presentation.dashboard.domain.HomeUseCase
 import com.morozco.presentation.dashboard.domain.HomeUseCase.GetGiftEventsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,7 @@ class DashboardViewModel
 @Inject
 constructor(
     private val useCase: HomeUseCase,
-
+    private val navigator: Navigator
     ) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
 //    val flow =
 //        Pager(
@@ -156,6 +157,10 @@ constructor(
                 isFavorite = isFavorite
             )
         }
+    }
+
+    override fun goToDetails(image: Image) {
+        navigator.navigateToDetails(image)
     }
 }
 

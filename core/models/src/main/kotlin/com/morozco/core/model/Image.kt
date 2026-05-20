@@ -1,7 +1,12 @@
 package com.morozco.core.model
 
+import android.net.Uri
+import android.os.Bundle
+import androidx.navigation.NavType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class Image(
@@ -12,7 +17,31 @@ data class Image(
     val embedUrl: String ?=null,
     val title: String,
     val images: SubImage? = null,
-)
+) {
+    companion object {
+        val NavigationType: NavType<Image> = ImageNavType()
+    }
+}
+
+class ImageNavType : NavType<Image>(isNullableAllowed = false) {
+    private val json = Json { ignoreUnknownKeys = true }
+
+    override fun get(bundle: Bundle, key: String): Image? {
+        return bundle.getString(key)?.let { json.decodeFromString<Image>(it) }
+    }
+
+    override fun parseValue(value: String): Image {
+        return json.decodeFromString<Image>(Uri.decode(value))
+    }
+
+    override fun put(bundle: Bundle, key: String, value: Image) {
+        bundle.putString(key, json.encodeToString(value))
+    }
+
+    override fun serializeAsValue(value: Image): String {
+        return Uri.encode(json.encodeToString(value))
+    }
+}
 
 
 @Serializable
