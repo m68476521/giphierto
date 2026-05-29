@@ -3,6 +3,7 @@ package com.morozco.presentation.dashboard.domain
 import androidx.paging.PagingSource
 import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.ImageResponse
+import com.m68476521.networking.request.RelatedData
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 import com.morozco.domain.giftevents.HomeRepository
@@ -49,6 +50,16 @@ class HomeUseCase(
         return repository.pagingSourceForCategories()
     }
 
+    suspend fun getRelatedGifts(giftId: String, limit: Int = 10): GetRelatedResult {
+        val result = repository.getRelated(giftId, limit)
+
+        result.getOrNull()?.let {
+            return GetRelatedResult.FetchingSuccess(it)
+        }
+
+        return GetRelatedResult.FetchingFailed
+    }
+
 
     sealed class GetGiftEventsResult {
         data class FetchingSuccess(
@@ -69,7 +80,14 @@ class HomeUseCase(
         data object EmptyData : GetCategoriesResult()
 
         data object Failure : GetCategoriesResult()
+    }
 
+    sealed class GetRelatedResult {
+        data class FetchingSuccess(
+            val related: RelatedData
+        ): GetRelatedResult()
+
+        data object FetchingFailed: GetRelatedResult()
     }
 
 }

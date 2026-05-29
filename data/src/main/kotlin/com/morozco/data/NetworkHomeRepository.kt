@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.m68476521.networking.MainAPIInterface
 import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.ImageResponse
+import com.m68476521.networking.request.RelatedData
 import com.m68476521.networking.request.toResult
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
@@ -42,6 +43,10 @@ class NetworkHomeRepository(
 
     override fun pagingSourceForCategories(): PagingSource<Int, Data> {
         return CategoriesPagingSource(limit = 25, api = api)
+    }
+
+    override suspend fun getRelated(giftId: String, limit: Int): Result<RelatedData> {
+        return api.getRelated(giftId, limit).toResult()
     }
 }
 

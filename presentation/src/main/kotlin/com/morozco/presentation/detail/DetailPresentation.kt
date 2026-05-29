@@ -10,10 +10,11 @@ interface DetailUIActions {
 }
 
 interface DetailUIStateProvider{
-    val state: StateFlow<DetailUIState>
+    val uiState: StateFlow<DetailUIState>
 }
 
 data class DetailUIState(
     val isLoading: Boolean = false,
     val image: Image? = null,
+    val relatedGiftList: List<Image> = emptyList()
 )

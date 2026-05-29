@@ -2,7 +2,6 @@ package com.morozco.data
 
 import androidx.paging.PagingSource
 import com.m68476521.networking.MainAPI
-import com.m68476521.networking.MainAPIInterface
 import com.m68476521.networking.request.ImageResponse
 import com.m68476521.networking.request.NetworkResult
 import com.m68476521.networking.request.toResult

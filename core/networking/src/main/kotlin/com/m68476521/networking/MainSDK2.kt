@@ -1,9 +1,11 @@
 package com.m68476521.networking
 
+import android.net.NetworkRequest
 import android.util.Log
 import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.Environment
 import com.m68476521.networking.request.GetCategories2
+import com.m68476521.networking.request.GetRelated
 import com.m68476521.networking.request.GetSearchImages
 import com.m68476521.networking.request.GetSubCategories
 import com.m68476521.networking.request.GetTrendingEvents
@@ -11,6 +13,7 @@ import com.m68476521.networking.request.ImageResponse
 import com.m68476521.networking.request.NetworkResponse
 import com.m68476521.networking.request.NetworkResult
 import com.m68476521.networking.request.NetworkResult.*
+import com.m68476521.networking.request.RelatedData
 import com.m68476521.networking.request.Request
 import com.m68476521.networking.request.RequestMethod
 import com.m68476521.networking.request.SubCategoryDataResponse
@@ -90,6 +93,11 @@ class MainSDK2(
                                           limit: Int,): NetworkResult<SubCategoryDataResponse> {
         val result = executeRequest(GetSubCategories(category, offset, limit))
         return result as NetworkResult<SubCategoryDataResponse>
+    }
+
+    override suspend fun getRelated(giftId: String, limit: Int): NetworkResult<RelatedData> {
+        val result = executeRequest(GetRelated(giftId, limit))
+        return result as NetworkResult<RelatedData>
     }
 
     private suspend fun <T> executeRequest(request: Request<T>): NetworkResult<NetworkResponse> {
