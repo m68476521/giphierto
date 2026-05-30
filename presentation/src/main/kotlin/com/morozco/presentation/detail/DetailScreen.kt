@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -55,100 +57,105 @@ fun DetailScreen(
         localState.images.any { it.id == currentId }
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.surface)) {
-        Column(modifier = Modifier.fillMaxSize()) {
+    val scrollState = rememberScrollState()
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(6.dp)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+
+            ) {
             state.image?.let { image ->
                 AsyncImage(
                     model = image.images?.original?.url,
                     contentDescription = image.title,
                     modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.Fit
+                    contentScale = ContentScale.FillWidth
                 )
 
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                Text(
+                    text = image.title,
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = image.title,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-
-                    Row(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        IconButton(
-                            onClick = {
-                                state.image?.let { image ->
-                                    if (isFavorite) {
-                                        localPresentation.delete(image.id)
-                                    } else {
-                                        localPresentation.insert(image = image)
-                                    }
-                                }
-                            },
-                        ) {
-                            Icon(
-                                imageVector = if (isFavorite) {
-                                    Icons.Filled.Favorite
+                    IconButton(
+                        onClick = {
+                            state.image?.let { image ->
+                                if (isFavorite) {
+                                    localPresentation.delete(image.id)
                                 } else {
-                                    Icons.Filled.FavoriteBorder
-                                },
-                                tint = MaterialTheme.colorScheme.onSurface,
-                                contentDescription = "Favorite Button",
-                            )
-                        }
-
-                        IconButton(
-                            onClick = {
-                                state.image?.images?.original?.url?.let { url ->
-                                    ShareUtils.shareImage(
-                                        context = context,
-                                        scope = scope,
-                                        url = url,
-                                        title = state.image?.title ?: ""
-                                    )
+                                    localPresentation.insert(image = image)
                                 }
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Share,
-                                contentDescription = "Share Button",
-                                tint = MaterialTheme.colorScheme.onSurface,
-                            )
-                        }
-
-                        TextButton(
-                            onClick = {
-                                // Handle copy action here
                             }
-                        ) {
-                            Text(
-                                text = "Copy",
-                                color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) {
+                                Icons.Filled.Favorite
+                            } else {
+                                Icons.Filled.FavoriteBorder
+                            },
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            contentDescription = "Favorite Button",
+                        )
                     }
 
-                    Text(
-                        text = "Related Gifts",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp),) {
-                        items(state.relatedGiftList.size) { idx ->
-                            RelatedCardGift(state.relatedGiftList[idx])
+                    IconButton(
+                        onClick = {
+                            state.image?.images?.original?.url?.let { url ->
+                                ShareUtils.shareImage(
+                                    context = context,
+                                    scope = scope,
+                                    url = url,
+                                    title = state.image?.title ?: ""
+                                )
+                            }
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Share,
+                            contentDescription = "Share Button",
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+
+                    TextButton(
+                        onClick = {
+                            // Handle copy action here
                         }
+                    ) {
+                        Text(
+                            text = "Copy",
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                }
+
+                Text(
+                    text = "Related Gifts",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    items(state.relatedGiftList.size) { idx ->
+                        RelatedCardGift(state.relatedGiftList[idx])
                     }
                 }
             }
