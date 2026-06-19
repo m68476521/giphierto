@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
@@ -33,8 +34,11 @@ fun DashboardScreen(
     presentation: DashboardPresentation = hiltViewModel<DashboardViewModel>(),
     localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
 ) {
-
-    val state by presentation.state.collectAsState()
+    // Consuming State Safely: In Compose, consume the state using collectAsStateWithLifecycle().
+    // This is lifecycle-aware and stops collection when the app goes to the background,
+    // saving resources.
+    // TODO follow this approach and check when it's need it
+    val state by presentation.state.collectAsStateWithLifecycle()
 
     val localState by localPresentation.state.collectAsState()
 
