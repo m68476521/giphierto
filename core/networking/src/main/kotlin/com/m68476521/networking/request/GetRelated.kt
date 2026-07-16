@@ -15,16 +15,16 @@ data class GetRelated(
     override val method = RequestMethod.GET
 
     override val parameters: Map<String, String>
-        get() = mapOf(
-            "gif_id" to gifId,
-            "limit" to limit.toString(),
-        )
+        get() =
+            mapOf(
+                "gif_id" to gifId,
+                "limit" to limit.toString(),
+            )
 
     override fun <T : NetworkResponse> responseType(): KSerializer<T> {
         @Suppress("UNCHECKED_CAST")
         return RelatedData.serializer() as KSerializer<T>
     }
-
 }
 
 @Serializable

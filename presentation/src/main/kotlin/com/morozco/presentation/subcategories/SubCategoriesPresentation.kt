@@ -6,7 +6,9 @@ import com.morozco.core.model.SubCategoryData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface SubCategoriesPresentation : SubCategoriesUIActions, SubCategoriesUIStateProvider
+interface SubCategoriesPresentation :
+    SubCategoriesUIActions,
+    SubCategoriesUIStateProvider
 
 interface SubCategoriesUIActions {
     fun navigateToNext(word: String)

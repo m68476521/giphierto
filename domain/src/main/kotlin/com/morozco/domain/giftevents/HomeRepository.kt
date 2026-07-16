@@ -7,7 +7,6 @@ import com.m68476521.networking.request.RelatedData
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 
-
 interface HomeRepository {
     suspend fun getTrending(
         type: String,
@@ -25,5 +24,8 @@ interface HomeRepository {
 
     fun pagingSourceForCategories(): PagingSource<Int, Data>
 
-    suspend fun getRelated(giftId: String, limit: Int): Result<RelatedData>
+    suspend fun getRelated(
+        giftId: String,
+        limit: Int,
+    ): Result<RelatedData>
 }

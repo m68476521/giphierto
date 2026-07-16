@@ -4,7 +4,7 @@ import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.Flow
 
 class SaveImageUseCase(
-    private val repository: LocalImageRepository
+    private val repository: LocalImageRepository,
 ) {
     fun getAll(): Flow<List<Image>> = repository.getAll()
 

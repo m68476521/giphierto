@@ -13,7 +13,9 @@ interface CategoriesRepository {
 
     fun pagingSourceForCategories(): PagingSource<Int, Data>
 
-    fun pagingSourceSubCategories(category: String,
-                                  pagination: Int,
-                                  limit: Int,): PagingSource<Int, SubCategoryData>
+    fun pagingSourceSubCategories(
+        category: String,
+        pagination: Int,
+        limit: Int,
+    ): PagingSource<Int, SubCategoryData>
 }

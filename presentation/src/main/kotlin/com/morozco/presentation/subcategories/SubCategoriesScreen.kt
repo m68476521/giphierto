@@ -25,16 +25,15 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 
 @Composable
-fun SubCategoriesScreen(
-    presentation: SubCategoriesPresentation = hiltViewModel<SubCategoriesViewModel>()
-) {
+fun SubCategoriesScreen(presentation: SubCategoriesPresentation = hiltViewModel<SubCategoriesViewModel>()) {
     val state by presentation.state.collectAsState()
     val lazyCategoriesPagingItems = state.listOfSubCategories.collectAsLazyPagingItems()
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         if (lazyCategoriesPagingItems.loadState.refresh is LoadState.Loading) {
             Box(
@@ -44,7 +43,6 @@ fun SubCategoriesScreen(
                 CircularProgressIndicator()
             }
         } else {
-
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(3),
             ) {
@@ -66,22 +64,25 @@ fun SubCategoriesScreen(
                         println("MKE here $currentCategory")
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-
+                            contentAlignment = Alignment.Center,
                         ) {
-
                             AsyncImage(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
                                         .wrapContentHeight(),
-                                model = currentCategory?.gif?.images?.fixedHeightDownSampled?.url,
+                                model =
+                                    currentCategory
+                                        ?.gif
+                                        ?.images
+                                        ?.fixedHeightDownSampled
+                                        ?.url,
                                 contentDescription = currentCategory?.name,
                                 contentScale = ContentScale.Crop,
                             )
 
                             Text(
-                                text = currentCategory?.name.orEmpty()
+                                text = currentCategory?.name.orEmpty(),
                             )
                         }
                     }

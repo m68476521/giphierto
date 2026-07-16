@@ -26,6 +26,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.morozco.core.ui.GiphDialog
+import com.morozco.core.ui.GiphDialogActions
 import com.morozco.core.ui.ShareUtils
 import com.morozco.presentation.dashboard.LocalImagesViewModel
 import com.morozco.presentation.dashboard.LocalPresentation
@@ -33,9 +34,9 @@ import com.morozco.presentation.dashboard.LocalPresentation
 @Composable
 fun SearchScreen(
     presentation: SearchPresentation = hiltViewModel<SearchViewModel>(),
-    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
+    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>(),
 ) {
-    val state by presentation.UIState.collectAsState()
+    val state by presentation.uiState.collectAsState()
     val localState by localPresentation.state.collectAsState()
 
     val lazyPagingItems = state.listOfImages.collectAsLazyPagingItems()
@@ -43,9 +44,10 @@ fun SearchScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val isFavorite = remember(localState.images, state.currentItemSelected?.id) {
-        localState.images.any { it.id == state.currentItemSelected?.id }
-    }
+    val isFavorite =
+        remember(localState.images, state.currentItemSelected?.id) {
+            localState.images.any { it.id == state.currentItemSelected?.id }
+        }
 
     println("MKE on Search Screen")
 
@@ -53,37 +55,41 @@ fun SearchScreen(
         GiphDialog(
             image = state.currentItemSelected,
             isFavorite = isFavorite,
-            onFavoriteClick = {
-                state.currentItemSelected?.let { image ->
-                    if (isFavorite) {
-                        localPresentation.delete(image.id)
-                        presentation.clearSelectedItem()
-                    } else {
-                        localPresentation.insert(image = image)
-                    }
-                }
-            },
-            onShareClick = {
-                state.currentItemSelected?.images?.original?.url?.let { url ->
-                    ShareUtils.shareImage(
-                        context = context,
-                        scope = scope,
-                        url = url,
-                        title = state.currentItemSelected?.title ?: ""
-                    )
-                }
-            },
-            onCloseClick = { presentation.clearSelectedItem() },
-            onDismissRequest = { presentation.clearSelectedItem() }
+            actions =
+                GiphDialogActions(
+                    onFavoriteClick = {
+                        state.currentItemSelected?.let { image ->
+                            if (isFavorite) {
+                                localPresentation.delete(image.id)
+                                presentation.clearSelectedItem()
+                            } else {
+                                localPresentation.insert(image = image)
+                            }
+                        }
+                    },
+                    onShareClick = {
+                        state.currentItemSelected?.images?.original?.url?.let { url ->
+                            ShareUtils.shareImage(
+                                context = context,
+                                scope = scope,
+                                url = url,
+                                title = state.currentItemSelected?.title ?: "",
+                            )
+                        }
+                    },
+                    onCloseClick = { presentation.clearSelectedItem() },
+                ),
+            onDismissRequest = { presentation.clearSelectedItem() },
         )
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             if (lazyPagingItems.loadState.refresh is LoadState.Loading) {
                 Box(
@@ -93,13 +99,13 @@ fun SearchScreen(
                     CircularProgressIndicator()
                 }
             } else {
-
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier =
+                        Modifier
+                            .fillMaxSize(),
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         LazyVerticalStaggeredGrid(
                             columns = StaggeredGridCells.Fixed(3),

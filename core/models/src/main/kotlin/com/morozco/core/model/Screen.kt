@@ -8,21 +8,23 @@ sealed class Screen {
     data object Dashboard : Screen()
 
     @Serializable
-    data class Search(val word: String) : Screen()
+    data class Search(
+        val word: String,
+    ) : Screen()
 
     @Serializable
     data object Categories : Screen()
 
     @Serializable
-    data class SubCategories(val subcategory: String) : Screen()
-
+    data class SubCategories(
+        val subcategory: String,
+    ) : Screen()
 
     @Serializable
-    data object Favorites: Screen()
-
+    data object Favorites : Screen()
 
     @Serializable
     data class DetailItem(
-        val image: Image
-    ): Screen()
+        val image: Image,
+    ) : Screen()
 }

@@ -23,15 +23,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 
 @Composable
-fun CategoriesScreen(
-    presentation: CategoriesPresentation = hiltViewModel<CategoriesViewModel>()
-) {
+fun CategoriesScreen(presentation: CategoriesPresentation = hiltViewModel<CategoriesViewModel>()) {
     val state by presentation.state.collectAsState()
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
         if (state.listOfCategories.isEmpty()) {
             Box(
@@ -60,22 +59,22 @@ fun CategoriesScreen(
 
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-
+                            contentAlignment = Alignment.Center,
                         ) {
-
                             AsyncImage(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
                                         .wrapContentHeight(),
-                                model = currentCategory.gif.images.fixedHeightDownSampled?.url,
+                                model =
+                                    currentCategory.gif.images.fixedHeightDownSampled
+                                        ?.url,
                                 contentDescription = currentCategory.name,
                                 contentScale = ContentScale.Crop,
                             )
 
                             Text(
-                                text = currentCategory.name
+                                text = currentCategory.name,
                             )
                         }
                     }

@@ -1,13 +1,14 @@
 package com.morozco.presentation.dashboard
 
-
 import androidx.paging.PagingData
 import com.morozco.core.model.Data
 import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface DashboardPresentation: DashboardUIActions, DashboardUIStateProvider
+interface DashboardPresentation :
+    DashboardUIActions,
+    DashboardUIStateProvider
 
 interface DashboardUIActions {
     fun navigateToNext()

@@ -17,52 +17,56 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 private const val PAGINATION_SIZE = 20
+
 @HiltViewModel
 class SearchViewModel
-@Inject
-constructor(
-    private val useCase: SearchUseCase,
-    savedStateHandle: SavedStateHandle
-): ViewModel(), SearchPresentation {
-    override fun navigateBack() {
+    @Inject
+    constructor(
+        private val useCase: SearchUseCase,
+        savedStateHandle: SavedStateHandle,
+    ) : ViewModel(),
+        SearchPresentation {
+        override fun navigateBack() {
 //        TODO("Not yet implemented")
-    }
+        }
 
-    private val route = savedStateHandle.toRoute<Screen.Search>()
+        private val route = savedStateHandle.toRoute<Screen.Search>()
 
-    private val _uiState = MutableStateFlow(SearchUIState(
-        listOfImages = Pager(
-            config = PagingConfig(pageSize = PAGINATION_SIZE),
-            pagingSourceFactory = {
-                useCase.pagingSourceForSearch(
-                    search = route.word,
-                    offset = 0,
-                    pagination = 0,
-                    limit = PAGINATION_SIZE
+        private val _uiState =
+            MutableStateFlow(
+                SearchUIState(
+                    listOfImages =
+                        Pager(
+                            config = PagingConfig(pageSize = PAGINATION_SIZE),
+                            pagingSourceFactory = {
+                                useCase.pagingSourceForSearch(
+                                    search = route.word,
+                                    offset = 0,
+                                    pagination = 0,
+                                    limit = PAGINATION_SIZE,
+                                )
+                            },
+                        ).flow.cachedIn(viewModelScope),
+                ),
+            )
+
+        override val uiState: StateFlow<SearchUIState> = _uiState
+
+        override fun updateSelectedItem(item: Image) {
+            _uiState.update {
+                it.copy(
+                    currentItemSelected = item,
                 )
             }
-        ).flow.cachedIn(viewModelScope)
-    ))
-
-    override val UIState: StateFlow<SearchUIState> = _uiState
-
-    override fun updateSelectedItem(item: Image) {
-        _uiState.update {
-            it.copy(
-                currentItemSelected = item,
-            )
         }
-    }
 
-    override fun clearSelectedItem() {
-        _uiState.update {
-            it.copy(
-                currentItemSelected = null,
-            )
+        override fun clearSelectedItem() {
+            _uiState.update {
+                it.copy(
+                    currentItemSelected = null,
+                )
+            }
         }
-    }
-
-
 
 //    init {
 //        viewModelScope.launch {
@@ -71,9 +75,9 @@ constructor(
 //            when (response) {
 //                is SearchResult.SearchSuccess -> {
 //                    println("MKE on success $response")
-////                    _UIstate.update {
-////                        it.copy(listOfImages = response.events.data)
-////                    }
+// //                    _UIstate.update {
+// //                        it.copy(listOfImages = response.events.data)
+// //                    }
 //                }
 //                is SearchResult.SearchFailure -> {
 //                    println("MKE on FAIL $response")
@@ -85,5 +89,4 @@ constructor(
 //            }
 //        }
 //    }
-
-}
+    }

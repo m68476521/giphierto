@@ -27,12 +27,13 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.morozco.core.ui.GiphDialog
+import com.morozco.core.ui.GiphDialogActions
 import com.morozco.core.ui.ShareUtils
 
 @Composable
 fun DashboardScreen(
     presentation: DashboardPresentation = hiltViewModel<DashboardViewModel>(),
-    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
+    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>(),
 ) {
     // Consuming State Safely: In Compose, consume the state using collectAsStateWithLifecycle().
     // This is lifecycle-aware and stops collection when the app goes to the background,
@@ -49,35 +50,41 @@ fun DashboardScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val isFavorite = remember(localState.images, currentId) {
-        localState.images.any { it.id == currentId }
-    }
+    val isFavorite =
+        remember(localState.images, currentId) {
+            localState.images.any { it.id == currentId }
+        }
 
     if (state.currentItemSelected != null) {
         GiphDialog(
             image = state.currentItemSelected,
             isFavorite = isFavorite,
-            onFavoriteClick = {
-                state.currentItemSelected?.let { image ->
-                    if (isFavorite) {
-                        localPresentation.delete(image.id)
-                    } else {
-                        localPresentation.insert(image = image)
-                    }
-                }
-            },
-            onShareClick = {
-                state.currentItemSelected?.images?.original?.url?.let { url ->
-                    ShareUtils.shareImage(
-                        context = context,
-                        scope = scope,
-                        url = url,
-                        title = state.currentItemSelected?.title ?: ""
-                    )
-                }
-            },
-            onCloseClick = { presentation.clearSelectedItem() },
-            onDismissRequest = { presentation.clearSelectedItem() }
+            actions =
+                GiphDialogActions(
+                    onFavoriteClick = {
+                        state.currentItemSelected?.let { image ->
+                            if (isFavorite) {
+                                localPresentation.delete(image.id)
+                            } else {
+                                localPresentation.insert(image = image)
+                            }
+                        }
+                    },
+                    onShareClick = {
+                        state.currentItemSelected?.images?.original?.url?.let { url ->
+                            ShareUtils.shareImage(
+                                context = context,
+                                scope = scope,
+                                url = url,
+                                title = state.currentItemSelected?.title ?: "",
+                            )
+                        }
+                    },
+                    onCloseClick = {
+                        presentation.clearSelectedItem()
+                    },
+                ),
+            onDismissRequest = { presentation.clearSelectedItem() },
         )
     }
 
@@ -90,11 +97,12 @@ fun DashboardScreen(
         }
     } else {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .fillMaxSize(),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(3),

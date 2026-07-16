@@ -14,11 +14,10 @@ sealed interface Request<T> {
     val parameters: Map<String, String>
         get() = emptyMap()
 
-
     // This allow us to generically serialize what we expect
 //    val serializer: KSerializer<T>
 
-    fun <T: NetworkResponse> responseType(): KSerializer<T>
+    fun <T : NetworkResponse> responseType(): KSerializer<T>
 }
 
 @Serializable

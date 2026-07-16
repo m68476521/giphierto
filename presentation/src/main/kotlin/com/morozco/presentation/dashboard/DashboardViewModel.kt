@@ -1,7 +1,6 @@
 package com.morozco.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
-
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -22,11 +21,12 @@ private const val PAGINATION_SIZE = 20
 
 @HiltViewModel
 class DashboardViewModel
-@Inject
-constructor(
-    private val useCase: HomeUseCase,
-    private val navigator: Navigator
-    ) : ViewModel(), DashboardPresentation {// TODO FIX PAGINATION
+    @Inject
+    constructor(
+        private val useCase: HomeUseCase,
+        private val navigator: Navigator,
+    ) : ViewModel(),
+        DashboardPresentation { // TODO FIX PAGINATION
 //    val flow =
 //        Pager(
 //            // Configure how data is loaded by passing additional properties to
@@ -36,21 +36,20 @@ constructor(
 //            TrendingPaginationSource(mainRepository)
 //        }.flow.cachedIn(viewModelScope)
 
-    init {
-        viewModelScope.launch {
+        init {
+            viewModelScope.launch {
 //            val response = useCase.getGiftEvents(
 //                type = Rating.PG_13.rating,
 //                pagination = 0,
 //                limit = 25,
 //            )
 //
-////            val response = useCase.getGiftEvents(
-////                type = Rating.PG_13.rating,
-////                pagination = 0,
-////                limit = 25,
-////            )
-//////
-
+// //            val response = useCase.getGiftEvents(
+// //                type = Rating.PG_13.rating,
+// //                pagination = 0,
+// //                limit = 25,
+// //            )
+// ////
 
 //            when (response) {
 //                is GiftEventsResult.EventsFetched -> {
@@ -67,49 +66,57 @@ constructor(
 //
 //                }
 //            }
-            println("MKE200 this one")
-            when (val result = useCase.getGiftEvents(type = Rating.PG_13.rating,
-                pagination = 1,
-                limit = 100,)) {
-                is GetGiftEventsResult.FetchingSuccess -> {
-                    println("MKE200 Success ${result.events}")
-                    println("MKE200 Success ${result.events.data.size}")
-                }
-                is GetGiftEventsResult.EmptyData -> {
-                    println("MKE200 Empty ${result}")
-                }
-                is GetGiftEventsResult.Failure -> {
-                    println("MKE200 FAIL ${result}")
+                println("MKE200 this one")
+                when (
+                    val result =
+                        useCase.getGiftEvents(
+                            type = Rating.PG_13.rating,
+                            pagination = 1,
+                            limit = 100,
+                        )
+                ) {
+                    is GetGiftEventsResult.FetchingSuccess -> {
+                        println("MKE200 Success ${result.events}")
+                        println("MKE200 Success ${result.events.data.size}")
+                    }
+                    is GetGiftEventsResult.EmptyData -> {
+                        println("MKE200 Empty $result")
+                    }
+                    is GetGiftEventsResult.Failure -> {
+                        println("MKE200 FAIL $result")
+                    }
                 }
             }
         }
-    }
 
-    private val _state = MutableStateFlow(
-        DashboardUIState(
-            listOfImages = Pager(
-                config = PagingConfig(pageSize = PAGINATION_SIZE),
-                pagingSourceFactory = {
-                    useCase.pagingSourceForTrending(
-                        type = Rating.PG_13.rating,
-                        pagination = 0,
-                        limit = 15,
-                    )
-                }
+        private val _state =
+            MutableStateFlow(
+                DashboardUIState(
+                    listOfImages =
+                        Pager(
+                            config = PagingConfig(pageSize = PAGINATION_SIZE),
+                            pagingSourceFactory = {
+                                useCase.pagingSourceForTrending(
+                                    type = Rating.PG_13.rating,
+                                    pagination = 0,
+                                    limit = 15,
+                                )
+                            },
+                        ).flow
+                            .cachedIn(viewModelScope),
+                    listOfCategories =
+                        Pager(
+                            config = PagingConfig(pageSize = 7),
+                            pagingSourceFactory = {
+                                useCase.pagingSourceForCategories()
+                            },
+                        ).flow.cachedIn(viewModelScope),
+                ),
             )
-            .flow.cachedIn(viewModelScope),
+        override val state: StateFlow<DashboardUIState> = _state
 
-            listOfCategories = Pager(
-                config = PagingConfig(pageSize = 7),
-                pagingSourceFactory = {
-                    useCase.pagingSourceForCategories()
-                }
-            ).flow.cachedIn(viewModelScope)
-        ),
-    )
-    override val state: StateFlow<DashboardUIState> = _state
-
-    fun handleIntent(intent: TrendingIntent) {
+        @Suppress("UnusedParameter")
+        fun handleIntent(intent: TrendingIntent) {
 //        viewModelScope.launch {
 //            when (intent) {
 //                is TrendingIntent.SelectItem -> {
@@ -129,40 +136,40 @@ constructor(
 //                }
 //            }
 //        }
-    }
+        }
 
-    override fun navigateToNext() {
-        // TODO("Not yet implemented")
-    }
+        override fun navigateToNext() {
+            // TODO("Not yet implemented")
+        }
 
-    override fun updateSelectedItem(item: Image) {
-        _state.update {
-            it.copy(
-                currentItemSelected = item,
-            )
+        override fun updateSelectedItem(item: Image) {
+            _state.update {
+                it.copy(
+                    currentItemSelected = item,
+                )
+            }
+        }
+
+        override fun clearSelectedItem() {
+            _state.update {
+                it.copy(
+                    currentItemSelected = null,
+                )
+            }
+        }
+
+        override fun isFavorite(isFavorite: Boolean) {
+            _state.update {
+                it.copy(
+                    isFavorite = isFavorite,
+                )
+            }
+        }
+
+        override fun goToDetails(image: Image) {
+            navigator.navigateToDetails(image)
         }
     }
-
-    override fun clearSelectedItem() {
-        _state.update {
-            it.copy(
-                currentItemSelected = null,
-            )
-        }
-    }
-
-    override fun isFavorite(isFavorite: Boolean) {
-        _state.update {
-            it.copy(
-                isFavorite = isFavorite
-            )
-        }
-    }
-
-    override fun goToDetails(image: Image) {
-        navigator.navigateToDetails(image)
-    }
-}
 
 data class TrendingViewState(
     val loading: Boolean = false,

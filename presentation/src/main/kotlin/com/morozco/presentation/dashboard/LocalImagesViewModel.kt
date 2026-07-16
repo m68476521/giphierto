@@ -1,0 +1,45 @@
+package com.morozco.presentation.dashboard
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.morozco.core.model.Image
+import com.morozco.domain.repository.SaveImageUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class LocalImagesViewModel
+    @Inject
+    constructor(
+        private val saveImageUseCase: SaveImageUseCase,
+    ) : ViewModel(),
+        LocalPresentation {
+        override val state: StateFlow<LocalUIState> =
+            saveImageUseCase
+                .getAll()
+                .map { images -> LocalUIState(images = images) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = LocalUIState(),
+                )
+
+        override fun insert(image: Image) {
+            viewModelScope.launch {
+                saveImageUseCase.insert(image)
+            }
+        }
+
+        override fun delete(id: String) {
+            viewModelScope.launch {
+                saveImageUseCase.deleteById(id)
+            }
+        }
+
+        override suspend fun getImage(id: String): Image? = saveImageUseCase.imageById(id)
+    }

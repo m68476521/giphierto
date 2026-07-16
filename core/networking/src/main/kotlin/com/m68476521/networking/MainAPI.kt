@@ -10,5 +10,4 @@ interface MainAPI {
         pagination: Int,
         limit: Int,
     ): NetworkResult<ImageResponse>
-
 }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.morozco.core.ui.GiphDialog
+import com.morozco.core.ui.GiphDialogActions
 import com.morozco.core.ui.ShareUtils
 import com.morozco.presentation.dashboard.LocalImagesViewModel
 import com.morozco.presentation.dashboard.LocalPresentation
@@ -31,50 +31,56 @@ import com.morozco.presentation.dashboard.LocalPresentation
 @Composable
 fun FavoritesScreen(
     favoritesPresentation: FavoritesPresentation = hiltViewModel<FavoritesViewModel>(),
-    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
+    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>(),
 ) {
     val state by localPresentation.state.collectAsState()
-    val favoritesState by favoritesPresentation.state.collectAsState()
+    val favoritesState by favoritesPresentation.uiState.collectAsState()
+    println("MKE checking Favorites")
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val isFavorite = remember(state.images, favoritesState.currentImageSelected?.id) {
-        state.images.any { it.id == favoritesState.currentImageSelected?.id }
-    }
+    val isFavorite =
+        remember(state.images, favoritesState.currentImageSelected?.id) {
+            state.images.any { it.id == favoritesState.currentImageSelected?.id }
+        }
 
     if (favoritesState.currentImageSelected != null) {
         GiphDialog(
             image = favoritesState.currentImageSelected,
             isFavorite = isFavorite,
-            onFavoriteClick = {
-                favoritesState.currentImageSelected?.let { image ->
-                    if (isFavorite) {
-                        localPresentation.delete(image.id)
-                        favoritesPresentation.clearSelectedItem()
-                    } else {
-                        localPresentation.insert(image = image)
-                    }
-                }
-            },
-            onShareClick = {
-                favoritesState.currentImageSelected?.images?.original?.url?.let { url ->
-                    ShareUtils.shareImage(
-                        context = context,
-                        scope = scope,
-                        url = url,
-                        title = favoritesState.currentImageSelected?.title ?: ""
-                    )
-                }
-            },
-            onCloseClick = { favoritesPresentation.clearSelectedItem() },
-            onDismissRequest = { favoritesPresentation.clearSelectedItem() }
+            actions =
+                GiphDialogActions(
+                    onFavoriteClick = {
+                        favoritesState.currentImageSelected?.let { image ->
+                            if (isFavorite) {
+                                localPresentation.delete(image.id)
+                                favoritesPresentation.clearSelectedItem()
+                            } else {
+                                localPresentation.insert(image = image)
+                            }
+                        }
+                    },
+                    onShareClick = {
+                        favoritesState.currentImageSelected?.images?.original?.url?.let { url ->
+                            ShareUtils.shareImage(
+                                context = context,
+                                scope = scope,
+                                url = url,
+                                title = favoritesState.currentImageSelected?.title ?: "",
+                            )
+                        }
+                    },
+                    onCloseClick = { favoritesPresentation.clearSelectedItem() },
+                ),
+            onDismissRequest = { favoritesPresentation.clearSelectedItem() },
         )
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         if (state.images.isEmpty()) {
             Box(
@@ -106,7 +112,11 @@ fun FavoritesScreen(
                                 Modifier
                                     .fillMaxWidth()
                                     .wrapContentHeight(),
-                            model = state.images[idx].images?.fixedHeightDownsampled?.url,
+                            model =
+                                state.images[idx]
+                                    .images
+                                    ?.fixedHeightDownsampled
+                                    ?.url,
                             contentDescription = state.images[idx].title,
                             contentScale = ContentScale.Crop,
                         )

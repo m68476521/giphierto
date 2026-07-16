@@ -30,7 +30,6 @@ class ImagesAdapter : PagingDataAdapter<Image, RecyclerView.ViewHolder>(ImageCom
     class ImageHolder(
         private val binding: ImageItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        // TODO: Maybe is need just the URL::String not the whole Image data object
         fun bind(image: Image) {
             binding.imageUrl
                 .apply {

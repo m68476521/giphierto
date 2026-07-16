@@ -3,7 +3,9 @@ package com.morozco.presentation.favorites
 import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.StateFlow
 
-interface FavoritesPresentation : FavoritesUIActions, FavoritesUIStateProvider
+interface FavoritesPresentation :
+    FavoritesUIActions,
+    FavoritesUIStateProvider
 
 interface FavoritesUIActions {
     fun updateSelectedItem(image: Image)
@@ -12,10 +14,10 @@ interface FavoritesUIActions {
 }
 
 interface FavoritesUIStateProvider {
-    val state: StateFlow<FavoritesUIState>
+    val uiState: StateFlow<FavoritesUIState>
 }
 
 data class FavoritesUIState(
     val isLoading: Boolean = false,
-    val currentImageSelected: Image? = null
+    val currentImageSelected: Image? = null,
 )

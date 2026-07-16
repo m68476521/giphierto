@@ -18,42 +18,46 @@ import kotlin.reflect.typeOf
 
 @HiltViewModel
 class DetailViewModel
-@Inject
-constructor(
-    private val useCase: HomeUseCase,
-    private val navigator: Navigator,
-    savedStateHandle: SavedStateHandle
-) : ViewModel(), DetailPresentation {
+    @Inject
+    constructor(
+        private val useCase: HomeUseCase,
+        private val navigator: Navigator,
+        savedStateHandle: SavedStateHandle,
+    ) : ViewModel(),
+        DetailPresentation {
+        private val route =
+            savedStateHandle.toRoute<Screen.DetailItem>(
+                typeMap = mapOf(typeOf<Image>() to Image.NavigationType),
+            )
+        private val _uiState = MutableStateFlow(DetailUIState(image = route.image))
 
-    private val route = savedStateHandle.toRoute<Screen.DetailItem>(
-        typeMap = mapOf(typeOf<Image>() to Image.NavigationType)
-    )
-    private val _uiState = MutableStateFlow(DetailUIState(image = route.image))
+        override val uiState: StateFlow<DetailUIState> = _uiState
 
-    override val uiState: StateFlow<DetailUIState> = _uiState
-
-    init {
-        viewModelScope.launch {
-            when (val result = useCase.getRelatedGifts(
-                giftId = route.image.id,
-                limit = 10,
-            )) {
-                is HomeUseCase.GetRelatedResult.FetchingSuccess -> {
-                    _uiState.update {
-                        it.copy(
-                            relatedGiftList = result.related.data,
+        init {
+            viewModelScope.launch {
+                when (
+                    val result =
+                        useCase.getRelatedGifts(
+                            giftId = route.image.id,
+                            limit = 10,
                         )
+                ) {
+                    is HomeUseCase.GetRelatedResult.FetchingSuccess -> {
+                        _uiState.update {
+                            it.copy(
+                                relatedGiftList = result.related.data,
+                            )
+                        }
                     }
-                }
 
-                is HomeUseCase.GetRelatedResult.FetchingFailed -> {
-                    println("failed ${result}")
+                    is HomeUseCase.GetRelatedResult.FetchingFailed -> {
+                        println("failed $result")
+                    }
                 }
             }
         }
-    }
 
-    override suspend fun goBack() {
-        navigator.navigateBack()
+        override suspend fun goBack() {
+            navigator.navigateBack()
+        }
     }
-}

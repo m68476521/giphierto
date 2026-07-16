@@ -42,7 +42,7 @@ import com.morozco.presentation.dashboard.LocalPresentation
 @Composable
 fun DetailScreen(
     presentation: DetailPresentation = hiltViewModel<DetailViewModel>(),
-    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>()
+    localPresentation: LocalPresentation = hiltViewModel<LocalImagesViewModel>(),
 ) {
     val state by presentation.uiState.collectAsState()
     val localState by localPresentation.state.collectAsState()
@@ -53,37 +53,39 @@ fun DetailScreen(
 
     val scope = rememberCoroutineScope()
 
-    val isFavorite = remember(localState.images, currentId) {
-        localState.images.any { it.id == currentId }
-    }
+    val isFavorite =
+        remember(localState.images, currentId) {
+            localState.images.any { it.id == currentId }
+        }
 
     val scrollState = rememberScrollState()
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp)
-                .verticalScroll(scrollState),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(6.dp)
+                    .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(6.dp),
-
-            ) {
+        ) {
             state.image?.let { image ->
                 AsyncImage(
                     model = image.images?.original?.url,
                     contentDescription = image.title,
                     modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.FillWidth
+                    contentScale = ContentScale.FillWidth,
                 )
 
                 Text(
                     text = image.title,
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
 
                 Row(
@@ -106,11 +108,12 @@ fun DetailScreen(
                         },
                     ) {
                         Icon(
-                            imageVector = if (isFavorite) {
-                                Icons.Filled.Favorite
-                            } else {
-                                Icons.Filled.FavoriteBorder
-                            },
+                            imageVector =
+                                if (isFavorite) {
+                                    Icons.Filled.Favorite
+                                } else {
+                                    Icons.Filled.FavoriteBorder
+                                },
                             tint = MaterialTheme.colorScheme.onSurface,
                             contentDescription = "Favorite Button",
                         )
@@ -123,7 +126,7 @@ fun DetailScreen(
                                     context = context,
                                     scope = scope,
                                     url = url,
-                                    title = state.image?.title ?: ""
+                                    title = state.image?.title ?: "",
                                 )
                             }
                         },
@@ -138,12 +141,12 @@ fun DetailScreen(
                     TextButton(
                         onClick = {
                             // Handle copy action here
-                        }
+                        },
                     ) {
                         Text(
                             text = "Copy",
                             color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.labelLarge
+                            style = MaterialTheme.typography.labelLarge,
                         )
                     }
                 }
@@ -151,7 +154,7 @@ fun DetailScreen(
                 Text(
                     text = "Related Gifts",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     items(state.relatedGiftList.size) { idx ->

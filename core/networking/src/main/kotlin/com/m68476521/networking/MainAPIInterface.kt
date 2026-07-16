@@ -6,7 +6,6 @@ import com.m68476521.networking.request.NetworkResult
 import com.m68476521.networking.request.RelatedData
 import com.m68476521.networking.request.SubCategoryDataResponse
 
-
 interface MainAPIInterface {
     suspend fun getTrending(
         rating: String,
@@ -24,9 +23,14 @@ interface MainAPIInterface {
         limit: Int,
     ): NetworkResult<ImageResponse>
 
-    suspend fun getSubCategories(category: String,
-                                 offset: Int,
-                                 limit: Int,): NetworkResult<SubCategoryDataResponse>
+    suspend fun getSubCategories(
+        category: String,
+        offset: Int,
+        limit: Int,
+    ): NetworkResult<SubCategoryDataResponse>
 
-    suspend fun getRelated(giftId: String, limit: Int): NetworkResult<RelatedData>
+    suspend fun getRelated(
+        giftId: String,
+        limit: Int,
+    ): NetworkResult<RelatedData>
 }

@@ -66,6 +66,7 @@ coils = "3.0.0"
 runtime = "1.10.1"
 serializationJson = "1.9.0"
 ktor = "3.3.0"
+detekt = "1.23.8"
 
 [libraries]
 accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanistAppcompatTheme" }
@@ -148,7 +149,7 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 
 
 [plugins]
@@ -163,4 +164,4 @@ crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlyti
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintVersion"}
 android-library = { id = "com.android.library", version.ref = "android" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

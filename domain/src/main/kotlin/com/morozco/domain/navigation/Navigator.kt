@@ -1,7 +1,6 @@
 package com.morozco.domain.navigation
 
 import com.morozco.core.model.Image
-import com.morozco.core.model.Subcategories
 import kotlinx.coroutines.flow.Flow
 
 interface Navigator {
@@ -23,7 +22,9 @@ interface Navigator {
 }
 
 sealed class NavigationEvent {
-    data object NavigateBack: NavigationEvent()
+    data object NavigateBack : NavigationEvent()
 
-    data class NavigateTo(val screen: Any): NavigationEvent()
+    data class NavigateTo(
+        val screen: Any,
+    ) : NavigationEvent()
 }

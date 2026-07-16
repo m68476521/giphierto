@@ -1,0 +1,11 @@
+klint:
+  # Formatting rules only (no structural rules)
+  # See https://ktlint.github.io/docs/rules/
+
+  # Example: disable a specific rule
+  # TrailingComma: disabled
+
+  # Example: enable a rule with a specific threshold
+  # LineLength: 120
+
+  # Default configuration is already applied, so only override as needed

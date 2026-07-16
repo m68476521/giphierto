@@ -1,0 +1,14 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[*.{kt,kts}]
+# Add your specific Kotlin ktlint rules here
+ktlint_standard_no-wildcard-imports = disabled
+# Tells Ktlint to bypass the function lowercase naming rule for Composable UI functions
+ktlint_function_naming_ignore_when_annotated_with = Composable

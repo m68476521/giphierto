@@ -23,22 +23,21 @@ data class GetTrendingEvents(
         return ImageResponse.serializer() as KSerializer<T>
     }
 
-
-    override val headers: List<Pair<String, String>> = listOf(
-        "offset" to offset.toString(),
-        "limit" to limit.toString(),
-        "rating" to rating,
-    )
-
-    override val parameters: Map<String, String>
-        get() = mapOf(
+    override val headers: List<Pair<String, String>> =
+        listOf(
             "offset" to offset.toString(),
             "limit" to limit.toString(),
             "rating" to rating,
         )
 
+    override val parameters: Map<String, String>
+        get() =
+            mapOf(
+                "offset" to offset.toString(),
+                "limit" to limit.toString(),
+                "rating" to rating,
+            )
 }
-
 
 @Serializable
 data class ImageResponse(

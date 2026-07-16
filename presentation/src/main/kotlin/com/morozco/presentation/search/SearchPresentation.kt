@@ -5,7 +5,9 @@ import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface SearchPresentation : SearchUIActions, SearchUIStateProvider
+interface SearchPresentation :
+    SearchUIActions,
+    SearchUIStateProvider
 
 interface SearchUIActions {
     fun navigateBack()
@@ -16,7 +18,7 @@ interface SearchUIActions {
 }
 
 interface SearchUIStateProvider {
-    val UIState: StateFlow<SearchUIState>
+    val uiState: StateFlow<SearchUIState>
 }
 
 data class SearchUIState(

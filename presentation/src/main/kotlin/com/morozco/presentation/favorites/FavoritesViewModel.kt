@@ -9,24 +9,32 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor() : ViewModel(), FavoritesPresentation {
-    private val _uiState = MutableStateFlow(FavoritesUIState())
+class FavoritesViewModel
+    @Inject
+    constructor() :
+    ViewModel(),
+        FavoritesPresentation {
+        private val _uiState = MutableStateFlow(FavoritesUIState())
 
-    override val state: StateFlow<FavoritesUIState> = _uiState
+        override val uiState: StateFlow<FavoritesUIState> = _uiState
 
-    override fun updateSelectedItem(image: Image) {
-        _uiState.update {
-            it.copy(
-                currentImageSelected = image
-            )
+        init {
+            println("MKE checking Favorites Model")
+        }
+
+        override fun updateSelectedItem(image: Image) {
+            _uiState.update {
+                it.copy(
+                    currentImageSelected = image,
+                )
+            }
+        }
+
+        override fun clearSelectedItem() {
+            _uiState.update {
+                it.copy(
+                    currentImageSelected = null,
+                )
+            }
         }
     }
-
-    override fun clearSelectedItem() {
-        _uiState.update {
-            it.copy(
-                currentImageSelected = null
-            )
-        }
-    }
-}

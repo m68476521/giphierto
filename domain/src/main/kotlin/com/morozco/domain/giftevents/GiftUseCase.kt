@@ -5,12 +5,13 @@ import com.m68476521.networking.request.ImageResponse
 import com.morozco.core.model.Image
 
 class GiftUseCase(
-    private val repository: GiftRepositoryInterface
+    private val repository: GiftRepositoryInterface,
 ) {
     suspend fun getGiftEvents(
         type: String,
         pagination: Int,
-        limit: Int) : GetGiftEventsResult {
+        limit: Int,
+    ): GetGiftEventsResult {
         val result = repository.getTrending(type, pagination, limit)
 
         result.getOrNull()?.let {
@@ -18,20 +19,17 @@ class GiftUseCase(
         } ?: run {
             return GetGiftEventsResult.EmptyData
         }
-        return GetGiftEventsResult.Failure
     }
 
     fun pagingSourceForTrending(
         type: String,
         pagination: Int,
-        limit: Int
-    ) : PagingSource<Int, Image> {
-        return repository.pagingSourceForTrending(type, pagination, limit)
-    }
+        limit: Int,
+    ): PagingSource<Int, Image> = repository.pagingSourceForTrending(type, pagination, limit)
 
     sealed class GetGiftEventsResult {
         data class FetchingSuccess(
-            val events: ImageResponse
+            val events: ImageResponse,
         ) : GetGiftEventsResult()
 
         data object EmptyData : GetGiftEventsResult()

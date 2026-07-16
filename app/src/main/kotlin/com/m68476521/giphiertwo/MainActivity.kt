@@ -23,6 +23,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -30,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -54,155 +56,132 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigator: Navigator
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-            // Observe the backstack to determine if we can show the back button
-            val canPop by remember(navBackStackEntry) {
-                derivedStateOf {
-                    navController.previousBackStackEntry != null
-                }
-            }
-            var selectedScreen by remember { mutableStateOf(Screen) }
             GiphiertwoTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        CenterAlignedTopAppBar(
-                            colors =
-                                TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                    containerColor = MaterialTheme.colorScheme.surface,
-                                ),
-                            title = { Text("Giphiertwo") },
-                            navigationIcon = {
-                                if (canPop) {
-                                    IconButton(onClick = { navController.popBackStack() }) {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowBack,
-                                            contentDescription = "Back",
-                                        )
-                                    }
-                                }
-                            },
-                            actions = {
-                                IconButton(onClick = { navController.navigate(Screen.Categories) }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Category,
-                                        contentDescription = "Categories",
-                                    )
-                                }
-                                IconButton(
-                                    onClick = { navController.navigate(Screen.Favorites) },
-                                    enabled = true,
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Favorite,
-                                        contentDescription = "Favorites",
-                                    )
-                                }
-                            },
-                        )
-                    },
-                    bottomBar = {
-                        NavigationBar(
-                            containerColor = MaterialTheme.colorScheme.surface,
-                        ) {
-                            NavigationBarItem(
-                                selected = selectedScreen == Screen.Dashboard,
-                                onClick = {
-                                    navController.navigate(Screen.Dashboard)
-                                },
-                                icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                                label = { Text("Home") },
-                            )
-                            NavigationBarItem(
-                                selected = selectedScreen == Screen.Search,
-                                onClick = {
-                                    // TODO fix the navigation it looks like something is crashing
-                                    // navController.navigate(Screen.Search)
-                                },
-                                icon = {
-                                    Icon(
-                                        Icons.Default.Search,
-                                        contentDescription = "Search",
-                                    )
-                                },
-                                label = { Text("Search") },
-                            )
-                            NavigationBarItem(
-                                selected = selectedScreen == Screen.Favorites,
-                                onClick = {
-                                    navController.navigate(Screen.Favorites)
-                                },
-                                icon = {
-                                    Icon(
-                                        Icons.Default.Favorite,
-                                        contentDescription = "Favorites",
-                                    )
-                                },
-                                label = { Text("Favorites") },
-                            )
-                        }
-                    },
-                ) { innerPadding ->
-                    Box(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(innerPadding),
-                    ) {
-                        LaunchedEffect(Unit) {
-                            navigator.navigationEvents.collect { event ->
-                                when (event) {
-                                    is NavigationEvent.NavigateBack -> {
-                                        navController.popBackStack()
-                                    }
+                giphierApp(navigator = navigator)
+            }
+        }
+    }
+}
 
-                                    is NavigationEvent.NavigateTo -> {
-                                        val screen = event.screen
-                                        if (screen is Screen) {
-                                            navController.navigate(screen as Any)
-                                        }
-                                    }
-                                }
-                            }
-                        }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun giphierApp(
+    navigator: Navigator,
+    navController: NavHostController = rememberNavController(),
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val canPop by remember(navBackStackEntry) {
+        derivedStateOf { navController.previousBackStackEntry != null }
+    }
+    var selectedScreen by remember { mutableStateOf(Screen.Dashboard) }
 
-                        NavHost(
-                            navController = navController,
-                            startDestination = Screen.Dashboard,
-                        ) {
-                            composable<Screen.Dashboard> {
-                                DashboardScreen()
-                            }
-                            composable<Screen.Search> {
-                                SearchScreen()
-                            }
-                            composable<Screen.Categories> {
-                                CategoriesScreen()
-                            }
-                            composable<Screen.SubCategories> {
-                                SubCategoriesScreen()
-                            }
-                            composable<Screen.Favorites> {
-                                FavoritesScreen()
-                            }
-
-                            composable<Screen.DetailItem>(
-                                typeMap = mapOf(typeOf<Image>() to Image.NavigationType),
-                            ) {
-                                DetailScreen()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            giphierTopAppBar(navController, canPop)
+        },
+        bottomBar = {
+            giphierBottomAppBar(navController, selectedScreen)
+        },
+    ) { innerPadding ->
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+        ) {
+            LaunchedEffect(Unit) {
+                navigator.navigationEvents.collect { event ->
+                    when (event) {
+                        is NavigationEvent.NavigateBack -> navController.popBackStack()
+                        is NavigationEvent.NavigateTo -> {
+                            val screen = event.screen
+                            if (screen is Screen) {
+                                navController.navigate(screen as Any)
                             }
                         }
                     }
                 }
             }
+
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Dashboard,
+            ) {
+                composable<Screen.Dashboard> { DashboardScreen() }
+                composable<Screen.Search> { SearchScreen() }
+                composable<Screen.Categories> { CategoriesScreen() }
+                composable<Screen.SubCategories> { SubCategoriesScreen() }
+                composable<Screen.Favorites> { FavoritesScreen() }
+                composable<Screen.DetailItem>(
+                    typeMap = mapOf(typeOf<Image>() to Image.NavigationType),
+                ) {
+                    DetailScreen()
+                }
+            }
         }
+    }
+}
+
+// Top App Bar content - extracted from GiphierApp for better code organization
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun giphierTopAppBar(
+    navController: NavHostController,
+    canPop: Boolean,
+) {
+    CenterAlignedTopAppBar(
+        colors =
+            TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        title = { Text("Giphiertwo") },
+        navigationIcon = {
+            if (canPop) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+            }
+        },
+        actions = {
+            IconButton(onClick = { navController.navigate(Screen.Categories) }) {
+                Icon(Icons.Default.Category, contentDescription = "Categories")
+            }
+            IconButton(onClick = { navController.navigate(Screen.Favorites) }) {
+                Icon(Icons.Default.Favorite, contentDescription = "Favorites")
+            }
+        },
+    )
+}
+
+// Bottom Navigation Bar content - extracted from GiphierApp for better code organization
+@Composable
+private fun giphierBottomAppBar(
+    navController: NavHostController,
+    selectedScreen: Screen,
+) {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
+        NavigationBarItem(
+            selected = selectedScreen == Screen.Dashboard,
+            onClick = { navController.navigate(Screen.Dashboard) },
+            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+            label = { Text("Home") },
+        )
+        NavigationBarItem(
+            selected = selectedScreen == Screen.Search,
+            onClick = { /* Known issue: Fix the navigation crash */ },
+            icon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            label = { Text("Search") },
+        )
+        NavigationBarItem(
+            selected = selectedScreen == Screen.Favorites,
+            onClick = { navController.navigate(Screen.Favorites) },
+            icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
+            label = { Text("Favorites") },
+        )
     }
 }

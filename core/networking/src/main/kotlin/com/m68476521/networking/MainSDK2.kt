@@ -1,6 +1,6 @@
 package com.m68476521.networking
 
-import android.net.NetworkRequest
+// import com.morozco.core.model.CategoryData
 import android.util.Log
 import com.m68476521.networking.request.CategoryData
 import com.m68476521.networking.request.Environment
@@ -12,19 +12,19 @@ import com.m68476521.networking.request.GetTrendingEvents
 import com.m68476521.networking.request.ImageResponse
 import com.m68476521.networking.request.NetworkResponse
 import com.m68476521.networking.request.NetworkResult
-import com.m68476521.networking.request.NetworkResult.*
+import com.m68476521.networking.request.NetworkResult.Error
+import com.m68476521.networking.request.NetworkResult.Success
 import com.m68476521.networking.request.RelatedData
 import com.m68476521.networking.request.Request
 import com.m68476521.networking.request.RequestMethod
 import com.m68476521.networking.request.SubCategoryDataResponse
-import com.morozco.core.model.Rating
-//import com.morozco.core.model.CategoryData
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.head
+import io.ktor.client.request.header
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -34,8 +34,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.headers
 import io.ktor.http.isSuccess
+import kotlinx.io.IOException
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import java.util.UUID
 import kotlin.math.min
 
@@ -45,14 +46,12 @@ class MainSDK2(
     private val client: HttpClient,
     private val json: Json,
 ) : MainAPIInterface {
-
     override suspend fun getTrending(
         rating: String,
         type: String,
         offset: Int,
-        limit: Int
+        limit: Int,
     ): NetworkResult<ImageResponse> {
-
         println("MKE90002")
         println("MKE90002 MKE200 MKE here on GetTrending $type, $offset, $limit")
         val result = executeRequest(GetTrendingEvents(type, offset, limit))
@@ -61,10 +60,9 @@ class MainSDK2(
     }
 
     override suspend fun getCategories(): NetworkResult<CategoryData> {
-
         val result = executeRequest(GetCategories2)
         if (result is Success) {
-            println("MKE resultQ: ${result}")
+            println("MKE resultQ: $result")
         } else if (result is Error) {
             println("MKE resultP: ${result.error}")
         }
@@ -79,30 +77,39 @@ class MainSDK2(
         limit: Int,
     ): NetworkResult<ImageResponse> {
         println("MKE:SEARCH here 001")
-        val result = executeRequest(GetSearchImages(
-            q = search,
-            rating = rating,
-            offset = offset,
-            limit = limit,
-            randomId = UUID.randomUUID().toString(),
-        ))
+        val result =
+            executeRequest(
+                GetSearchImages(
+                    q = search,
+                    rating = rating,
+                    offset = offset,
+                    limit = limit,
+                    randomId = UUID.randomUUID().toString(),
+                ),
+            )
         return result as NetworkResult<ImageResponse>
     }
 
-    override suspend fun getSubCategories(category: String, offset: Int,
-                                          limit: Int,): NetworkResult<SubCategoryDataResponse> {
+    override suspend fun getSubCategories(
+        category: String,
+        offset: Int,
+        limit: Int,
+    ): NetworkResult<SubCategoryDataResponse> {
         val result = executeRequest(GetSubCategories(category, offset, limit))
         return result as NetworkResult<SubCategoryDataResponse>
     }
 
-    override suspend fun getRelated(giftId: String, limit: Int): NetworkResult<RelatedData> {
+    override suspend fun getRelated(
+        giftId: String,
+        limit: Int,
+    ): NetworkResult<RelatedData> {
         val result = executeRequest(GetRelated(giftId, limit))
         return result as NetworkResult<RelatedData>
     }
 
     private suspend fun <T> executeRequest(request: Request<T>): NetworkResult<NetworkResponse> {
         println("MKE this one 0>")
-        val requestBuilder : HttpRequestBuilder.() -> Unit = {
+        val requestBuilder: HttpRequestBuilder.() -> Unit = {
 //            contentType(ContentType.Application.Json)
 
 //            val jsonObject = json.decodeFromString<JsonObject>(
@@ -149,28 +156,31 @@ class MainSDK2(
             }
         }
 
-
-
         try {
-            val response = when (request.method) {
-                RequestMethod.GET -> client.get(request.path, block = requestBuilder)
-                RequestMethod.POST -> client.post(
-                    environment.baseURL + request.path
-                )
+            val response =
+                when (request.method) {
+                    RequestMethod.GET -> client.get(request.path, block = requestBuilder)
+                    RequestMethod.POST ->
+                        client.post(
+                            environment.baseURL + request.path,
+                        )
 
-                RequestMethod.PUT -> client.put(environment.baseURL + request.path)
-                RequestMethod.DELETE -> client.delete(
-                    environment.baseURL + request.path
-                )
+                    RequestMethod.PUT -> client.put(environment.baseURL + request.path)
+                    RequestMethod.DELETE ->
+                        client.delete(
+                            environment.baseURL + request.path,
+                        )
 
-                RequestMethod.PATCH -> client.patch(
-                    environment.baseURL + request.path
-                )
+                    RequestMethod.PATCH ->
+                        client.patch(
+                            environment.baseURL + request.path,
+                        )
 
-                RequestMethod.HEAD -> client.head(
-                    environment.baseURL + request.path
-                )
-            }
+                    RequestMethod.HEAD ->
+                        client.head(
+                            environment.baseURL + request.path,
+                        )
+                }
 
             if (response.status.isSuccess()) {
                 val body = response.bodyAsText()
@@ -183,22 +193,33 @@ class MainSDK2(
             } else {
                 return Error(Exception("Request failed"))
             }
-
-        } catch (e: Exception) {
+//        } catch (e: Exception) {
+//            return Error(e)
+//        }
+        } catch (e: IOException) {
+            // Catches connectivity issues (no internet, timeout, host unresolved)
+            return Error(e)
+        } catch (e: ResponseException) {
+            // Catches Ktor-specific HTTP status exceptions (if expectSuccess is enabled in Ktor)
+            return Error(e)
+        } catch (e: SerializationException) {
+            // Catches JSON parsing/mapping failures
             return Error(e)
         }
     }
 }
 
-
 object LogUtils {
-    fun logLongString(tag: String?, message: String) {
-        val maxLogSize = 4000 // Leave a small buffer for the tag/metadata
-        for (i in 0..message.length / maxLogSize) {
-            val start = i * maxLogSize
-            var end = (i + 1) * maxLogSize
-            end = min(end, message.length)
+    private const val MAX_LOG_SIZE = 4000
 
+    fun logLongString(
+        tag: String?,
+        message: String,
+    ) {
+        for (i in 0..message.length / MAX_LOG_SIZE) {
+            val start = i * MAX_LOG_SIZE
+            var end = (i + 1) * MAX_LOG_SIZE
+            end = min(end, message.length)
 
             // Only log if there's content to avoid empty lines at the end
             if (start < end) {

@@ -17,35 +17,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SubCategoriesViewModel
-@Inject
-constructor(
-    private val useCase: CategoriesUseCase,
-    private val navigator: Navigator,
-    savedStateHandle: SavedStateHandle
-) : ViewModel(), SubCategoriesPresentation {
+    @Inject
+    constructor(
+        private val useCase: CategoriesUseCase,
+        private val navigator: Navigator,
+        savedStateHandle: SavedStateHandle,
+    ) : ViewModel(),
+        SubCategoriesPresentation {
+        private val route = savedStateHandle.toRoute<Screen.SubCategories>()
 
-    private val route = savedStateHandle.toRoute<Screen.SubCategories>()
+        private val _state =
+            MutableStateFlow(
+                SubCategoriesUIState(
+                    listOfSubCategories =
+                        Pager(
+                            config = PagingConfig(pageSize = 25),
+                            pagingSourceFactory = {
+                                val categoryName = route.subcategory
+                                useCase.pagingSourceForSubcategories(
+                                    category = categoryName,
+                                    pagination = 0,
+                                    limit = 20,
+                                )
+                            },
+                        ).flow.cachedIn(viewModelScope),
+                ),
+            )
 
+        override val state: StateFlow<SubCategoriesUIState> = _state
 
-    private val _state = MutableStateFlow(
-        SubCategoriesUIState(
-            listOfSubCategories = Pager(
-                config = PagingConfig(pageSize = 25),
-                pagingSourceFactory = {
-                    val categoryName = route.subcategory
-                    useCase.pagingSourceForSubcategories(
-                        category = categoryName,
-                        pagination = 0,
-                        limit = 20
-                    )
-                }
-            ).flow.cachedIn(viewModelScope)
-        )
-    )
-
-    override val state: StateFlow<SubCategoriesUIState> = _state
-
-    override fun navigateToNext(word: String) {
-        navigator.navigateToSearch(word)
+        override fun navigateToNext(word: String) {
+            navigator.navigateToSearch(word)
+        }
     }
-}

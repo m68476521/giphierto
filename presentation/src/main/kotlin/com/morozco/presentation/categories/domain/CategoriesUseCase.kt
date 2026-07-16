@@ -6,7 +6,7 @@ import com.morozco.domain.giftevents.CategoriesRepository
 import com.morozco.presentation.dashboard.domain.HomeUseCase.GetCategoriesResult
 
 class CategoriesUseCase(
-    private val repository: CategoriesRepository
+    private val repository: CategoriesRepository,
 ) {
     suspend fun getCategories(): GetCategoriesResult {
         val result = repository.getCategories()
@@ -19,10 +19,8 @@ class CategoriesUseCase(
     fun pagingSourceForSubcategories(
         category: String,
         pagination: Int,
-        limit: Int
-    ): PagingSource<Int, SubCategoryData> {
-        return repository.pagingSourceSubCategories(category, pagination, limit)
-    }
+        limit: Int,
+    ): PagingSource<Int, SubCategoryData> = repository.pagingSourceSubCategories(category, pagination, limit)
 
     suspend fun getSubcategories(category: String): GetSubcategoriesResult {
         val result = repository.getSubCategories(category)
@@ -30,17 +28,15 @@ class CategoriesUseCase(
             return GetSubcategoriesResult.FetchingSuccess(it.data)
         }
         return GetSubcategoriesResult.Failure
-
     }
 }
 
 sealed class GetSubcategoriesResult {
     data class FetchingSuccess(
-        val events: List<SubCategoryData>
+        val events: List<SubCategoryData>,
     ) : GetSubcategoriesResult()
 
     data object EmptyData : GetSubcategoriesResult()
 
     data object Failure : GetSubcategoriesResult()
-
 }

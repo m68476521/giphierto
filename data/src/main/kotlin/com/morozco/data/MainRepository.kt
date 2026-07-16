@@ -3,7 +3,6 @@ package com.morozco.data
 import androidx.paging.PagingSource
 import com.m68476521.networking.MainAPI
 import com.m68476521.networking.request.ImageResponse
-import com.m68476521.networking.request.NetworkResult
 import com.m68476521.networking.request.toResult
 import com.morozco.core.model.Image
 import com.morozco.domain.giftevents.GiftRepositoryInterface
@@ -14,7 +13,7 @@ class MainRepository(
     override suspend fun getTrending(
         type: String,
         pagination: Int,
-        limit: Int
+        limit: Int,
     ): Result<ImageResponse> {
         println("MKE90003")
         return api.getTrending(type = type, pagination = pagination, limit = limit).toResult()
@@ -23,32 +22,31 @@ class MainRepository(
     override fun pagingSourceForTrending(
         type: String,
         pagination: Int,
-        limit: Int
-    ): PagingSource<Int, Image> {
-        return TrendingPaginationSource(
+        limit: Int,
+    ): PagingSource<Int, Image> =
+        TrendingPaginationSource(
             type = type,
             pagination = pagination,
             limit = limit,
             mainAPI = api,
         )
-    }
 //    override suspend fun getTrending(
 //        type: String,
 //        pagination: Int,
 //        limit: Int
 //    ): NetworkResult<ImageResponse> {
 //        val result = api.getTrending(type = type, pagination = pagination, limit = limit)
-////        if (result.isSuccess) {
-////            result.getOrNull()?.let { data ->
-////                return if (data.data.isEmpty()) {
-////                    GiftEventsResult.EmptyData
-////                } else {
-////                    GiftEventsResult.EventsFetched(data)
-////                }
-////            }
-////        }
+// //        if (result.isSuccess) {
+// //            result.getOrNull()?.let { data ->
+// //                return if (data.data.isEmpty()) {
+// //                    GiftEventsResult.EmptyData
+// //                } else {
+// //                    GiftEventsResult.EventsFetched(data)
+// //                }
+// //            }
+// //        }
 //
-////        return GiftEventsResult.Failure
+// //        return GiftEventsResult.Failure
 //        return result as NetworkResult<ImageResponse>
 //    }
 

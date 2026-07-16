@@ -9,12 +9,13 @@ import com.morozco.core.model.Image
 import com.morozco.domain.giftevents.HomeRepository
 
 class HomeUseCase(
-    private val repository: HomeRepository
+    private val repository: HomeRepository,
 ) {
     suspend fun getGiftEvents(
         type: String,
         pagination: Int,
-        limit: Int) : GetGiftEventsResult {
+        limit: Int,
+    ): GetGiftEventsResult {
         val result = repository.getTrending(type, pagination, limit)
 
         result.getOrNull()?.let {
@@ -28,8 +29,8 @@ class HomeUseCase(
     fun pagingSourceForTrending(
         type: String,
         pagination: Int,
-        limit: Int
-    ) : PagingSource<Int, Image> {
+        limit: Int,
+    ): PagingSource<Int, Image> {
         println("MKE900015")
         println("MKE900015 MKE pagingSourceForTrending-> $type")
         return repository.pagingSourceForTrending(type, pagination, limit)
@@ -42,7 +43,6 @@ class HomeUseCase(
             return GetCategoriesResult.FetchingSuccess(it)
         }
         return GetCategoriesResult.Failure
-
     }
 
     fun pagingSourceForCategories(): PagingSource<Int, Data> {
@@ -50,7 +50,10 @@ class HomeUseCase(
         return repository.pagingSourceForCategories()
     }
 
-    suspend fun getRelatedGifts(giftId: String, limit: Int = 10): GetRelatedResult {
+    suspend fun getRelatedGifts(
+        giftId: String,
+        limit: Int = 10,
+    ): GetRelatedResult {
         val result = repository.getRelated(giftId, limit)
 
         result.getOrNull()?.let {
@@ -60,21 +63,19 @@ class HomeUseCase(
         return GetRelatedResult.FetchingFailed
     }
 
-
     sealed class GetGiftEventsResult {
         data class FetchingSuccess(
-            val events: ImageResponse
+            val events: ImageResponse,
         ) : GetGiftEventsResult()
 
         data object EmptyData : GetGiftEventsResult()
 
         data object Failure : GetGiftEventsResult()
-
     }
 
     sealed class GetCategoriesResult {
         data class FetchingSuccess(
-            val events: CategoryData
+            val events: CategoryData,
         ) : GetCategoriesResult()
 
         data object EmptyData : GetCategoriesResult()
@@ -84,10 +85,9 @@ class HomeUseCase(
 
     sealed class GetRelatedResult {
         data class FetchingSuccess(
-            val related: RelatedData
-        ): GetRelatedResult()
+            val related: RelatedData,
+        ) : GetRelatedResult()
 
-        data object FetchingFailed: GetRelatedResult()
+        data object FetchingFailed : GetRelatedResult()
     }
-
 }

@@ -3,7 +3,9 @@ package com.morozco.presentation.dashboard
 import com.morozco.core.model.Image
 import kotlinx.coroutines.flow.StateFlow
 
-interface LocalPresentation: LocalUIActions, LocalUIStateProvider
+interface LocalPresentation :
+    LocalUIActions,
+    LocalUIStateProvider
 
 interface LocalUIActions {
     fun insert(image: Image)
@@ -19,5 +21,5 @@ interface LocalUIStateProvider {
 
 data class LocalUIState(
     val isLoading: Boolean = false,
-    val images: List<Image> = emptyList()
+    val images: List<Image> = emptyList(),
 )

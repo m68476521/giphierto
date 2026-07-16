@@ -50,7 +50,7 @@ class ApplicationModule {
     @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        BASE_URL: String,
+        baseUrl: String,
         dateFormatter: Gson,
     ): Retrofit =
         Retrofit
@@ -58,6 +58,6 @@ class ApplicationModule {
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(dateFormatter))
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .build()
 }

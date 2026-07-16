@@ -9,19 +9,19 @@ data class GetSubCategories(
     val offset: Int,
     val limit: Int,
 ) : Request<SubCategoryDataResponse> {
-    override val path: String = "/v1/gifs/categories/${category}"
+    override val path: String = "/v1/gifs/categories/$category"
 
     override val method = RequestMethod.GET
 
     override val parameters: Map<String, String>
-        get() = mapOf(
-            "offset" to offset.toString(),
-            "limit" to limit.toString(),
-        )
+        get() =
+            mapOf(
+                "offset" to offset.toString(),
+                "limit" to limit.toString(),
+            )
 
     override fun <T : NetworkResponse> responseType(): KSerializer<T> {
         @Suppress("UNCHECKED_CAST")
         return SubCategoryDataResponse.serializer() as KSerializer<T>
     }
-
 }
