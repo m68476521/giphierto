@@ -3,7 +3,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.ksp)
@@ -12,8 +11,6 @@ plugins {
     alias(libs.plugins.ktlint)
 //    alias(libs.plugins.google.services)
 //    alias(libs.plugins.crashlytics)
-
-    kotlin("kapt")
 }
 
 fun getLocalProperties(): Properties =
@@ -26,7 +23,7 @@ fun getLocalProperties(): Properties =
 
 android {
     namespace = "com.m68476521.giphiertwo"
-    compileSdk = 36
+    compileSdk = 37
     signingConfigs {
 //        release {
 //            keyAlias project.property("keyAlias")
@@ -47,7 +44,7 @@ android {
     defaultConfig {
         applicationId = "com.m68476521.giphiertwo"
         minSdk = 30
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 10
         versionName = "2.0.2"
     }
@@ -203,8 +200,8 @@ dependencies {
 
     // Hilt for dependency injection
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    kapt(libs.hilt.lifecycle.viewmodel)
+    ksp(libs.hilt.compiler)
+    ksp(libs.hilt.lifecycle.viewmodel)
 
     implementation(libs.kotlinx.serializationJson)
     // Dexter permission lib
