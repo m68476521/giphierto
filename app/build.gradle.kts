@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
@@ -21,7 +20,7 @@ fun getLocalProperties(): Properties =
         }
     }
 
-android {
+extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "com.m68476521.giphiertwo"
     compileSdk = 37
     signingConfigs {
@@ -92,12 +91,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
     }
 
     buildFeatures {

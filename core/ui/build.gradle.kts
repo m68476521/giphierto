@@ -1,13 +1,12 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+extensions.configure<com.android.build.api.dsl.LibraryExtension> {
     namespace = "com.morozco.core.ui"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 24
@@ -28,11 +27,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
     }
     buildFeatures {
         compose = true
