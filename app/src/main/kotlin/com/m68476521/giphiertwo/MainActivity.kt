@@ -147,6 +147,7 @@ private fun giphierTopAppBar(
                 }
             }
         },
+        /*
         actions = {
             IconButton(onClick = { navController.navigate(Screen.Categories) }) {
                 Icon(Icons.Default.Category, contentDescription = "Categories")
@@ -155,6 +156,7 @@ private fun giphierTopAppBar(
                 Icon(Icons.Default.Favorite, contentDescription = "Favorites")
             }
         },
+         */
     )
 }
 
@@ -172,9 +174,9 @@ private fun giphierBottomAppBar(
             label = { Text("Home") },
         )
         NavigationBarItem(
-            selected = selectedScreen == Screen.Search,
-            onClick = { /* Known issue: Fix the navigation crash */ },
-            icon = { Icon(Icons.Default.Search, contentDescription = "Search") },
+            selected = selectedScreen == Screen.Categories,
+            onClick = { navController.navigate(Screen.Categories) },
+            icon = { Icon(Icons.Default.Category, contentDescription = "Categories") },
             label = { Text("Search") },
         )
         NavigationBarItem(

@@ -203,7 +203,7 @@ dependencies {
 
     // Hilt for dependency injection
     implementation(libs.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+    kapt(libs.hilt.compiler)
     kapt(libs.hilt.lifecycle.viewmodel)
 
     implementation(libs.kotlinx.serializationJson)
